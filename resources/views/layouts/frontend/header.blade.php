@@ -115,8 +115,12 @@
                                 <div class="account order-1 dropdown">
                                     @if(auth()->check())
                                     <a href="#" class="account-link dropdown-toggle-no-caret" role="button" data-toggle="dropdown">
+                                        @if(auth()->user()->profile_image)
                                         <div class="user-dp"><img src="{{asset(auth()->user()->profile_image)}}" alt=""></div>
-                                        <span>Hi {{auth()->user()->first_name}}</span>
+                                        @else
+                                            <div class="user-dp"><img src="images/user-dp-1.jpg" alt=""></div>
+                                        @endif
+                                            <span>Hi {{auth()->user()->first_name}}</span>
                                         <i class="fas fa-sort-down"></i>
                                     </a>
                                     @else

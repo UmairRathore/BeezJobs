@@ -18,12 +18,19 @@
                              ?>
 							<div class="my_websites">
 								<h4>Websites:</h4>
+                                @if(!empty($websites))
 				 				<ul>
-									<li><a href="" class="web_link"><i class="fas fa-globe"></i></a></li>
-									<li><a href="" class="web_link"><i class="far fa-edit"></i></a></li>
-				 					<li><a href="" class="web_link"><i class="fa fa-columns"></i></a></li>
-
-								</ul>
+                                    @if($websites[0])
+									<li><a href="{{$websites[0]}}" class="web_link"><i class="fas fa-globe"></i>{{$websites[0]}}</a></li>
+                                    @endif
+                                        @if($websites[1])
+									<li><a href="{{$websites[1]}}" class="web_link"><i class="far fa-edit"></i>{{$websites[1]}}</a></li>
+                                        @endif
+                                        @if($websites[2])
+                                        <li><a href="{{$websites[2]}}" class="web_link"><i class="fa fa-columns"></i>{{$websites[2]}}</a></li>
+                                        @endif
+                                </ul>
+                                @endif
 				 			</div>
 							<div class="group_skills_bar">
 								<h6>Profile Completeness</h6>
@@ -33,7 +40,6 @@
 				 						<div class="progress-bar progress_bar_skills" role="progressbar" style="width: 85%;" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
 									</div>
 								</div>
-				 				<a href="#" class="skiils_button">Complete Required Skills</a>
 							</div>
 							<div class="rlt_section">
 				 				<div class="rtl_left">
@@ -91,14 +97,24 @@
 							<div class="my_websites">
 								<h4>Social Media Links:</h4>
 				 				<ul>
+                                    @if(auth()->user()->facebook_link)
 									<li><a href="{{auth()->user()->facebook_link}}" class="web_link"><i class="fab fa-facebook-f"></i>{{auth()->user()->facebook_link}}</a></li>
-									<li><a href="{{auth()->user()->google_link}}" class="web_link"><i class="fab fa-google-plus-g"></i>{{auth()->user()->google_link}}</a></li>
-									<li><a href="{{auth()->user()->youtube_link}}" class="web_link"><i class="fab fa-youtube"></i>{{auth()->user()->youtube_link}}</a></li>
-									<li><a href="{{auth()->user()->linkedin_link}}" class="web_link"><i class="fab fa-linkedin"></i>{{auth()->user()->linkedin_link}}</a></li>
-									<li><a href="{{auth()->user()->instagram_link}}" class="web_link"><i class="fab fa-instagram"></i>{{auth()->user()->instagram_link}}</a></li>
-									<li><a href="{{auth()->user()->twitter_link}}" class="web_link"><i class="fab fa-twitter"></i>{{auth()->user()->twitter_link}}</a></li>
-
-
+									@endif
+                                        @if(auth()->user()->google_link)
+                                        <li><a href="{{auth()->user()->google_link}}" class="web_link"><i class="fab fa-google-plus-g"></i>{{auth()->user()->google_link}}</a></li>
+                                        @endif
+                                        @if(auth()->user()->youtube_link)
+                                        <li><a href="{{auth()->user()->youtube_link}}" class="web_link"><i class="fab fa-youtube"></i>{{auth()->user()->youtube_link}}</a></li>
+                                        @endif
+                                        @if(auth()->user()->linkedin_link)
+                                        <li><a href="{{auth()->user()->linkedin_link}}" class="web_link"><i class="fab fa-linkedin"></i>{{auth()->user()->linkedin_link}}</a></li>
+                                        @endif
+                                        @if(auth()->user()->instagram_link)
+                                        <li><a href="{{auth()->user()->instagram_link}}" class="web_link"><i class="fab fa-instagram"></i>{{auth()->user()->instagram_link}}</a></li>
+                                        @endif
+                                        @if(auth()->user()->twitter_link)
+                                        <li><a href="{{auth()->user()->twitter_link}}" class="web_link"><i class="fab fa-twitter"></i>{{auth()->user()->twitter_link}}</a></li>
+                                        @endif
 								</ul>
 				 			</div>
 						</div>

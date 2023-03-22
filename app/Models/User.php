@@ -28,6 +28,8 @@ class User extends Authenticatable
         'location',
         'pay_rate',
         'role_id',
+        'latitude',
+        'longitude',
         'websites',
     ];
 

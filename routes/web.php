@@ -34,7 +34,8 @@ Route::get('/signin', [LoginController::class, 'signin'])->name('signin');
 Route::post('/signin', [LoginController::class, 'postsignin'])->name('postsignin');
 
 
-Route::post('/freelancesignup', [RegistrationController::class, 'freelancesignup'])->name('freelancesignup');
+Route::get('/freelancesignup', [RegistrationController::class, 'freelancesignup'])->name('freelance');
+Route::post('/freelancesignup', [RegistrationController::class, 'postfreelancesignup'])->name('freelancesignup');
 Route::post('/companysignup', [RegistrationController::class, 'companysignup'])->name('companysignup');
 
 Route::get('/selectprofile', [RegistrationController::class, 'selectprofile'])->name('selectprofile');

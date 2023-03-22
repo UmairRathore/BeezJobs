@@ -23,6 +23,8 @@ class CreateUsersTable extends Migration
             $table->string('tagline')->nullable();
             $table->string('location')->nullable();
             $table->string('pay_rate')->nullable();
+            $table->string('latitude')->nullable();
+            $table->string('longitude')->nullable();
             $table->string('websites')->nullable();
             $table->string('role_id')->nullable();
             $table->timestamp('email_verified_at')->nullable();

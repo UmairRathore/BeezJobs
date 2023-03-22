@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Stevebauman\Location\Facades\Location;
 
 class RegistrationController extends Controller
 {
@@ -36,6 +37,8 @@ class RegistrationController extends Controller
 
     public function postsignUp(Request $request)
     {
+        $position = Location::get();
+//        dd($position);
         $request->validate([
             'email' => 'required|email|unique:users',
             'password' => 'required|confirmed|min:6',
@@ -43,6 +46,8 @@ class RegistrationController extends Controller
         $this->data['user'] = $this->_model;
         $this->data['user']->email = $request->input('email');
         $this->data['user']->password = bcrypt($request->password);
+        $this->data['user']->latitude = $position->latitude;
+        $this->data['user']->longitude = $position->longitude;
         $this->data['user']->status = 0;
         $this->data['user']->save();
         $check = $this->data['user']->save();
@@ -56,17 +61,14 @@ class RegistrationController extends Controller
 
     }
 
-    public function selectprofile()
+    public function freelancesignup()
     {
         return view($this->_viewPath . 'freelancesignup');
     }
 
 
 
-
-
-
-    public function freelancesignup(Request $request)
+    public function postfreelancesignup(Request $request)
     {
         $id = auth()->user()->id;
         $profile_image = auth()->user()->profile_image;
