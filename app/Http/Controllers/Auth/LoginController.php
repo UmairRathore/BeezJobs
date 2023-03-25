@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Job;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -53,6 +54,8 @@ class LoginController extends Controller
         //dd($email);
         $password = $request->password;
 
+
+
         if (Auth::guard('user')->attempt(['email' => $email, 'password' => $password], true) && auth('user')->user()->role_id == 1) {
             //            echo 'admin';
 
@@ -65,10 +68,32 @@ class LoginController extends Controller
 
         } elseif (Auth::guard('user')->attempt(['email' => $email, 'password' => $password], true) && auth('user')->user()->status == 0) {
 
-            return redirect('/freelancesignup');
+            $newEventData = Session::pull('task_data');
+            if ($newEventData) {
+                // Create new event using stored data
+                $task = new Job;
+                $task->user_id = $newEventData['user_id'];
+                $task->title = $newEventData['title'];
+                $task->date = $newEventData['date'];
+                $task->time_of_day = $newEventData['time_of_day'];
+                $task->online_or_in_person = $newEventData['online_or_in_person'];
+                $task->location = $newEventData['location'];
+                $task->description = $newEventData['description'];
+                $task->budget = $newEventData['budget'];
+                $task->save();
+                $check = $task->save();
+                if ($check) {
+                    return redirect()->route('showjob')->with('success', 'Job created successfully!');
 
-        } elseif (Auth::guard('user')->attempt(['email' => $email, 'password' => $password], true) && auth('user')->user()->role_id == null) {
-            return redirect('selectprofile');
+                } else {
+                    return redirect()->route('showjob')->with('success', 'Job did not created successfully!');
+                }
+                }
+                else{return redirect('/freelancesignup');}
+
+
+
+
         } else {
 
             return redirect()->back()->with('alert', 'Your credentials do not match our record, Please try again!');

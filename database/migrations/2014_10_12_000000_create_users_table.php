@@ -22,11 +22,10 @@ class CreateUsersTable extends Migration
             $table->string('birthday')->nullable();
             $table->string('tagline')->nullable();
             $table->string('location')->nullable();
+            $table->foreign('role_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('profession_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('pay_rate')->nullable();
-            $table->string('latitude')->nullable();
-            $table->string('longitude')->nullable();
             $table->string('websites')->nullable();
-            $table->string('role_id')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();

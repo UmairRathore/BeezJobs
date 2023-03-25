@@ -144,13 +144,13 @@ container">
 															</div>
 															<div class="col-lg-6">
 																<div class="form-group">
-																	<label class="label15">Email Address*</label>
+																	<label class="label15">Email Address</label>
 																	<input type="email" name="email" class="job-input" value="{{auth()->user()->email}}">
 																</div>
 															</div>
 															<div class="col-lg-6">
 																<div class="form-group">
-																	<label class="label15">Birthday*</label>
+																	<label class="label15">Birthday</label>
 																	<div class="smm_input">
 																		<input type="text" name="birthday" class="job-input datepicker-here" data-language="en" value="{{auth()->user()->birthday}}">
 																		<div class="mix_max"><i class="fas fa-calendar-alt"></i></div>
@@ -159,7 +159,7 @@ container">
 															</div>
 															<div class="col-lg-12">
 																<div class="form-group">
-																	<label class="label15">Description*</label>
+																	<label class="label15">Description</label>
 																	<div class="description_dtu">
 
 																		<textarea class="textarea70" name="description" >{{auth()->user()->description}}</textarea>
@@ -177,7 +177,7 @@ container">
 
 															<div class="col-lg-6">
 																<div class="form-group">
-																	<label class="label15">Pay Rate ($/hr)*</label>
+																	<label class="label15">Pay Rate ($/hr)</label>
 																	<div class="smm_input">
 																		<input type="text" class="job-input"  name="pay_rate" value="{{auth()->user()->pay_rate}}">
 																		<div class="mix_max">Usd</div>
@@ -187,10 +187,10 @@ container">
 
 															<div class="col-lg-12">
 																<div class="form-group">
-																	<label class="label15">Location*</label>
+																	<label class="label15">Location</label>
 																	<div class="smm_input">
-																		<input type="text" name="location" class="job-input" value="{{auth()->user()->location}}">
-																		<div class="loc_icon"><i class="fas fa-crosshairs"></i></div>
+																		<input id="location" type="text" name="location" class="job-input" value="{{auth()->user()->location}}">
+																		<div class="loc_icon"><i class="fas fa-map-marker-alt"></i></div>
 																	</div>
 																</div>
 															</div>
@@ -201,7 +201,7 @@ container">
 															<div class="col-lg-12">
 
 																<div class="form-group">
-																	<label class="label15">Websites*</label>
+																	<label class="label15">Websites</label>
 																	<div class="smm_input5">
 																		<input type="text" class="website-input" name="websites[]" value="">
 																		<div class="loc_icon5"><i class="fas fa-globe"></i></div>
@@ -335,4 +335,42 @@ container">
 				</div>
 			</div>
 		</main>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAF0m_0JWZgOmoExRNRO3lwem1yfqJJ6B4&libraries=places"></script>
+<script>
+    var searchInput = 'location';
+
+    const autocomplete = new google.maps.places.Autocomplete(
+        document.getElementById(searchInput),
+        {
+            types: ['address'],
+            // componentRestrictions: { country: 'US' } // optional
+        }
+    );
+
+    autocomplete.addListener('place_changed', () => {
+        const place = autocomplete.getPlace();
+        console.log(place); //
+    });
+
+
+
+
+
+
+    //
+    // $(document).ready(function ()
+    // {
+    //     var autocomplete;
+    //     autocomplete = new google.new.maps.places.Autocomplete((document.getElementById(searchInput)),{
+    //         types: ['geocode'],
+    //
+    //     })
+    //     google.maps.event.addListener(autocomplete,'place_changed',function (){
+    //         var near_place = autocomplete.getPlace();
+    //     })
+    //
+    // });
+</script>
 @endsection

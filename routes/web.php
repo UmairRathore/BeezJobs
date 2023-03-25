@@ -1,9 +1,12 @@
 <?php
 
+use App\Http\Controllers\Admin\ProfessionController;
+use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegistrationController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\FreelancerDashboardController;
+use App\Http\Controllers\Frontend\JobController;
 use App\Http\Controllers\Frontend\PortfolioController;
 
 use Illuminate\Support\Facades\Route;
@@ -58,6 +61,24 @@ Route::post('/change_freelancer_password', [FreelancerDashboardController::class
 //portfolio
 Route::post('/add_freelancer_portfolio', [PortfolioController::class, 'add_freelancer_portfolio'])->name('add_freelancer_portfolio');
 Route::get('/delete_freelancer_portfolio/{id}', [PortfolioController::class, 'delete_freelancer_portfolio'])->name('delete_freelancer_portfolio');
+
+
+
+
+//Job
+Route::get('/post_a_job', [JobController::class, 'showJob'])->name('showjob');
+Route::post('/post_a_job', [JobController::class, 'createJob'])->name('tasks.store');
+
+
+//profession
+Route::get('/create_profession', [ProfessionController::class, 'showProfession'])->name('profession.show');
+Route::post('/create_profession', [ProfessionController::class, 'createProfession'])->name('profession.store');
+
+//Role
+Route::get('/create_role', [RoleController::class, 'showRole'])->name('role.show');
+Route::post('/create_role', [RoleController::class, 'createRole'])->name('role.store');
+
+
 
 
 ////Login

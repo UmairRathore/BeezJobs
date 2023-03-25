@@ -24,14 +24,22 @@ class User extends Authenticatable
         'password',
         'birthday',
         'tagline',
-        'description',
         'location',
-        'pay_rate',
         'role_id',
-        'latitude',
-        'longitude',
-        'websites',
+        'profession_id',
+        'pay_rate',
+        'websites'
     ];
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
+
+    public function profession()
+    {
+        return $this->belongsTo(Profession::class);
+    }
 
     /**
      * The attributes that should be hidden for serialization.

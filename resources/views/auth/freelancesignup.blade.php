@@ -167,5 +167,23 @@
         </div>
     </div>
 </main>
+
+
+<script>
+    var searchInput = 'search_input';
+
+    const autocomplete = new google.maps.places.Autocomplete(
+        document.getElementById(searchInput),
+        {
+            types: ['address'],
+            // componentRestrictions: { country: 'US' } // optional
+        }
+    );
+
+    autocomplete.addListener('place_changed', () => {
+        const place = autocomplete.getPlace();
+        console.log(place); //
+    });
+</script>
 <!-- Body End -->
 @endsection

@@ -93,7 +93,7 @@
                                     <div class="form-group">
                                         <label class="label15">Location*</label>
                                         <div class="smm_input">
-                                            <input type="text" name="location" class="job-input" placeholder="Type Address">
+                                            <input type="text" id="location" name="location" class="job-input" placeholder="Type Address">
                                             <div class="loc_icon"><i class="fas fa-map-marker-alt"></i></div>
                                         </div>
                                     </div>
