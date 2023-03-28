@@ -131,7 +131,7 @@ Route::post('/create_role', [RoleController::class, 'createRole'])->name('role.s
 //Route::get('/login', [LoginController::class, 'login'])->name('login');
 //Route::post('/login', [LoginController::class, 'postLogin'])->name('postlogin');
 //
-////Logout
+//Logout
 //Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 //
 ////Forget Password

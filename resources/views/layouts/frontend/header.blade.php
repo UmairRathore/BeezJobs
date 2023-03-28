@@ -167,7 +167,7 @@
                                     <a class="link-item" href="{{route('post_a_job')}}">Post a Job</a>
                                 </div>
                             </li>
-                            
+
 
                             <li class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle-no-caret" role="button" data-toggle="dropdown">Find Freelancers</a>
@@ -196,9 +196,8 @@
                                 </div>
                             </li>
                         </ul>
-                        <a href="#" class="search-link" role="button" data-toggle="modal" data-target="#searchModal"><i class="fas fa-search"></i></a>
                         <a href="{{route('post_a_job')}}" class="add-post">Post a Job</a>
-                        <a href="{{route('post_a_job')}}" class="add-task">Post a Task</a>	
+                        <a href="{{route('post_a_job')}}" class="add-task">Post a Task</a>
                     </div>
                     <div class="responsive-search order-1">
                         <input type="text" class="rsp-search" placeholder="Search...">

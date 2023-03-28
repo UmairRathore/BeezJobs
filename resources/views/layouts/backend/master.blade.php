@@ -8,6 +8,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
+
 
     <title>@yield('title')</title>
 
@@ -81,14 +83,14 @@
             <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                <a class="btn btn-primary" href="login.html">Logout</a>
+                <a class="btn btn-primary" href="{{route('signout')}}">Logout</a>
             </div>
         </div>
     </div>
 </div>
 
 <!-- Bootstrap core JavaScript-->
-<script src="{{asset('backend/vendor/jquery/jquery.min.js')}}"></script>
+<script src="{{asset('backend/vendor/jquery/jquery.js')}}"></script>
 <script src="{{asset('backend/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 
 <!-- Core plugin JavaScript-->

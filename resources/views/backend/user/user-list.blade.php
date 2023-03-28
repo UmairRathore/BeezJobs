@@ -1,7 +1,7 @@
 @extends('layouts.backend.master')
 @section('title', 'List Users')
 @section('content')
-    <link href="{{asset('backend/vendors/toastr/css/toastr.min.css')}}" rel="stylesheet">
+    <link href="{{asset('vendor/toastr/css/toastr.min.css')}}" rel="stylesheet">
     <style>
         .switch {
             position: relative;
@@ -95,7 +95,7 @@
                     <th>Name</th>
                     <th>Email</th>
                     <th>tagline</th>
-{{--                    <th>Status</th>--}}
+                    <th>Status</th>
                     <th>Action</th>
                     </thead>
                     <tbody>
@@ -109,7 +109,9 @@
                             <td>{{$items->tagline}}</td>
                             <td>
                                 <label class="switch">
-                                    <input type="checkbox" id="status" class="checkbox checkbox_list" data-id="{{ $items->id }}" value="{{ ($items->status == 1) ? 0 : 1 }}" data-url="{{route('status-user',$items->id)}}" name="status" {{ ($items->status == 1) ? 'checked' : '' }}>
+                                    <input type="checkbox" id="status" class="checkbox checkbox_list" data-id="{{ $items->id }}"
+                                           value="{{ ($items->status == 1) ? 0 : 1 }}" data-url="{{route('status-user',$items->id)}}"
+                                           name="status" {{ ($items->status == 1) ? 'checked' : '' }}>
                                     <span class="slider round" ></span>
                                 </label>
                                 <span style="display: none">{{ ($items->status == 1) ? 'Active' : 'false' }}</span>
@@ -135,11 +137,9 @@
     </div>
 
 
+    <script src="{{asset('backend/vendor/jquery/jquery.js')}}"></script>
 
-        <script type="text/javascript" charset="utf8" src="{{asset('https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js')}}"></script>
-
-    <script src="{{asset('backend/vendors/toastr/js/toastr.min.js')}}"></script>
-    <script src="{{asset('backend/js/plugins-init/datatables.init.js')}}"></script>
+    <script src="{{asset('vendor/toastr/js/toastr.min.js')}}"></script>
     <script>
 
         $(document).on("click", ".checkbox_list", function () {
@@ -163,6 +163,7 @@
                         '_token': token
                     },
                     success: function (response) {
+                        console.log(response.statusCode);
                         if (response.statusCode == 200) {
                             is_checked = 1 - Math.abs(is_checked);
                             is_checked_obj.val(is_checked); // this gives me null
@@ -174,11 +175,11 @@
                             else{
                                 is_checked_obj.attr('checked');
                             }
-                            // toastr.error("Oops something went wrong");
+                            toastr.error("Oops something went wrong");
                         }
                     }, error: function () {
-                        toastr.success("Status updated Successfully");
-                        // toastr.error("Oops something went wrong");
+                        // toastr.success("Status updated Successfully");
+                        toastr.error("Oops something went wrong");
 
                     },
                 });
@@ -186,4 +187,5 @@
         });
 
     </script>
+
 @endsection
