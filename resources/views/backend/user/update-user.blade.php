@@ -68,6 +68,7 @@
                         <div class="input-group">
                             <input type="password" name="password" id="pass" class="form-control bi-eye-slash" placeholder="Update password">
                         </div>
+                        <small>Password will remain same, if not updated.</small>
                     </div>
                 </div>
                 <div class="row">

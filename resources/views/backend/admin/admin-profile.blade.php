@@ -68,6 +68,7 @@
                         <div class="input-group">
                             <input type="password" name="password" id="pass" class="form-control bi-eye-slash" placeholder="Update password">
                         </div>
+                        <small>Password will remain same, if not updated.</small>
                     </div>
                 </div>
                 <div>
@@ -83,4 +84,56 @@
         </div>
     </div>
 
+    @yield('status')
+@endsection
+
+
+@section('status')
+    <script src="{{asset('vendor/toastr/js/toastr.min.js')}}"></script>
+    <script>
+
+        $(document).on("click", ".checkbox_list", function () {
+            var is_checked_obj = $(this);
+            var is_checked = $(this).val(); // this gives me null
+            let token = $('meta[name="csrf-token"]').attr('content');
+
+            {{--add this in head
+                        "<meta name="csrf-token" content="{{ csrf_token() }}" />"
+            when token mismatches --}}
+
+            if (is_checked != null) {
+                var url = $(this).attr('data-url'); // this gives me null
+                var dltUrl = url;
+                $.ajax({
+                    url: dltUrl,
+                    type: 'post',
+                    dataType: 'json',
+                    data: {
+                        'status': is_checked,
+                        '_token': token
+                    },
+                    success: function (response) {
+                        if (response.statusCode == 200) {
+                            is_checked = 1 - Math.abs(is_checked);
+                            is_checked_obj.val(is_checked); // this gives me null
+                            toastr.success(response.message);
+                        } else {
+                            if(is_checked){
+                                is_checked_obj.removeAttribute('checked');
+                            }
+                            else{
+                                is_checked_obj.attr('checked');
+                            }
+                            // toastr.error("Oops something went wrong");
+                        }
+                    }, error: function () {
+                        toastr.success("Status updated Successfully");
+                        // toastr.error("Oops something went wrong");
+
+                    },
+                });
+            }
+        });
+
+    </script>
 @endsection
