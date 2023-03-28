@@ -15,11 +15,10 @@
         </div>
     </div>
     <?php
-    $websites = explode(",", auth()->user()->websites);
 
      function calculateProfileCompleteness($user) {
         $fields = ['first_name', 'last_name', 'email', 'profile_image', 'birthday','location',
-            'tagline', ' description', 'payrate','websites']; // List of fields to check
+            'tagline', ' description', 'payrate']; // List of fields to check
         $filledFields = 0;
 
         foreach ($fields as $field) {
@@ -36,26 +35,11 @@
     $floatvalue = calculateProfileCompleteness($user);
     $completeness = intval($floatvalue);
     ?>
-    <div class="my_websites">
-        <h4>Websites:</h4>
-        @if(!empty($websites))
-            <ul>
-                @if($websites[0])
-                    <li><a href="{{$websites[0]}}" class="web_link"><i class="fas fa-globe"></i>{{$websites[0]}}</a></li>
-                @endif
-                @if($websites[1])
-                    <li><a href="{{$websites[1]}}" class="web_link"><i class="far fa-edit"></i>{{$websites[1]}}</a></li>
-                @endif
-                @if($websites[2])
-                    <li><a href="{{$websites[2]}}" class="web_link"><i class="fa fa-columns"></i>{{$websites[2]}}</a></li>
-                @endif
-            </ul>
-        @endif
-    </div>
+   
     <div class="group_skills_bar">
         <h6>Profile Completeness</h6>
         <div class="group_bar1">
-            <span>{{$completeness}}</span>
+            <span>{{$completeness}}%</span>
             <div class="progress skill_process">
                 <div class="progress-bar progress_bar_skills" role="progressbar" style="width: {{$completeness}}%;" aria-valuenow="{{$completeness}}" aria-valuemin="0" aria-valuemax="100"></div>
             </div>

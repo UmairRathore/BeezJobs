@@ -106,38 +106,28 @@
                                     </div>
                                 </div>
                             </div>
-
-                            <div class="col-lg-12">
+                            <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label class="label15">Location*</label>
+                                    <label class="label15">Profession Category*</label>
                                     <div class="smm_input">
-                                        <input type="text" name="location" class="job-input" value="{{auth()->user()->location}}">
-                                        <div class="loc_icon"><i class="fas fa-crosshairs"></i></div>
+                                        <select name="online_or_in_person" class="job-input">
+                                            <option value="online">Designing</option>
+                                            <option value="in_person">Marketing</option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
 
-                            <?php
-                            $websites = explode(",",auth()->user()->websites)
-                            ?>
                             <div class="col-lg-12">
-
                                 <div class="form-group">
-                                    <label class="label15">Websites*</label>
-                                    <div class="smm_input5">
-                                        <input type="text" class="website-input" name="websites[]" value="">
-                                        <div class="loc_icon5"><i class="fas fa-globe"></i></div>
-                                    </div>
-                                    <div class="smm_input5">
-                                        <input type="text" class="website-input" name="websites[]"value="">
-                                        <div class="loc_icon5"><i class="far fa-edit"></i></div>
-                                    </div>
-                                    <div class="smm_input5">
-                                        <input type="text" class="website-input" name="websites[]" value="">
-                                        <div class="loc_icon5"><i class="fas fa-columns"></i></div>
+                                    <label class="label15">Location</label>
+                                    <div class="smm_input">
+                                        <input id="location" type="text" name="location" class="job-input" value="{{auth()->user()->location}}">
+                                        <div class="loc_icon"><i class="fas fa-map-marker-alt"></i></div>
                                     </div>
                                 </div>
                             </div>
+
                             <div class="col-lg-12">
                                 <button class="post_jp_btn" type="submit">Finish Freelancer Profile</button>
                             </div>
@@ -169,8 +159,10 @@
 </main>
 
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAF0m_0JWZgOmoExRNRO3lwem1yfqJJ6B4&libraries=places"></script>
 <script>
-    var searchInput = 'search_input';
+    var searchInput = 'location';
 
     const autocomplete = new google.maps.places.Autocomplete(
         document.getElementById(searchInput),
@@ -184,6 +176,10 @@
         const place = autocomplete.getPlace();
         console.log(place); //
     });
+
+
+
+
 </script>
 <!-- Body End -->
 @endsection

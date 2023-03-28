@@ -37,7 +37,7 @@ class RegistrationController extends Controller
 
     public function postsignUp(Request $request)
     {
-//        $position = Location::get();
+        //        $position = Location::get();
 //        dd($position);
         $request->validate([
             'email' => 'required|email|unique:users',
@@ -46,7 +46,7 @@ class RegistrationController extends Controller
         $this->data['user'] = $this->_model;
         $this->data['user']->email = $request->input('email');
         $this->data['user']->password = bcrypt($request->password);
-//        $this->data['user']->latitude = $position->latitude;/
+        //        $this->data['user']->latitude = $position->latitude;/
 //        $this->data['user']->longitude = $position->longitude;
         $this->data['user']->status = 0;
         $this->data['user']->save();
@@ -95,9 +95,8 @@ class RegistrationController extends Controller
         $this->data['user']->pay_rate = $request->input('pay_rate');
         $this->data['user']->tagline = $request->input('tagline');
         $this->data['user']->status = 1;
+
         $this->data['user']->profile_image = $image;
-        $websites = implode(",", $request->input('websites'));
-        $this->data['user']->websites = $websites;
         $this->data['user']->save();
         $check = $this->data['user']->save();
 

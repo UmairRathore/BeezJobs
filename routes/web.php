@@ -1,7 +1,10 @@
 <?php
 
+use App\Http\Controllers\Admin\CityController;
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProfessionController;
 use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegistrationController;
 use App\Http\Controllers\Frontend\HomeController;
@@ -58,6 +61,9 @@ Route::get('/my_freelancer_reviews', [FreelancerDashboardController::class, 'my_
 //setting
 Route::post('/update_freelancer_social_media_links', [FreelancerDashboardController::class, 'update_freelancer_social_media_links'])->name('update_freelancer_social_media_links');
 Route::post('/change_freelancer_password', [FreelancerDashboardController::class, 'change_freelancer_password'])->name('change_freelancer_password');
+Route::get('/browse_freelancers', [FreelancerDashboardController::class, 'browse_freelancers'])->name('browse_freelancers');
+Route::get('/other_freelancer_profile', [FreelancerDashboardController::class, 'other_freelancer_profile'])->name('other_freelancer_profile');
+
 //portfolio
 Route::post('/add_freelancer_portfolio', [PortfolioController::class, 'add_freelancer_portfolio'])->name('add_freelancer_portfolio');
 Route::get('/delete_freelancer_portfolio/{id}', [PortfolioController::class, 'delete_freelancer_portfolio'])->name('delete_freelancer_portfolio');
@@ -66,8 +72,44 @@ Route::get('/delete_freelancer_portfolio/{id}', [PortfolioController::class, 'de
 
 
 //Job
-Route::get('/post_a_job', [JobController::class, 'showJob'])->name('showjob');
-Route::post('/post_a_job', [JobController::class, 'createJob'])->name('tasks.store');
+Route::get('/post_a_job', [JobController::class, 'showJob'])->name('post_a_job');
+Route::post('/post_a_job', [JobController::class, 'createJob'])->name('post_a_job');
+Route::get('/browse_jobs', [JobController::class, 'browse_jobs'])->name('browse_jobs');
+Route::get('/job_single_view', [JobController::class, 'job_single_view'])->name('job_single_view');
+
+
+
+
+
+//backend
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+
+
+
+
+//City
+Route::get('/city-list', [CityController::class, 'index'])->name('backend.city-list');
+Route::get('/add-city', [CityController::class, 'create'])->name('backend.show-city');
+Route::post('/add-city', [CityController::class, 'store'])->name('backend.add-city');
+Route::get('/edit-city/{id}', [CityController::class, 'edit'])->name('backend.edit-city');
+Route::put('/update-city/{id}', [CityController::class, 'update'])->name('backend.update-city');
+Route::get('/delete-city/{id}', [CityController::class, 'destroy'])->name('backend.delete-city');
+
+//Profession
+Route::get('/profession-list', [ProfessionController::class, 'index'])->name('backend.profession-list');
+Route::get('/add-profession', [ProfessionController::class, 'create'])->name('backend.show-profession');
+Route::post('/add-profession', [ProfessionController::class, 'store'])->name('backend.add-profession');
+Route::get('/edit-profession/{id}', [ProfessionController::class, 'edit'])->name('backend.edit-profession');
+Route::put('/update-profession/{id}', [ProfessionController::class, 'update'])->name('backend.update-profession');
+Route::get('/delete-profession/{id}', [ProfessionController::class, 'destroy'])->name('backend.delete-profession');
+
+//User
+Route::get('/user-list', [UserController::class, 'index'])->name('backend.user-list');
+Route::get('/edit-user/{id}', [UserController::class, 'edit'])->name('backend.edit-user');
+Route::put('/update-user/{id}', [UserController::class, 'update'])->name('backend.update-user');
+Route::get('/delete-user/{id}', [UserController::class, 'destroy'])->name('backend.delete-user');
+Route::post('/status-user/{id}', [UserController::class, 'changeStatus'])->name('status-user');
 
 
 //profession
@@ -93,9 +135,3 @@ Route::get('/forget', [LoginController::class, 'showForgetPasswordForm'])->name(
 Route::post('/forget', [LoginController::class, 'submitForgetPasswordForm'])->name('forget.password.post');
 Route::get('/reset-password/{token}', [LoginController::class, 'showResetPasswordForm'])->name('reset.password.get');
 Route::post('/reset-password', [LoginController::class, 'submitResetPasswordForm'])->name('reset.password.post');
-//
-//
-//
-////Registration
-//Route::get('/usersignup', [RegistrationController::class, 'user'])->name('user-register');
-//Route::post('/usersignup', [RegistrationController::class, 'userregistration'])->name('userregisteration');

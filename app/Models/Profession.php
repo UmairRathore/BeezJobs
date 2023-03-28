@@ -11,6 +11,8 @@ class Profession extends Model
 
     protected $table = 'professions';
     protected $fillable = [
-        'name',
+        'profession',
+        'detail',
+        'p_image',
     ];
 }

@@ -70,7 +70,7 @@
         <div class="row">
             <div class="col-lg-6 col-md-6">
                 <div class="copyright">
-                    <i class="far fa-copyright"></i>Copyright 2019 <span>Jobby</span> by <a href="#" >Gambolthemes</a>. All Right Reserved.
+                    <i class="far fa-copyright"></i>Copyright 2023 <span>Jobby</span> by <a href="https://nadeem-aslam.web.app" >NH Tech</a>. All Right Reserved.
                 </div>
             </div>
             <div class="col-lg-6 col-md-6">

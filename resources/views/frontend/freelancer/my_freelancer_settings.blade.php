@@ -172,9 +172,6 @@ container">
 																	<input type="text" name="tagline" class="job-input" value="{{auth()->user()->tagline}}">
 																</div>
 															</div>
-
-
-
 															<div class="col-lg-6">
 																<div class="form-group">
 																	<label class="label15">Pay Rate ($/hr)</label>
@@ -184,6 +181,17 @@ container">
 																	</div>
 																</div>
 															</div>
+                                                            <div class="col-lg-6">
+                                                                <div class="form-group">
+                                                                    <label class="label15">Profession Category*</label>
+                                                                    <div class="smm_input">
+                                                                        <select name="online_or_in_person" class="job-input">
+                                                                            <option value="online">Designing</option>
+                                                                            <option value="in_person">Marketing</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
 
 															<div class="col-lg-12">
 																<div class="form-group">
@@ -195,27 +203,7 @@ container">
 																</div>
 															</div>
 
-															<?php
-															$websites = explode(",",auth()->user()->websites)
-															?>
-															<div class="col-lg-12">
-
-																<div class="form-group">
-																	<label class="label15">Websites</label>
-																	<div class="smm_input5">
-																		<input type="text" class="website-input" name="websites[]" value="">
-																		<div class="loc_icon5"><i class="fas fa-globe"></i></div>
-																	</div>
-																	<div class="smm_input5">
-																		<input type="text" class="website-input" name="websites[]"value="">
-																		<div class="loc_icon5"><i class="far fa-edit"></i></div>
-																	</div>
-																	<div class="smm_input5">
-																		<input type="text" class="website-input" name="websites[]" value="">
-																		<div class="loc_icon5"><i class="fas fa-columns"></i></div>
-																	</div>
-																</div>
-															</div>
+															
 															<div class="col-lg-12">
 																<button class="post_jp_btn" type="submit">Save Changes</button>
 															</div>
@@ -357,20 +345,5 @@ container">
 
 
 
-
-
-    //
-    // $(document).ready(function ()
-    // {
-    //     var autocomplete;
-    //     autocomplete = new google.new.maps.places.Autocomplete((document.getElementById(searchInput)),{
-    //         types: ['geocode'],
-    //
-    //     })
-    //     google.maps.event.addListener(autocomplete,'place_changed',function (){
-    //         var near_place = autocomplete.getPlace();
-    //     })
-    //
-    // });
 </script>
 @endsection

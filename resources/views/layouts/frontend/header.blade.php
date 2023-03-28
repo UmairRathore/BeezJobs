@@ -163,31 +163,16 @@
                             <li class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle-no-caret" role="button" data-toggle="dropdown">Find Jobs</a>
                                 <div class="dropdown-menu pages-dropdown">
-                                    <a class="link-item" href="browse_jobs.html">Browse Jobs</a>
-                                    <a class="link-item" href="job_single_view.html">Single Job View</a>
-                                    <a class="link-item" href="post_a_job.html">Post a Job</a>
+                                    <a class="link-item" href="{{route('browse_jobs')}}">Browse Jobs</a>
+                                    <a class="link-item" href="{{route('post_a_job')}}">Post a Job</a>
                                 </div>
                             </li>
-                            <li class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle-no-caret" role="button" data-toggle="dropdown">Find Work</a>
-                                <div class="dropdown-menu pages-dropdown">
-                                    <a class="link-item" href="browse_projects.html">Browse Projects</a>
-                                    <a class="link-item" href="project_single_view.html">Single Project View</a>
-                                    <a class="link-item" href="post_a_project.html">Post a Project</a>
-                                </div>
-                            </li>
-                            <li class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle-no-caret" role="button" data-toggle="dropdown">Find Companies</a>
-                                <div class="dropdown-menu pages-dropdown">
-                                    <a class="link-item" href="browse_companies.html">Browse Companies</a>
-                                    <a class="link-item" href="other_company_profile.html">Company Profile</a>
-                                </div>
-                            </li>
+                            
+
                             <li class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle-no-caret" role="button" data-toggle="dropdown">Find Freelancers</a>
                                 <div class="dropdown-menu pages-dropdown">
-                                    <a class="link-item" href="browse_freelancers.html">Browse Freelancers</a>
-                                    <a class="link-item" href="other_freelancer_profile.html">Freelancer Profile</a>
+                                    <a class="link-item" href="{{route('browse_freelancers')}}">Browse Freelancers</a>
                                 </div>
                             </li>
                             <li class="nav-item dropdown pages152">
@@ -212,7 +197,8 @@
                             </li>
                         </ul>
                         <a href="#" class="search-link" role="button" data-toggle="modal" data-target="#searchModal"><i class="fas fa-search"></i></a>
-                        <a href="post_a_job.html" class="add-post">Post a Job</a>
+                        <a href="{{route('post_a_job')}}" class="add-post">Post a Job</a>
+                        <a href="{{route('post_a_job')}}" class="add-task">Post a Task</a>	
                     </div>
                     <div class="responsive-search order-1">
                         <input type="text" class="rsp-search" placeholder="Search...">

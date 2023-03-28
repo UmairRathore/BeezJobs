@@ -11,7 +11,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <ol class="title-bar-text">
-                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                        <li class="breadcrumb-item"><a href="/">Home</a></li>
                         <li class="breadcrumb-item active" aria-current="page">Post a Job</li>
                     </ol>
                 </div>
@@ -24,6 +24,11 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-8">
+                @if (session('alert'))
+                    <div class="alert alert-danger">
+                        {{ session('alert') }}
+                    </div>
+                @endif
                     <div class="main-heading bids_heading">
                         <h2>Post a Job</h2>
                         <div class="line-shape1">
@@ -31,7 +36,8 @@
                         </div>
                     </div>
                     <div class="post501">
-                        <form action="{{route('tasks.store')}}" method="post">
+
+                        <form action="{{route('post_a_job')}}" method="post">
                             @csrf
                             <div class="row">
                                 <div class="col-lg-12">
@@ -53,9 +59,10 @@
                                     <div class="form-group">
                                         <label class="label15">Date*</label>
                                         <div class="smm_input">
-                                            <input type="date" name="date" class="job-input">
+                                            <input type="text" name="date" class="job-input datepicker-here" data-language="en" value="{{auth()->user()->birthday}}">
+                                            <div class="mix_max"><i class="fas fa-calendar-alt"></i></div>
                                         </div>
-                                    </div>
+                                    </div> 
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="form-group">
@@ -67,7 +74,6 @@
                                                 <option value="evening">Evening</option>
                                                 <option value="night">Night</option>
                                             </select>
-                                            <div class="fa-clock"><i class="far fa-clock"></i></div>
                                         </div>
                                     </div>
                                 </div>
@@ -121,7 +127,25 @@
 
                     </div>
                 </div>
-
+                <div class="col-md-4">
+                <div class="main-heading bids_heading pjfaq80">
+                    <h2>Steps</h2>
+                </div>
+                <div class="jp_faq">
+                    <div class="jp_faq_item">
+                        <h4>01. Complete the given form</h4>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum mi at erat egestas, nec porta diam pharetra.</p>
+                    </div>
+                    <div class="jp_faq_item">
+                        <h4>02. Check all inputs</h4>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum mi at erat egestas, nec porta diam pharetra.</p>
+                    </div>
+                    <div class="jp_faq_item">
+                        <h4>03. Post the job and get matched</h4>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum mi at erat egestas, nec porta diam pharetra.</p>
+                    </div>
+                </div>
+            </div>
             </div>
         </div>
     </main>

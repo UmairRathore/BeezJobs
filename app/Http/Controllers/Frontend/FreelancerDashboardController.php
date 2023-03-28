@@ -108,5 +108,13 @@ class FreelancerDashboardController extends Controller
 
 
     }
+    function browse_freelancers()
+    {
+        return view('frontend.freelancer.browse_freelancers');
+    }
+    function other_freelancer_profile()
+    {
+        return view('frontend.freelancer.other_freelancer_profile');
+    }
 
 }

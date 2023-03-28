@@ -56,17 +56,18 @@ class LoginController extends Controller
 
 
 
-        if (Auth::guard('user')->attempt(['email' => $email, 'password' => $password], true) && auth('user')->user()->role_id == 1) {
+        if (Auth::guard('user')->attempt(['email' => $email, 'password' => $password], true) && auth('user')->user()->status == 1 && auth('user')->user()->role_id == 1) {
             //            echo 'admin';
 
-            return redirect('dashboard');
+            return redirect('/dashboard');
+//            return 'admin dashboard is in development';
 
 
-        } elseif (Auth::guard('user')->attempt(['email' => $email, 'password' => $password], true) && auth('user')->user()->status == 1) {
+        } elseif (Auth::guard('user')->attempt(['email' => $email, 'password' => $password], true) && auth('user')->user()->status == 1 && auth('user')->user()->role_id == 2) {
 
             return redirect('/');
 
-        } elseif (Auth::guard('user')->attempt(['email' => $email, 'password' => $password], true) && auth('user')->user()->status == 0) {
+        } elseif (Auth::guard('user')->attempt(['email' => $email, 'password' => $password], true) && auth('user')->user()->status == 0 && auth('user')->user()->role_id == 2) {
 
             $newEventData = Session::pull('task_data');
             if ($newEventData) {
