@@ -3,15 +3,35 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\City;
+use App\Models\Profession;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
     //
 
+    protected $_viewPath;
+    protected $data = array();
+
+    public function __construct()
+    {
+        $this->_model = new User();
+        $this->setDefaultData();
+    }
+
+    private function setDefaultData()
+    {
+        $this->_viewPath = 'auth.';
+        $this->data['moduleName'] = 'User';
+    }
     public function index()
     {
-        return view('frontend.index');
+        $this->data['cities'] = City::all();
+        $this->data['professions'] = Profession::all();
+
+        return view('frontend.index', $this->data);
     }
 
     public function signin()

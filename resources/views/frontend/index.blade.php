@@ -18,88 +18,25 @@
     </div>
     <div class="banner-slider">
           <div class="owl-carousel bnnr-owl owl-theme">
+              @foreach($cities as $city)
             <div class="item">
-                
+
                 <div class="featured-cities">
                 <a href="{{route('browse_freelancers')}}">
                         <div class="feature-img">
-                            <img src="http://getwallpapers.com/wallpaper/full/8/3/e/104571.jpg" style="height:300px" alt="">
+                            <img src="{{asset($city->c_image)}}" style="height:300px" alt="">
                               <div class="overly-bg"></div>
                         </div>
                     </a>
                     <a href="{{route('browse_freelancers')}}">
                         <div class="featured-text">
-                            <div class="city-title">California</div>
+                            <div class="city-title">{{$city->city}}</div>
                               <ins>125 Freelancers</ins>
                         </div>
                     </a>
                   </div>
             </div>
-            <div class="item">
-                  <div class="featured-cities">
-                  <a href="{{route('browse_freelancers')}}">
-                        <div class="feature-img">
-                              <img src="https://tse1.mm.bing.net/th?id=OIP.HFoBIPgNSiO9z0MDLQfHkwHaLH&pid=Api&P=0" style="height:300px" alt="">
-                            <div class="overly-bg"></div>
-                        </div>
-                      </a>
-                      <a href="{{route('browse_freelancers')}}">
-                        <div class="featured-text">
-                              <div class="city-title">Austin</div>
-                            <ins>200 Freelancers</ins>
-                        </div>
-                      </a>
-                </div>
-            </div>
-              <div class="item">
-                <div class="featured-cities">
-                <a href="{{route('browse_freelancers')}}">
-                          <div class="feature-img">
-                            <img src="https://images.unsplash.com/photo-1519501025264-65ba15a82390?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80" style="height:300px" alt="">
-                            <div class="overly-bg"></div>
-                          </div>
-                    </a>
-                    <a href="{{route('browse_freelancers')}}">
-                          <div class="featured-text">
-                            <div class="city-title">Los Angeles</div>
-                            <ins>25 Freelancers</ins>
-                          </div>
-                    </a>
-                </div>
-              </div>
-            <div class="item">
-                <div class="featured-cities">
-                <a href="{{route('browse_freelancers')}}">
-                        <div class="feature-img">
-                            <img src="https://images.musement.com/cover/0102/23/thumb_10122163_cover_header.jpeg" style="height:300px" alt="">
-                              <div class="overly-bg"></div>
-                        </div>
-                    </a>
-                    <a href="{{route('browse_freelancers')}}">
-                        <div class="featured-text">
-                            <div class="city-title">San francisco</div>
-                              <ins>12 Freelancers</ins>
-                        </div>
-                    </a>
-                  </div>
-            </div>
-            <div class="item">
-                  <div class="featured-cities">
-                  <a href="{{route('browse_freelancers')}}">
-                        <div class="feature-img">
-                              <img src="https://www.ttrweekly.com/site/wp-content/uploads/2019/12/mexico-city.jpg" style="height:300px" alt="">
-                            <div class="overly-bg"></div>
-                        </div>
-                      </a>
-                      <a href="{{route('browse_freelancers')}}">
-                        <div class="featured-text">
-                             <div class="city-title">Tulsa</div>
-                            <ins>190 Freelancers</ins>
-                        </div>
-               
-      </a>
-                </div>
-            </div>
+              @endforeach
          </div>
     </div>
     <div class="achivements">
@@ -112,7 +49,7 @@
                     <div class="achive-text">786k Jobs Found</div>
                 </div>
                 <div class="col-lg-2 col-md-6 col-12">
-               
+
      <div class="achive-text">1.2K Best Companies</div>
                 </div>
                 <div class="col-lg-4 col-md-6 col-12">
@@ -140,114 +77,17 @@
                 <div class="col-md-12 col-12">
                     <div class="job-categories mt-30">
                         <div class="row no-gutters">
+                @foreach($professions as $profession)
                             <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
                                 <div class="p-category">
                                     <a href="{{route('browse_jobs')}}" title="">
-                                        <img src="images/homepage/categories/icon-5.svg" alt="">
-                                        <span>Web, Mobile &amp; Software Dev</span>
+                                        <img src="{{$profession->p_image}}" alt="">
+                                        <span>{{$profession->profession}}</span>
                                         <p>150 Jobs</p>
                                     </a>
                                 </div>
                             </div>
-                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
-                                <div class="p-category">
-                                    <a href="{{route('browse_jobs')}}" title="">
-                                        <img src="images/homepage/categories/icon-2.svg" alt="">
-                                        <span>Data Science &amp; Analytics</span>
-                                        <p>120 Jobs</p>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
-                                <div class="p-category">
-                                    <a href="{{route('browse_jobs')}}" title="">
-                                        <img src="images/homepage/categories/icon-3.svg" alt="">
-                                        <span>Admin Support</span>
-                                        <p>290 Jobs</p>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
-                                <div class="p-category">
-                                    <a href="{{route('browse_jobs')}}" title="">
-                                        <img src="images/homepage/categories/icon-4.svg" alt="">
-                                        <span>Design &amp; Creative</span>
-                                        <p>250 Jobs</p>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
-                                <div class="p-category">
-                                    <a href="{{route('browse_jobs')}}" title="">
-                                        <img src="images/homepage/categories/icon-11.svg" alt="">
-                                        <span>Accounting &amp; Consulting</span>
-                                        <p>350 Jobs</p>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
-                                <div class="p-category">
-                                    <a href="{{route('browse_jobs')}}" title="">
-                                        <img src="images/homepage/categories/icon-13.svg" alt="">
-                                        <span>Writing</span>
-                                        <p>90 Jobs</p>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
-                                <div class="p-category">
-                                    <a href="{{route('browse_jobs')}}" title="">
-                                        <img src="images/homepage/categories/icon-14.svg" alt="">
-                                        <span>Legal</span>
-                                        <p>250 Jobs</p>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
-                                <div class="p-category">
-                                    <a href="{{route('browse_jobs')}}" title="">
-                                        <img src="images/homepage/categories/icon-15.svg" alt="">
-                                        <span>IT &amp; Networking</span>
-                                        <p>150 Jobs</p>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
-                                <div class="p-category">
-                                    <a href="{{route('browse_jobs')}}" title="">
-                                        <img src="images/homepage/categories/icon-9.svg" alt="">
-                                        <span>Sales &amp; Marketing</span>
-                                        <p>110 Jobs</p>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
-                                <div class="p-category">
-                                    <a href="{{route('browse_jobs')}}" title="">
-                                        <img src="images/homepage/categories/icon-16.svg" alt="">
-                                        <span>Customer Service</span>
-                                        <p>310 Jobs</p>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
-                                <div class="p-category">
-                                    <a href="{{route('browse_jobs')}}" title="">
-                                        <img src="images/homepage/categories/icon-17.svg" alt="">
-                                        <span>Translation</span>
-                                        <p>410 Jobs</p>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
-                                <div class="p-category">
-                                    <a href="{{route('browse_jobs')}}" title="">
-                                        <img src="images/homepage/categories/icon-7.svg" alt="">
-                                        <span>Engineering &amp; Architecture</span>
-                                        <p>190 Jobs</p>
-                                    </a>
-                                </div>
-                            </div>
+                    @endforeach
                         </div>
                     </div>
                 </div>

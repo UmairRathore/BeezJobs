@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\CityController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProfessionController;
@@ -111,6 +112,9 @@ Route::put('/update-user/{id}', [UserController::class, 'update'])->name('backen
 Route::get('/delete-user/{id}', [UserController::class, 'destroy'])->name('backend.delete-user');
 Route::post('/status-user/{id}', [UserController::class, 'changeStatus'])->name('status-user');
 
+//Admin
+Route::get('/admin-profile/{id}', [AdminController::class, 'edit'])->name('backend.edit-admin');
+Route::put('/admin-profile/{id}', [AdminController::class, 'update'])->name('backend.update-admin');
 
 //profession
 Route::get('/create_profession', [ProfessionController::class, 'showProfession'])->name('profession.show');
