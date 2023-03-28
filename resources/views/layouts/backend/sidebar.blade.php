@@ -42,8 +42,8 @@
         <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Pages:</h6>
-                <a class="collapse-item" href="{{route('backend.city-list')}}">City</a>
-                <a class="collapse-item" href="{{route('backend.profession-list')}}">Profession</a>
+                <a class="collapse-item" href="{{route('backend.city-list')}}">Cities</a>
+                <a class="collapse-item" href="{{route('backend.profession-list')}}">Category Professions</a>
             </div>
         </div>
     </li>
