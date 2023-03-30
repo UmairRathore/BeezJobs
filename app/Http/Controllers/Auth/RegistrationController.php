@@ -46,11 +46,14 @@ class RegistrationController extends Controller
         $this->data['user'] = $this->_model;
         $this->data['user']->email = $request->input('email');
         $this->data['user']->password = bcrypt($request->password);
-        //        $this->data['user']->latitude = $position->latitude;/
-//        $this->data['user']->longitude = $position->longitude;
+        $this->data['user']->location = $request->input('location');
+        $this->data['user']->latitude = $request->input('latitude');
+        $this->data['user']->longitude = $request->input('longitude');
         $this->data['user']->status = 0;
-        $this->data['user']->save();
+//        dd($this->data['user']);
+//        $this->data['user']->save();
         $check = $this->data['user']->save();
+//        dd($check);
         if ($check) {
             return redirect()->route('signin')->with('alert', 'Signup Successfully! You Can Login Now');
 

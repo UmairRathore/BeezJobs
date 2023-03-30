@@ -26,10 +26,32 @@ class User extends Authenticatable
         'tagline',
         'location',
         'role_id',
-        'profession_id',
+        'professions_id',
         'pay_rate',
         'websites'
     ];
+
+
+    public static function createRandomUsers($count = 10)
+    {
+        $faker = \Faker\Factory::create();
+
+        for ($i = 0; $i < $count; $i++) {
+            $user = new User();
+            $user->first_name = $faker->firstName();
+            $user->last_name = $faker->lastName();
+            $user->email = $faker->unique()->safeEmail();
+            $user->password = bcrypt('password');
+            $user->birthday = $faker->dateTimeBetween('-50 years', '-18 years')->format('Y-m-d');
+            $user->tagline = $faker->sentence(10);
+            $user->location = $faker->city();
+            $user->role_id = $faker->numberBetween(1, 2);
+            $user->professions_id = $faker->numberBetween(3, 10);
+            $user->pay_rate = $faker->randomFloat(2, 10, 50);
+            $user->websites = $faker->url();
+            $user->save();
+        }
+    }
 
     public function role()
     {

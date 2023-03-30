@@ -29,6 +29,12 @@ class UserController extends Controller
         $this->data['moduleName'] = 'User';
     }
     //
+    public function createRandomUsers()
+    {
+        User::createRandomUsers(11);
+        return redirect()->back();
+    }
+
     public function index()
 
     {

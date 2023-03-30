@@ -5,6 +5,8 @@
                 <div class="top-header-full">
                     <div class="top-left-hd">
                         <ul>
+                            <a href="{{route('add.random')}}"> add random users
+                            </a>
                             <li><div class="wlcm-text">Welcome to Jobby</div></li>
                             <li>
                                 <div class="lang-icon dropdown">

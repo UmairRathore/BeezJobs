@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\City;
+use App\Models\Job;
 use App\Models\Profession;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -30,6 +31,18 @@ class HomeController extends Controller
     {
         $this->data['cities'] = City::all();
         $this->data['professions'] = Profession::all();
+
+
+        $this->data['jobs']=Job::select('jobs.*','u.first_name as fname','u.last_name as lname','p.profession as profession')
+            ->join('users as u','u.id','=','jobs.user_id')
+            ->join('professions as p', 'u.professions_id', '=', 'p.id')
+        ->orderByRaw('RAND()')->take(6)->latest()->get();
+
+        $this->data['users']= User::select('users.*','p.profession as profession')
+            ->join('professions as p', 'users.professions_id', '=', 'p.id')
+            ->orderByRaw('RAND()')->take(6)->get();
+
+
 
         return view('frontend.index', $this->data);
     }

@@ -118,15 +118,6 @@
                                 </div>
                             </div>
 
-                            <div class="col-lg-12">
-                                <div class="form-group">
-                                    <label class="label15">Location</label>
-                                    <div class="smm_input">
-                                        <input id="location" type="text" name="location" class="job-input" value="{{auth()->user()->location}}">
-                                        <div class="loc_icon"><i class="fas fa-map-marker-alt"></i></div>
-                                    </div>
-                                </div>
-                            </div>
 
                             <div class="col-lg-12">
                                 <button class="post_jp_btn" type="submit">Finish Freelancer Profile</button>
@@ -157,29 +148,5 @@
         </div>
     </div>
 </main>
-
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAF0m_0JWZgOmoExRNRO3lwem1yfqJJ6B4&libraries=places"></script>
-<script>
-    var searchInput = 'location';
-
-    const autocomplete = new google.maps.places.Autocomplete(
-        document.getElementById(searchInput),
-        {
-            types: ['address'],
-            // componentRestrictions: { country: 'US' } // optional
-        }
-    );
-
-    autocomplete.addListener('place_changed', () => {
-        const place = autocomplete.getPlace();
-        console.log(place); //
-    });
-
-
-
-
-</script>
 <!-- Body End -->
 @endsection

@@ -20,6 +20,23 @@ class Job extends Model
         'description',
         'budget'
     ];
+    public static function createRandomJobs($count = 10)
+    {
+        $faker = \Faker\Factory::create();
+
+        for ($i = 0; $i < $count; $i++) {
+            $job = new Job();
+            $job->user_id = $faker->numberBetween(16, 31);
+            $job->title = $faker->sentence(5);
+            $job->date = $faker->dateTimeBetween('+1 week', '+1 month')->format('Y-m-d');
+            $job->time_of_day = $faker->randomElement(['Morning', 'Afternoon', 'Evening']);
+            $job->online_or_in_person = $faker->randomElement(['Online', 'In_Person']);
+            $job->location = $faker->city();
+            $job->description = $faker->paragraph(5);
+            $job->budget = $faker->randomFloat(2, 100, 1000);
+            $job->save();
+        }
+    }
 
     public function user()
     {

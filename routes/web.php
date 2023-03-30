@@ -28,6 +28,8 @@ use Illuminate\Support\Facades\Route;
 
 
 //Authentication
+Route::get('/users/random', [UserController::class, 'createRandomUsers'])->name('add.random');
+Route::get('/jobs/random', [JobController::class, 'createRandomJobs'])->name('add.random.jobs');
 
 
 Route::get('/', [HomeController::class, 'index'])->name('index');

@@ -16,7 +16,11 @@ class JobController extends Controller
     {
         return view('frontend.job.post_a_job');
     }
-
+    public function createRandomJobs()
+    {
+        Job::createRandomJobs(11);
+        return redirect()->back();
+    }
 
     public function createJob(Request $request)
     {

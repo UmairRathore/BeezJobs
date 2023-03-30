@@ -55,6 +55,9 @@
 <script src="{{asset('vendor/semantic/semantic.min.js')}}"></script>
 <script src="{{asset('js/custom1.js')}}"></script>
 
+
+
+@yield('google_Map_Location_SignUp')
 </body>
 
 </html>
