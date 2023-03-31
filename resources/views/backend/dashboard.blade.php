@@ -1,5 +1,10 @@
 @extends('layouts.backend.master')
 @section('title', 'Home')
+
+@section('datatableCSS')
+    <link rel="stylesheet" type="text/css" href="{{asset('https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css')}}">
+@endsection
+
 @section('content')
 
     <!-- Page Heading -->
@@ -120,7 +125,7 @@
                 @endif
 
                 <div class="table-responsive">
-                    <table id="professionlist" class="table table-striped thead-primary w-100">
+                    <table id="datatable" class="table table-striped thead-primary w-100">
                         @if(Session('info_deleted'))
                             <div class="alert alert-danger" role="alert">
                                 {{Session('info_deleted')}}
@@ -165,4 +170,14 @@
     </div>
 
 
+@endsection
+@section('datatableJs')
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+
+
+    <script>
+        $(document).ready( function () {
+            $('#datatable').DataTable();
+        } );
+    </script>
 @endsection
