@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Profession;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -108,14 +109,46 @@ class FreelancerDashboardController extends Controller
 
 
     }
-    function browse_freelancers()
+    function browse_freelancers(Request $request)
     {
-        $this->data['users']= User::select('users.*','p.profession as profession')
-            ->join('professions as p', 'users.professions_id', '=', 'p.id')
-            ->orderByRaw('RAND()')->take(6)->get();
+
+//        $this->data['users']= User::select('users.*','p.profession as profession')
+//            ->join('professions as p', 'users.professions_id', '=', 'p.id')
+//            ->orderBy('created_at', 'desc')->get();
+
+        $this->data['categories'] = Profession::get();
+        $category = $request->input('category');
+        $pay_rate_range = $request->input('pay_rate_range');
+        $location = $request->input('location');
+//dd($location);
+        $this->data['users'] = User::query()
+            ->join('professions', 'users.professions_id', '=', 'professions.id');
+
+        if (!empty($category)) {
+            $this->data['users']->where('professions.id', $category);
+        }
+
+        if (!empty($pay_rate_range)) {
+            $this->data['users']->where('pay_rate', '>=', $pay_rate_range);
+        }
+
+        if (!empty($location)) {
+//            dd($location);
+            $check = $this->data['users']->where('location', 'like', '%' . $location . '%');
+//        dd($check);
+        }
+//dd($this->data['users']);
+        $this->data['users'] = $this->data['users']->orderBy('created_at', 'desc')->get(['users.*', 'professions.profession as profession_name']);
 
         return view('frontend.freelancer.browse_freelancers', $this->data);
     }
+
+//    function user_search(Request $request)
+//    {
+//
+//
+//        return redirect()->back();
+//    }
     function other_freelancer_profile($id)
     {
         $this->data['users']= User::find($id)

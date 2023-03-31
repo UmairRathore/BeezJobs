@@ -93,6 +93,8 @@ Route::get('/job_single_view', [JobController::class, 'job_single_view'])->name(
 //backend
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
+//Route::get('/user_search', [FreelancerDashboardController::class, 'user_search'])->name('user.search');
+
 
 
 
