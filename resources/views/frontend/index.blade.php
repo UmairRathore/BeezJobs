@@ -87,7 +87,10 @@
                                         <a href="{{route('browse_jobs')}}" title="">
                                             <img src="{{$profession->p_image}}" alt="">
                                             <span>{{$profession->profession}}</span>
-                                            <p>150 Jobs</p>
+                                            <?php
+                                            $professioncount= \App\Models\User::where('professions_id',$profession->id)->count();
+                                            ?>
+                                            <p>{{$professioncount}}</p>
                                         </a>
                                     </div>
                                 </div>
