@@ -70,7 +70,9 @@
                             </div>
                             <div class="filter-dd">
                                 <div class="rg-slider">
-                                    <input class="rn-slider slider-input" type="range" value="5,500"/>
+                                    <input class="rn-slider slider-input" type="range" min="0" max="1000" step="1"  name="pay_rate_range"/>
+
+{{--                                    <input class="rn-slider slider-input" type="range" value="5,500"/>--}}
                                 </div>
                                 <div class="rg-limit">
                                     <h4>5</h4>
@@ -139,7 +141,7 @@
                                                         <div class="avialable">{{$user->time_of_da}}</div>
                                                     </div>
                                                 </div>
-                                                <div class="job-price hire-price">${{$user->payrate}}/hr</div>
+                                                <div class="job-price hire-price">${{$user->pay_rate}}/hr</div>
                                             </div>
                                             <div class="rating-location">
                                                 <div class="left-rating">
