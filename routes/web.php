@@ -65,7 +65,13 @@ Route::get('/my_freelancer_reviews', [FreelancerDashboardController::class, 'my_
 Route::post('/update_freelancer_social_media_links', [FreelancerDashboardController::class, 'update_freelancer_social_media_links'])->name('update_freelancer_social_media_links');
 Route::post('/change_freelancer_password', [FreelancerDashboardController::class, 'change_freelancer_password'])->name('change_freelancer_password');
 Route::get('/browse_freelancers', [FreelancerDashboardController::class, 'browse_freelancers'])->name('browse_freelancers');
-Route::get('/other_freelancer_profile', [FreelancerDashboardController::class, 'other_freelancer_profile'])->name('other_freelancer_profile');
+
+
+
+//OtherFreelancer
+Route::get('/other_freelancer_profile/{id}', [FreelancerDashboardController::class, 'other_freelancer_profile'])->name('other_freelancer_profile');
+Route::get('/other_freelancer_portfolio/{id}', [FreelancerDashboardController::class, 'other_freelancer_portfolio'])->name('other_freelancer_portfolio');
+Route::get('/other_freelancer_review/{id}', [FreelancerDashboardController::class, 'other_freelancer_review'])->name('other_freelancer_review');
 
 //portfolio
 Route::post('/add_freelancer_portfolio', [PortfolioController::class, 'add_freelancer_portfolio'])->name('add_freelancer_portfolio');

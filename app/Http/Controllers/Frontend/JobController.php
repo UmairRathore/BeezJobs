@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\City;
 use App\Models\Job;
+use App\Models\Profession;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -74,8 +77,13 @@ class JobController extends Controller
     }
     public function browse_jobs()
     {
-        return view('frontend.job.browse_jobs');
+               $this->data['jobs']=Job::select('jobs.*','u.first_name as fname','u.last_name as lname','p.profession as profession')
+            ->join('users as u','u.id','=','jobs.user_id')
+            ->join('professions as p', 'u.professions_id', '=', 'p.id')
+            ->orderByRaw('RAND()')->take(6)->latest()->get();
+        return view('frontend.job.browse_jobs',$this->data);
     }
+
     public function job_single_view()
     {
         return view('frontend.job.job_single_view');

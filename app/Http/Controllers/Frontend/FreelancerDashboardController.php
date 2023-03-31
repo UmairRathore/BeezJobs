@@ -110,11 +110,48 @@ class FreelancerDashboardController extends Controller
     }
     function browse_freelancers()
     {
-        return view('frontend.freelancer.browse_freelancers');
+        $this->data['users']= User::select('users.*','p.profession as profession')
+            ->join('professions as p', 'users.professions_id', '=', 'p.id')
+            ->orderByRaw('RAND()')->take(6)->get();
+
+        return view('frontend.freelancer.browse_freelancers', $this->data);
     }
-    function other_freelancer_profile()
+    function other_freelancer_profile($id)
     {
-        return view('frontend.freelancer.other_freelancer_profile');
+        $this->data['users']= User::find($id)
+            ->select('users.*','p.profession as profession')
+            ->join('professions as p', 'users.professions_id', '=', 'p.id')
+            ->first();
+//        dd($this->data['users']);
+
+        return view('frontend.freelancer.other_freelancer.other_freelancer_profile',$this->data);
+    }
+    function other_freelancer_portfolio($id)
+    {
+
+
+        $this->data['users']= User::find($id)
+            ->select('users.*','p.profession as profession')
+            ->join('professions as p', 'users.professions_id', '=', 'p.id')
+            ->where('users.id',$id)
+            ->first();
+
+                $this->data['portfolios']= Portfolio::where('user_id',$id)
+            ->get();
+
+
+        return view('frontend.freelancer.other_freelancer.portfolio.other_freelancer_portfolio',$this->data);
+    }
+
+    function other_freelancer_review($id)
+    {
+        $this->data['users']= User::find($id)
+            ->select('users.*','p.profession as profession')
+            ->join('professions as p', 'users.professions_id', '=', 'p.id')
+            ->where('users.id',$id)
+            ->first();
+
+        return view('frontend.freelancer.other_freelancer.other_freelancer_review',$this->data);
     }
 
 }

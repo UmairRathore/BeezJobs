@@ -12,26 +12,21 @@ t -->
 
 
 
-<div class="tit
-le-bar
-
-">			
-			<div class="
-container">
+<div class="title-bar">
+			<div class="container">
 				<div class="row">
-					<div class
-="col-lg-12">
+					<div class="col-lg-12">
 						<ol class="title-bar-text">
 							<li class="breadcrumb-item"><a href="/">Home</a></li>
 							<li class="breadcrumb-item active" aria-current="page">Browser Jobs</li>
 						</ol>
-					</div>		
-				</div>		
-			</div>		
+					</div>
+				</div>
+			</div>
 		</div>
 		<!-- Title Start -->
-		<!-- Body Start -->	
-		<main class="browse-section">				
+		<!-- Body Start -->
+		<main class="browse-section">
 			<div class="container">
 				<div class="row">
 					<div class="col-lg-4 col-md-5">
@@ -44,8 +39,8 @@ container">
 									<a href="#">Clear All Filters</a>
 								</div>
 							</div>
-							
-							
+
+
 							<div class="fltr-group">
 								<div class="fltr-items-heading">
 									<div class="fltr-item-left">
@@ -54,7 +49,7 @@ container">
 									<div class="fltr-item-right">
 										<a href="#">Clear</a>
 									</div>
-								</div>								
+								</div>
 								<div class="ui fluid search selection dropdown skills-search">
 									<input name="tags" type="hidden" value="">
 									<i class="dropdown icon"></i>
@@ -62,21 +57,21 @@ container">
 									<span class="sizer" style=""></span>
 									<div class="default text">Select a Category</div>
 									<div class="menu transition hidden" tabindex="-1">
-										<div class="item selected" data-value="Job1">Job 01</div>										
-										<div class="item" data-value="Job2">Job 02</div>										
-										<div class="item" data-value="Job3">Job 03</div>										
-										<div class="item" data-value="Job4">Job 04</div>										
-										<div class="item" data-value="Job5">Job 05</div>										
-										<div class="item" data-value="Job6">Job 06</div>										
-										<div class="item" data-value="Job7">Job 07</div>										
-										<div class="item" data-value="Job8">Job 08</div>										
-										<div class="item" data-value="Job9">Job 09</div>										
-										<div class="item" data-value="Job10">Job 10</div>										
-										<div class="item" data-value="Job11">Job 11</div>										
-										<div class="item" data-value="Job12">Job 12</div>										
-										<div class="item" data-value="Job13">Job 13</div>										
-										<div class="item" data-value="Job14">Job 14</div>										
-										<div class="item" data-value="Job15">Job 15</div>										
+										<div class="item selected" data-value="Job1">Job 01</div>
+										<div class="item" data-value="Job2">Job 02</div>
+										<div class="item" data-value="Job3">Job 03</div>
+										<div class="item" data-value="Job4">Job 04</div>
+										<div class="item" data-value="Job5">Job 05</div>
+										<div class="item" data-value="Job6">Job 06</div>
+										<div class="item" data-value="Job7">Job 07</div>
+										<div class="item" data-value="Job8">Job 08</div>
+										<div class="item" data-value="Job9">Job 09</div>
+										<div class="item" data-value="Job10">Job 10</div>
+										<div class="item" data-value="Job11">Job 11</div>
+										<div class="item" data-value="Job12">Job 12</div>
+										<div class="item" data-value="Job13">Job 13</div>
+										<div class="item" data-value="Job14">Job 14</div>
+										<div class="item" data-value="Job15">Job 15</div>
 									</div>
 								</div>
 							</div>
@@ -88,8 +83,8 @@ container">
 									<div class="fltr-item-right">
 										<a href="#">Clear</a>
 									</div>
-								</div>								
-								<div class="filter-dd">									
+								</div>
+								<div class="filter-dd">
 									<div class="rg-slider">
 										<input class="rn-slider slider-input" type="range" value="5,500" />
 									</div>
@@ -99,7 +94,7 @@ container">
 									</div>
 								</div>
 							</div>
-							
+
 							<div class="fltr-group fltr-gend">
 								<div class="fltr-items-heading">
 									<div class="fltr-item-left">
@@ -108,9 +103,9 @@ container">
 									<div class="fltr-item-right">
 										<a href="#">Clear</a>
 									</div>
-								</div>								
+								</div>
 								<div class="ui fluid search selection dropdown skills-search">
-									<input type="hidden" name="country">									
+									<input type="hidden" name="country">
 									<div class="default text">Select Country</div>
 									<i class="dropdown icon"></i>
 									<div class="menu transition hidden" tabindex="-1">
@@ -355,9 +350,9 @@ container">
 										<div class="item" data-value="eh"><i class="eh flag"></i>Western Sahara</div>
 										<div class="item" data-value="ye"><i class="ye flag"></i>Yemen</div>
 										<div class="item" data-value="zm"><i class="zm flag"></i>Zambia</div>
-										<div class="item" data-value="zw"><i class="zw flag"></i>Zimbabwe</div>																									
+										<div class="item" data-value="zw"><i class="zw flag"></i>Zimbabwe</div>
 									</div>
-								</div>								
+								</div>
 							</div>
 							<div class="filter-button">
 								<button class="flr-btn">Search Now</button>
@@ -365,7 +360,7 @@ container">
 						</div>
 					</div>
 					<div class="col-lg-8 col-md-7 mainpage">
-						
+
 						<div class="main-tabs">
 							<div class="res-tabs">
 								<div class=" mtab-left">
@@ -373,31 +368,12 @@ container">
 										<li class="nav-item">
 											<a href="#tab-1" class="nav-link active" data-toggle="tab">Newest Jobs</a>
 										</li>
-										<li class="nav-item">
-											<a href="#tab-2" class="nav-link" data-toggle="tab">Full Time</a>
-										</li>
-										<li class="nav-item">
-											<a href="#tab-3" class="nav-link" data-toggle="tab">Part Time</a>
-										</li>											
 									</ul>
 								</div>
 								<div class=" mtab-right">
 									<ul>
-										<li class="sort-list-dt">
-											<div class="ui selection dropdown skills-search sort-dropdown">
-												<input name="gender" type="hidden" value="default">
-												<i class="dropdown icon d-icon"></i>
-												<div class="text">Sort By</div>
-												<div class="menu">
-													<div class="item" data-value="0">Relevance</div>
-													<div class="item" data-value="1">New</div>
-													<div class="item" data-value="2">Old</div>
-													<div class="item" data-value="3">Last 15 Days</div>
-												</div>
-											</div>
-										</li>
-										<li class="grid-list">									
-											<button class="gl-btn" id="grid"><i class="fas fa-th-large"></i></button> 
+										<li class="grid-list">
+											<button class="gl-btn" id="grid"><i class="fas fa-th-large"></i></button>
 											<button class="gl-btn" id="list"><i class="fas fa-th-list"></i></button>
 										</li>
 									</ul>
@@ -406,208 +382,36 @@ container">
 							<div class="tab-content">
 								<div class="tab-pane active" id="tab-1">
 									<div class="row  view-group" id="products">
+                                        @foreach($jobs as $key => $job)
 										<div class="lg-item col-lg-6 col-xs-6 grid-group-item1">
 											<div class="job-item mt-30">
 												<div class="job-top-dt">
 													<div class="job-left-dt">
 														<img src="images/homepage/latest-jobs/img-1.jpg" alt="">
 														<div class="job-ut-dts">
-															<a href="#"><h4>John Doe</h4></a>
-															<span><i class="fas fa-map-marker-alt"></i> New York City</span>
+															<a href="#"><h4>{{$job->first_name.' '.$job->last_name}}</h4></a>
+															<span><i class="fas fa-map-marker-alt"></i> {{$job->location}}</span>
 														</div>
 													</div>
 													<div class="job-right-dt">
-														<div class="job-price">$599</div>
-														<div class="job-fp">Full Time</div>
+														<div class="job-price">${{$job->budget}}</div>
+														<div class="job-fp">{{$job->time_of_day}}</div>
 													</div>
 												</div>
 												<div class="job-des-dt">
-													<h4>UX Designer</h4>
+													<h4>{{$job->profession}}</h4>
 													<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam cursus pulvinar dolor nec...</p>
-													<div class="job-skills">
-														<a href="#">UX</a>
-														<a href="#">UI</a>
-														<a href="#">Photoshop</a>
-														<a href="#" class="more-skills">+4</a>
-													</div>
 												</div>
 												<div class="job-buttons">
 													<ul class="link-btn">
 														<li><a href="#" class="link-j1" title="Apply Now">APPLY NOW</a></li>
-																												<li><a href="{{route('job_single_view')}}" class="link-j1" title="View Job">View Job</a></li>
+                                                        <li><a href="{{route('job_single_view')}}" class="link-j1" title="View Job">View Job</a></li>
 														<li class="bkd-pm"><button class="bookmark1" title="bookmark"><i class="fas fa-heart"></i></button></li>
 													</ul>
 												</div>
 											</div>
 										</div>
-										<div class="lg-item col-lg-6 col-xs-6 grid-group-item1">
-											<div class="job-item mt-30">
-												<div class="job-top-dt">
-													<div class="job-left-dt">
-														<img src="images/homepage/latest-jobs/img-2.jpg" alt="">
-														<div class="job-ut-dts">
-															<a href="#"><h4>Johnson Smith</h4></a>
-															<span><i class="fas fa-map-marker-alt"></i> India</span>
-														</div>
-													</div>
-													<div class="job-right-dt">
-														<div class="job-price">$50/hr</div>
-														<div class="job-fp job-prt">Part Time</div>
-													</div>
-												</div>
-												<div class="job-des-dt">
-													<h4>PHP Developer</h4>
-													<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam cursus pulvinar dolor nec...</p>
-													<div class="job-skills">
-														<a href="#">Php</a>
-														<a href="#">Sql</a>
-														<a href="#">Javascript</a>
-														<a href="#" class="more-skills">+4</a>
-													</div>
-												</div>
-												<div class="job-buttons">
-													<ul class="link-btn">
-														<li><a href="#" class="link-j1" title="Apply Now">APPLY NOW</a></li>
-																												<li><a href="{{route('job_single_view')}}" class="link-j1" title="View Job">View Job</a></li>
-														<li class="bkd-pm"><button class="bookmark1" title="bookmark"><i class="fas fa-heart"></i></button></li>
-													</ul>
-												</div>
-											</div>
-										</div>
-										<div class="lg-item col-lg-6 col-xs-6 grid-group-item1">
-											<div class="job-item mt-30">
-												<div class="job-top-dt">
-													<div class="job-left-dt">
-														<img src="images/homepage/latest-jobs/img-3.jpg" alt="">
-														<div class="job-ut-dts">
-															<a href="#"><h4>Envato</h4></a>
-															<span><i class="fas fa-map-marker-alt"></i> Australia</span>
-														</div>
-													</div>
-													<div class="job-right-dt">
-														<div class="job-price">$900</div>
-														<div class="job-fp">Full Time</div>
-													</div>
-												</div>
-												<div class="job-des-dt">
-													<h4>Wordpress Developer</h4>
-													<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam cursus pulvinar dolor nec...</p>
-													<div class="job-skills">
-														<a href="#">Html</a>
-														<a href="#">Css</a>
-														<a href="#">Wordpress</a>
-														<a href="#" class="more-skills">+4</a>
-													</div>
-												</div>
-												<div class="job-buttons">
-													<ul class="link-btn">
-														<li><a href="#" class="link-j1" title="Apply Now">APPLY NOW</a></li>
-																												<li><a href="{{route('job_single_view')}}" class="link-j1" title="View Job">View Job</a></li>
-														<li class="bkd-pm"><button class="bookmark1" title="bookmark"><i class="fas fa-heart"></i></button></li>
-													</ul>
-												</div>
-											</div>
-										</div>
-										<div class="lg-item col-lg-6 col-xs-6 grid-group-item1">
-											<div class="job-item mt-30">
-												<div class="job-top-dt">
-													<div class="job-left-dt">
-														<img src="images/homepage/latest-jobs/img-4.jpg" alt="">
-														<div class="job-ut-dts">
-															<a href="#"><h4>Joy Smith</h4></a>
-															<span><i class="fas fa-map-marker-alt"></i> India</span>
-														</div>
-													</div>
-													<div class="job-right-dt">
-														<div class="job-price">$500</div>
-														<div class="job-fp">Full Time</div>
-													</div>
-												</div>
-												<div class="job-des-dt">
-													<h4>Graphic Designer</h4>
-													<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam cursus pulvinar dolor nec...</p>
-													<div class="job-skills">
-														<a href="#">Illistrator</a>
-														<a href="#">Photoshop</a>
-														<a href="#" class="more-skills">+4</a>
-													</div>
-												</div>
-												<div class="job-buttons">
-													<ul class="link-btn">
-														<li><a href="#" class="link-j1" title="Apply Now">APPLY NOW</a></li>
-																												<li><a href="{{route('job_single_view')}}" class="link-j1" title="View Job">View Job</a></li>
-														<li class="bkd-pm"><button class="bookmark1" title="bookmark"><i class="fas fa-heart"></i></button></li>
-													</ul>
-												</div>
-											</div>
-										</div>
-										<div class="lg-item col-lg-6 col-xs-6 grid-group-item1">
-											<div class="job-item mt-30">
-												<div class="job-top-dt">
-													<div class="job-left-dt">
-														<img src="images/homepage/latest-jobs/img-5.jpg" alt="">
-														<div class="job-ut-dts">
-															<a href="#"><h4>Jassica William</h4></a>
-															<span><i class="fas fa-map-marker-alt"></i> Australia</span>
-														</div>
-													</div>
-													<div class="job-right-dt">
-														<div class="job-price">$300</div>
-														<div class="job-fp">Full Time</div>
-													</div>
-												</div>
-												<div class="job-des-dt">
-													<h4>Delivery Boy</h4>
-													<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam cursus pulvinar dolor nec...</p>
-													<div class="job-skills">
-														<a href="#">Delivery</a>
-														<a href="#">Local</a>
-														<a href="#">Graduation</a>													
-													</div>
-												</div>
-												<div class="job-buttons">
-													<ul class="link-btn">
-														<li><a href="#" class="link-j1" title="Apply Now">APPLY NOW</a></li>
-														<li><a href="{{route('job_single_view')}}" class="link-j1" title="View Job">View Job</a></li>
-														<li class="bkd-pm"><button class="bookmark1" title="bookmark"><i class="fas fa-heart"></i></button></li>
-													</ul>
-												</div>
-											</div>
-										</div>
-										<div class="lg-item col-lg-6 col-xs-6 grid-group-item1">
-											<div class="job-item mt-30">
-												<div class="job-top-dt">
-													<div class="job-left-dt">
-														<img src="images/homepage/latest-jobs/img-6.jpg" alt="">
-														<div class="job-ut-dts">
-															<a href="#"><h4>Gambolthemes</h4></a>
-															<span><i class="fas fa-map-marker-alt"></i> India</span>
-														</div>
-													</div>
-													<div class="job-right-dt">
-														<div class="job-price">$60/hr</div>
-														<div class="job-fp">Full Time</div>
-													</div>
-												</div>
-												<div class="job-des-dt">
-													<h4>Front End Developer</h4>
-													<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam cursus pulvinar dolor nec...</p>
-													<div class="job-skills">
-														<a href="#">Html</a>
-														<a href="#">Css</a>
-														<a href="#">Boostrap</a>
-														<a href="#" class="more-skills">+4</a>
-													</div>
-												</div>
-												<div class="job-buttons">
-													<ul class="link-btn">
-														<li><a href="#" class="link-j1" title="Apply Now">APPLY NOW</a></li>
-													    <li><a href="{{route('job_single_view')}}" class="link-j1" title="View Job">View Job</a></li>
-														<li class="bkd-pm"><button class="bookmark1" title="bookmark"><i class="fas fa-heart"></i></button></li>
-													</ul>
-												</div>
-											</div>
-										</div>
+                                        @endforeach
 										<div class="col-12">
 											<div class="main-p-pagination">
 												<nav aria-label="Page navigation example">
@@ -629,469 +433,14 @@ container">
 													</ul>
 												</nav>
 											</div>
-										</div>										
+										</div>
 									</div>
-								</div>		
-								<div class="tab-pane" id="tab-2">
-									<div class="row  view-group" id="products_1">
-										<div class="lg-item col-lg-6 col-xs-6 grid-group-item1">
-											<div class="job-item mt-30">
-												<div class="job-top-dt">
-													<div class="job-left-dt">
-														<img src="images/homepage/latest-jobs/img-1.jpg" alt="">
-														<div class="job-ut-dts">
-															<a href="#"><h4>John Doe</h4></a>
-															<span><i class="fas fa-map-marker-alt"></i> New York City</span>
-														</div>
-													</div>
-													<div class="job-right-dt">
-														<div class="job-price">$599</div>
-														<div class="job-fp">Full Time</div>
-													</div>
-												</div>
-												<div class="job-des-dt">
-													<h4>UX Designer</h4>
-													<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam cursus pulvinar dolor nec...</p>
-													<div class="job-skills">
-														<a href="#">UX</a>
-														<a href="#">UI</a>
-														<a href="#">Photoshop</a>
-														<a href="#" class="more-skills">+4</a>
-													</div>
-												</div>
-												<div class="job-buttons">
-													<ul class="link-btn">
-														<li><a href="#" class="link-j1" title="Apply Now">APPLY NOW</a></li>
-																												<li><a href="{{route('job_single_view')}}" class="link-j1" title="View Job">View Job</a></li>
-														<li class="bkd-pm"><button class="bookmark1" title="bookmark"><i class="fas fa-heart"></i></button></li>
-													</ul>
-												</div>
-											</div>
-										</div>
-										<div class="lg-item col-lg-6 col-xs-6 grid-group-item1">
-											<div class="job-item mt-30">
-												<div class="job-top-dt">
-													<div class="job-left-dt">
-														<img src="images/homepage/latest-jobs/img-2.jpg" alt="">
-														<div class="job-ut-dts">
-															<a href="#"><h4>Johnson Smith</h4></a>
-															<span><i class="fas fa-map-marker-alt"></i> India</span>
-														</div>
-													</div>
-													<div class="job-right-dt">
-														<div class="job-price">$50/hr</div>
-														<div class="job-fp">Full Time</div>
-													</div>
-												</div>
-												<div class="job-des-dt">
-													<h4>PHP Developer</h4>
-													<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam cursus pulvinar dolor nec...</p>
-													<div class="job-skills">
-														<a href="#">Php</a>
-														<a href="#">Sql</a>
-														<a href="#">Javascript</a>
-														<a href="#" class="more-skills">+4</a>
-													</div>
-												</div>
-												<div class="job-buttons">
-													<ul class="link-btn">
-														<li><a href="#" class="link-j1" title="Apply Now">APPLY NOW</a></li>
-																												<li><a href="{{route('job_single_view')}}" class="link-j1" title="View Job">View Job</a></li>
-														<li class="bkd-pm"><button class="bookmark1" title="bookmark"><i class="fas fa-heart"></i></button></li>
-													</ul>
-												</div>
-											</div>
-										</div>
-										<div class="lg-item col-lg-6 col-xs-6 grid-group-item1">
-											<div class="job-item mt-30">
-												<div class="job-top-dt">
-													<div class="job-left-dt">
-														<img src="images/homepage/latest-jobs/img-3.jpg" alt="">
-														<div class="job-ut-dts">
-															<a href="#"><h4>Envato</h4></a>
-															<span><i class="fas fa-map-marker-alt"></i> Australia</span>
-														</div>
-													</div>
-													<div class="job-right-dt">
-														<div class="job-price">$900</div>
-														<div class="job-fp">Full Time</div>
-													</div>
-												</div>
-												<div class="job-des-dt">
-													<h4>Wordpress Developer</h4>
-													<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam cursus pulvinar dolor nec...</p>
-													<div class="job-skills">
-														<a href="#">Html</a>
-														<a href="#">Css</a>
-														<a href="#">Wordpress</a>
-														<a href="#" class="more-skills">+4</a>
-													</div>
-												</div>
-												<div class="job-buttons">
-													<ul class="link-btn">
-														<li><a href="#" class="link-j1" title="Apply Now">APPLY NOW</a></li>
-																												<li><a href="{{route('job_single_view')}}" class="link-j1" title="View Job">View Job</a></li>
-														<li class="bkd-pm"><button class="bookmark1" title="bookmark"><i class="fas fa-heart"></i></button></li>
-													</ul>
-												</div>
-											</div>
-										</div>
-										<div class="lg-item col-lg-6 col-xs-6 grid-group-item1">
-											<div class="job-item mt-30">
-												<div class="job-top-dt">
-													<div class="job-left-dt">
-														<img src="images/homepage/latest-jobs/img-4.jpg" alt="">
-														<div class="job-ut-dts">
-															<a href="#"><h4>Joy Smith</h4></a>
-															<span><i class="fas fa-map-marker-alt"></i> India</span>
-														</div>
-													</div>
-													<div class="job-right-dt">
-														<div class="job-price">$500</div>
-														<div class="job-fp">Full Time</div>
-													</div>
-												</div>
-												<div class="job-des-dt">
-													<h4>Graphic Designer</h4>
-													<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam cursus pulvinar dolor nec...</p>
-													<div class="job-skills">
-														<a href="#">Illistrator</a>
-														<a href="#">Photoshop</a>
-														<a href="#" class="more-skills">+4</a>
-													</div>
-												</div>
-												<div class="job-buttons">
-													<ul class="link-btn">
-														<li><a href="#" class="link-j1" title="Apply Now">APPLY NOW</a></li>
-																												<li><a href="{{route('job_single_view')}}" class="link-j1" title="View Job">View Job</a></li>
-														<li class="bkd-pm"><button class="bookmark1" title="bookmark"><i class="fas fa-heart"></i></button></li>
-													</ul>
-												</div>
-											</div>
-										</div>
-										<div class="lg-item col-lg-6 col-xs-6 grid-group-item1">
-											<div class="job-item mt-30">
-												<div class="job-top-dt">
-													<div class="job-left-dt">
-														<img src="images/homepage/latest-jobs/img-5.jpg" alt="">
-														<div class="job-ut-dts">
-															<a href="#"><h4>Jassica William</h4></a>
-															<span><i class="fas fa-map-marker-alt"></i> Australia</span>
-														</div>
-													</div>
-													<div class="job-right-dt">
-														<div class="job-price">$300</div>
-														<div class="job-fp">Full Time</div>
-													</div>
-												</div>
-												<div class="job-des-dt">
-													<h4>Delivery Boy</h4>
-													<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam cursus pulvinar dolor nec...</p>
-													<div class="job-skills">
-														<a href="#">Delivery</a>
-														<a href="#">Local</a>
-														<a href="#">Graduation</a>													
-													</div>
-												</div>
-												<div class="job-buttons">
-													<ul class="link-btn">
-														<li><a href="#" class="link-j1" title="Apply Now">APPLY NOW</a></li>
-																												<li><a href="{{route('job_single_view')}}" class="link-j1" title="View Job">View Job</a></li>
-														<li class="bkd-pm"><button class="bookmark1" title="bookmark"><i class="fas fa-heart"></i></button></li>
-													</ul>
-												</div>
-											</div>
-										</div>
-										<div class="lg-item col-lg-6 col-xs-6 grid-group-item1">
-											<div class="job-item mt-30">
-												<div class="job-top-dt">
-													<div class="job-left-dt">
-														<img src="images/homepage/latest-jobs/img-6.jpg" alt="">
-														<div class="job-ut-dts">
-															<a href="#"><h4>Gambolthemes</h4></a>
-															<span><i class="fas fa-map-marker-alt"></i> India</span>
-														</div>
-													</div>
-													<div class="job-right-dt">
-														<div class="job-price">$60/hr</div>
-														<div class="job-fp">Full Time</div>
-													</div>
-												</div>
-												<div class="job-des-dt">
-													<h4>Front End Developer</h4>
-													<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam cursus pulvinar dolor nec...</p>
-													<div class="job-skills">
-														<a href="#">Html</a>
-														<a href="#">Css</a>
-														<a href="#">Boostrap</a>
-														<a href="#" class="more-skills">+4</a>
-													</div>
-												</div>
-												<div class="job-buttons">
-													<ul class="link-btn">
-														<li><a href="#" class="link-j1" title="Apply Now">APPLY NOW</a></li>
-																												<li><a href="{{route('job_single_view')}}" class="link-j1" title="View Job">View Job</a></li>
-														<li class="bkd-pm"><button class="bookmark1" title="bookmark"><i class="fas fa-heart"></i></button></li>
-													</ul>
-												</div>
-											</div>
-										</div>
-										<div class="col-12">
-											<div class="main-p-pagination">
-												<nav aria-label="Page navigation example">
-													<ul class="pagination">
-														<li class="page-item">
-															<a class="page-link" href="#" aria-label="Previous">
-																PREV
-															</a>
-														</li>
-														<li class="page-item"><a class="page-link active" href="#">1</a></li>
-														<li class="page-item"><a class="page-link" href="#">2</a></li>
-														<li class="page-item"><a class="page-link" href="#">...</a></li>
-														<li class="page-item"><a class="page-link" href="#">10</a></li>
-														<li class="page-item">
-															<a class="page-link" href="#" aria-label="Next">
-																NEXT
-															</a>
-														</li>
-													</ul>
-												</nav>
-											</div>
-										</div>										
-									</div>
-								</div>	
-								<div class="tab-pane" id="tab-3">
-									<div class="row  view-group" id="products_2">
-										<div class="lg-item col-lg-6 col-xs-6 grid-group-item1">
-											<div class="job-item mt-30">
-												<div class="job-top-dt">
-													<div class="job-left-dt">
-														<img src="images/homepage/latest-jobs/img-1.jpg" alt="">
-														<div class="job-ut-dts">
-															<a href="#"><h4>John Doe</h4></a>
-															<span><i class="fas fa-map-marker-alt"></i> New York City</span>
-														</div>
-													</div>
-													<div class="job-right-dt">
-														<div class="job-price">$599</div>
-														<div class="job-fp job-prt">Part Time</div>
-													</div>
-												</div>
-												<div class="job-des-dt">
-													<h4>UX Designer</h4>
-													<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam cursus pulvinar dolor nec...</p>
-													<div class="job-skills">
-														<a href="#">UX</a>
-														<a href="#">UI</a>
-														<a href="#">Photoshop</a>
-														<a href="#" class="more-skills">+4</a>
-													</div>
-												</div>
-												<div class="job-buttons">
-													<ul class="link-btn">
-														<li><a href="#" class="link-j1" title="Apply Now">APPLY NOW</a></li>
-																												<li><a href="{{route('job_single_view')}}" class="link-j1" title="View Job">View Job</a></li>
-														<li class="bkd-pm"><button class="bookmark1" title="bookmark"><i class="fas fa-heart"></i></button></li>
-													</ul>
-												</div>
-											</div>
-										</div>
-										<div class="lg-item col-lg-6 col-xs-6 grid-group-item1">
-											<div class="job-item mt-30">
-												<div class="job-top-dt">
-													<div class="job-left-dt">
-														<img src="images/homepage/latest-jobs/img-2.jpg" alt="">
-														<div class="job-ut-dts">
-															<a href="#"><h4>Johnson Smith</h4></a>
-															<span><i class="fas fa-map-marker-alt"></i> India</span>
-														</div>
-													</div>
-													<div class="job-right-dt">
-														<div class="job-price">$50/hr</div>
-														<div class="job-fp job-prt">Part Time</div>
-													</div>
-												</div>
-												<div class="job-des-dt">
-													<h4>PHP Developer</h4>
-													<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam cursus pulvinar dolor nec...</p>
-													<div class="job-skills">
-														<a href="#">Php</a>
-														<a href="#">Sql</a>
-														<a href="#">Javascript</a>
-														<a href="#" class="more-skills">+4</a>
-													</div>
-												</div>
-												<div class="job-buttons">
-													<ul class="link-btn">
-														<li><a href="#" class="link-j1" title="Apply Now">APPLY NOW</a></li>
-																												<li><a href="{{route('job_single_view')}}" class="link-j1" title="View Job">View Job</a></li>
-														<li class="bkd-pm"><button class="bookmark1" title="bookmark"><i class="fas fa-heart"></i></button></li>
-													</ul>
-												</div>
-											</div>
-										</div>
-										<div class="lg-item col-lg-6 col-xs-6 grid-group-item1">
-											<div class="job-item mt-30">
-												<div class="job-top-dt">
-													<div class="job-left-dt">
-														<img src="images/homepage/latest-jobs/img-3.jpg" alt="">
-														<div class="job-ut-dts">
-															<a href="#"><h4>Envato</h4></a>
-															<span><i class="fas fa-map-marker-alt"></i> Australia</span>
-														</div>
-													</div>
-													<div class="job-right-dt">
-														<div class="job-price">$900</div>
-														<div class="job-fp job-prt">Part Time</div>
-													</div>
-												</div>
-												<div class="job-des-dt">
-													<h4>Wordpress Developer</h4>
-													<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam cursus pulvinar dolor nec...</p>
-													<div class="job-skills">
-														<a href="#">Html</a>
-														<a href="#">Css</a>
-														<a href="#">Wordpress</a>
-														<a href="#" class="more-skills">+4</a>
-													</div>
-												</div>
-												<div class="job-buttons">
-													<ul class="link-btn">
-														<li><a href="#" class="link-j1" title="Apply Now">APPLY NOW</a></li>
-																												<li><a href="{{route('job_single_view')}}" class="link-j1" title="View Job">View Job</a></li>
-														<li class="bkd-pm"><button class="bookmark1" title="bookmark"><i class="fas fa-heart"></i></button></li>
-													</ul>
-												</div>
-											</div>
-										</div>
-										<div class="lg-item col-lg-6 col-xs-6 grid-group-item1">
-											<div class="job-item mt-30">
-												<div class="job-top-dt">
-													<div class="job-left-dt">
-														<img src="images/homepage/latest-jobs/img-4.jpg" alt="">
-														<div class="job-ut-dts">
-															<a href="#"><h4>Joy Smith</h4></a>
-															<span><i class="fas fa-map-marker-alt"></i> India</span>
-														</div>
-													</div>
-													<div class="job-right-dt">
-														<div class="job-price">$500</div>
-														<div class="job-fp job-prt">Part Time</div>
-													</div>
-												</div>
-												<div class="job-des-dt">
-													<h4>Graphic Designer</h4>
-													<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam cursus pulvinar dolor nec...</p>
-													<div class="job-skills">
-														<a href="#">Illistrator</a>
-														<a href="#">Photoshop</a>
-														<a href="#" class="more-skills">+4</a>
-													</div>
-												</div>
-												<div class="job-buttons">
-													<ul class="link-btn">
-														<li><a href="#" class="link-j1" title="Apply Now">APPLY NOW</a></li>
-																												<li><a href="{{route('job_single_view')}}" class="link-j1" title="View Job">View Job</a></li>
-														<li class="bkd-pm"><button class="bookmark1" title="bookmark"><i class="fas fa-heart"></i></button></li>
-													</ul>
-												</div>
-											</div>
-										</div>
-										<div class="lg-item col-lg-6 col-xs-6 grid-group-item1">
-											<div class="job-item mt-30">
-												<div class="job-top-dt">
-													<div class="job-left-dt">
-														<img src="images/homepage/latest-jobs/img-5.jpg" alt="">
-														<div class="job-ut-dts">
-															<a href="#"><h4>Jassica William</h4></a>
-															<span><i class="fas fa-map-marker-alt"></i> Australia</span>
-														</div>
-													</div>
-													<div class="job-right-dt">
-														<div class="job-price">$300</div>
-														<div class="job-fp job-prt">Part Time</div>
-													</div>
-												</div>
-												<div class="job-des-dt">
-													<h4>Delivery Boy</h4>
-													<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam cursus pulvinar dolor nec...</p>
-													<div class="job-skills">
-														<a href="#">Delivery</a>
-														<a href="#">Local</a>
-														<a href="#">Graduation</a>													
-													</div>
-												</div>
-												<div class="job-buttons">
-													<ul class="link-btn">
-														<li><a href="#" class="link-j1" title="Apply Now">APPLY NOW</a></li>
-														<li><a href="{{route('job_single_view')}}" class="link-j1" title="View Job">View Job</a></li>
-														<li class="bkd-pm"><button class="bookmark1" title="bookmark"><i class="fas fa-heart"></i></button></li>
-													</ul>
-												</div>
-											</div>
-										</div>
-										<div class="lg-item col-lg-6 col-xs-6 grid-group-item1">
-											<div class="job-item mt-30">
-												<div class="job-top-dt">
-													<div class="job-left-dt">
-														<img src="images/homepage/latest-jobs/img-6.jpg" alt="">
-														<div class="job-ut-dts">
-															<a href="#"><h4>Gambolthemes</h4></a>
-															<span><i class="fas fa-map-marker-alt"></i> India</span>
-														</div>
-													</div>
-													<div class="job-right-dt">
-														<div class="job-price">$60/hr</div>
-														<div class="job-fp job-prt">Part Time</div>
-													</div>
-												</div>
-												<div class="job-des-dt">
-													<h4>Front End Developer</h4>
-													<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam cursus pulvinar dolor nec...</p>
-													<div class="job-skills">
-														<a href="#">Html</a>
-														<a href="#">Css</a>
-														<a href="#">Boostrap</a>
-														<a href="#" class="more-skills">+4</a>
-													</div>
-												</div>
-												<div class="job-buttons">
-													<ul class="link-btn">
-														<li><a href="#" class="link-j1" title="Apply Now">APPLY NOW</a></li>
-																												<li><a href="{{route('job_single_view')}}" class="link-j1" title="View Job">View Job</a></li>
-														<li class="bkd-pm"><button class="bookmark1" title="bookmark"><i class="fas fa-heart"></i></button></li>
-													</ul>
-												</div>
-											</div>
-										</div>
-										<div class="col-12">
-											<div class="main-p-pagination">
-												<nav aria-label="Page navigation example">
-													<ul class="pagination">
-														<li class="page-item">
-															<a class="page-link" href="#" aria-label="Previous">
-																PREV
-															</a>
-														</li>
-														<li class="page-item"><a class="page-link active" href="#">1</a></li>
-														<li class="page-item"><a class="page-link" href="#">2</a></li>
-														<li class="page-item"><a class="page-link" href="#">3</a></li>
-														<li class="page-item">
-															<a class="page-link" href="#" aria-label="Next">
-																NEXT
-															</a>
-														</li>
-													</ul>
-												</nav>
-											</div>
-										</div>										
-									</div>
-								</div>	
-							</div>														
-						</div>														
-					</div>													
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
-			</div>					
+			</div>
 		</main>
 		<!-- Body End -->
 @endsection
