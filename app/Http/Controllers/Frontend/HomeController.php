@@ -42,8 +42,6 @@ class HomeController extends Controller
             ->join('professions as p', 'users.professions_id', '=', 'p.id')
             ->orderByRaw('RAND()')->take(6)->get();
 
-
-
         return view('frontend.index', $this->data);
     }
 

@@ -75,14 +75,49 @@ class JobController extends Controller
         //        }
 
     }
-    public function browse_jobs()
+    public function browse_jobs(Request $request)
     {
-               $this->data['jobs']=Job::select('jobs.*','u.first_name as fname','u.last_name as lname','p.profession as profession')
-            ->join('users as u','u.id','=','jobs.user_id')
-            ->join('professions as p', 'u.professions_id', '=', 'p.id')
-            ->orderByRaw('RAND()')->take(6)->latest()->get();
+
+        $this->data['categories'] = Profession::get();
+
+
+        $this->data['jobs'] = Job::select('jobs.*','users.*','professions.*')
+            ->join('users', 'users.id', '=', 'jobs.user_id')
+            ->join('professions', 'users.professions_id', '=', 'professions.id');
+
+        $search = $request->search;
+        $category = $request->category;
+        $pay_rate_range = $request->pay_rate_range;
+        $location = $request->location;
+
+
+//        dd($search);
+        if (!empty($search)) {
+            $this->data['jobs']->where('professions.profession','like','% '.$search.'%')
+                ->orwhere('jobs.location', 'like', '%'.$search.'%');
+        }
+        if (!empty($category)) {
+            $this->data['jobs']->where('professions.id', $category);
+        }
+
+        if (!empty($pay_rate_range)) {
+            $this->data['jobs']->where('jobs.budget', '>=', $pay_rate_range);
+        }
+
+        if (!empty($location)) {
+            $this->data['jobs']->where('jobs.location', 'like', '%' . $location . '%');
+        }
+
+        $this->data['jobs'] = $this->data['jobs']->orderBy('jobs.created_at', 'desc')->get();
+
+//dd($this->data['jobs']);
+
         return view('frontend.job.browse_jobs',$this->data);
     }
+
+
+
+
 
     public function job_single_view()
     {

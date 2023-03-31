@@ -4,18 +4,20 @@
 
     <div class="Search-section">
         <div class="container">
+            <form method="get" action="{{route('browse_jobs')}}">
             <div class="row">
                 <div class="col-lg-10 col-md-5 col-12">
                     <div class="form-group mb-0">
-                        <input class="search-1" type="text" placeholder="Keywords (e.g. Location,Job Title, Position...)">
+                        <input name="search" class="search-1" type="text" placeholder="Keywords (e.g. Location,Job Title,...)">
                     </div>
                 </div>
                 <div class="col-lg-2 col-md-3 col-12 mt-15">
-                    <a href="{{route('browse_jobs')}}">
+{{--                    <a href="{{route('browse_jobs')}}">--}}
                         <button class="srch-btn" type="submit">Search Now</button>
-                    </a>
+{{--                    </a>--}}
                 </div>
             </div>
+        </form>
         </div>
     </div>
     <div class="banner-slider">
@@ -24,16 +26,19 @@
                 <div class="item">
 
                     <div class="featured-cities">
-                        <a href="{{route('browse_freelancers')}}">
+                        <a href="{{ route('browse_freelancers') }}?location={{ $city->city }}">
                             <div class="feature-img">
                                 <img src="{{asset($city->c_image)}}" style="height:300px" alt="">
                                 <div class="overly-bg"></div>
                             </div>
                         </a>
-                        <a href="{{route('browse_freelancers')}}">
+                        <a href="{{ route('browse_freelancers') }}?location={{ $city->city }}">
                             <div class="featured-text">
                                 <div class="city-title">{{$city->city}}</div>
+{{--                                <form>--}}
+{{--                                <input type="hidden" name="location" value="$city->city">--}}
                                 <ins>125 Freelancers</ins>
+{{--                                </form>--}}
                             </div>
                         </a>
                     </div>
