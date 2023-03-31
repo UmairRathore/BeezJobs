@@ -58,6 +58,7 @@
 
 
 @yield('google_Map_Location_SignUp')
+@yield('Location')
 </body>
 
 </html>
