@@ -32,37 +32,37 @@
             <div class="footer-links">
                 <h4>About</h4>
                 <ul>
-                    <li><a href="about.html">About Us</a></li>
-                    <li><a href="sign_in.html">Login</a></li>
-                    <li><a href="my_freelancer_profile.html">My Account</a></li>
-                    <li><a href="contact_us.html">Contact</a></li>
-                    <li><a href="privacy_policy.html">Privacy Policy</a></li>
-                    <li><a href="Terms.html">Terms of Use</a></li>
+                    <li><a href="{{route('about.us')}}">About Us</a></li>
+                    <li><a href="{{route('signin')}}">Login</a></li>
+                    <li><a href="{{route('contact.us')}}">Contact</a></li>
+                    <li><a href="{{route('privacy.policy')}}">Privacy Policy</a></li>
+                    <li><a href="{{route('terms')}}">Terms of Use</a></li>
+{{--                    <li><a href="my_freelancer_profile.html">My Account</a></li>--}}
                 </ul>
             </div>
         </div>
         <div class="col-lg-3 col-md-3">
             <div class="footer-links">
-                <h4>For Companies</h4>
+                <h4>For Users</h4>
                 <ul>
-                    <li><a href="browse_freelancers.html">Browese Freelancers</a></li>
-                    <li><a href="post_a_job.html">Post a Job</a></li>
-                    <li><a href="post_a_project.html">Post a Project</a></li>
-                    <li><a href="pricing_plans.html">Pricing Plans</a></li>
+                    <li><a href="{{route('browse_freelancers')}}">Browese Freelancers</a></li>
+                    <li><a href="{{route('browse_jobs')}}">Browese Jobs</a></li>
+                    <li><a href="{{(route('post_a_job'))}}">Post a Job</a></li>
+
                 </ul>
             </div>
         </div>
-        <div class="col-lg-3 col-md-3">
-            <div class="footer-links">
-                <h4>For Candidates</h4>
-                <ul>
-                    <li><a href="browse_jobs.html">Browese Jobs</a></li>
-                    <li><a href="my_freelancer_jobs.html">Jobs Alerts</a></li>
-                    <li><a href="my_freelancer_jobs.html">Applied Jobs</a></li>
-                    <li><a href="my_freelancer_bookmarks.html">Bookmarks</a></li>
-                </ul>
-            </div>
-        </div>
+{{--        <div class="col-lg-3 col-md-3">--}}
+{{--            <div class="footer-links">--}}
+{{--                <h4>For Candidates</h4>--}}
+{{--                <ul>--}}
+{{--                    <li><a href="{{route('browse_jobs')}}">Browese Jobs</a></li>--}}
+{{--                    <li><a href="my_freelancer_jobs.html">Jobs Alerts</a></li>--}}
+{{--                    <li><a href="my_freelancer_jobs.html">Applied Jobs</a></li>--}}
+{{--                    <li><a href="my_freelancer_bookmarks.html">Bookmarks</a></li>--}}
+{{--                </ul>--}}
+{{--            </div>--}}
+{{--        </div>--}}
     </div>
 </div>
 <div class="copy-social">
