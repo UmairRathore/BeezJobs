@@ -1,10 +1,10 @@
 @extends('layouts.frontend.master')
-@section('title', 'Home')
+@section('title', 'Job')
 
 
 @section('content')
 <!-- Title Start -->
-<div class="title-bar">			
+<div class="title-bar">
 			<div class="container">
 				<div class="row">
 					<div class="col-lg-12">
@@ -13,42 +13,42 @@
 							<li class="breadcrumb-item"><a href="browse_projects.html">Browser Projects</a></li>
 							<li class="breadcrumb-item active" aria-current="page">Project Single View</li>
 						</ol>
-					</div>		
-				</div>		
-			</div>		
+					</div>
+				</div>
+			</div>
 		</div>
 		<!-- Title Start -->
-		<!-- Body Start -->	
-		<main class="browse-section">				
+		<!-- Body Start -->
+		<main class="browse-section">
 			<div class="container">
 				<div class="row">
 					<div class="col-lg-9 col-md-8">
 						<div class="view_details">
 							<ul>
-								<li>
-									<div class="vw_items">
-										<i class="fas fa-eye"></i>
-										<div class="vw_item_text">
-											<h6>Views</h6>
-											<span>135</span>
-										</div>
-									</div>
-								</li>
-								<li>
-									<div class="vw_items">
-										<i class="fas fa-shield-alt"></i>
-										<div class="vw_item_text">
-											<h6>Verify</h6>
-											<span>Yes</span>
-										</div>
-									</div>
-								</li>								
+{{--								<li>--}}
+{{--									<div class="vw_items">--}}
+{{--										<i class="fas fa-eye"></i>--}}
+{{--										<div class="vw_item_text">--}}
+{{--											<h6>Views</h6>--}}
+{{--											<span>135</span>--}}
+{{--										</div>--}}
+{{--									</div>--}}
+{{--								</li>--}}
+{{--								<li>--}}
+{{--									<div class="vw_items">--}}
+{{--										<i class="fas fa-shield-alt"></i>--}}
+{{--										<div class="vw_item_text">--}}
+{{--											<h6>Verify</h6>--}}
+{{--											<span>Yes</span>--}}
+{{--										</div>--}}
+{{--									</div>--}}
+{{--								</li>								--}}
 								<li>
 									<div class="vw_items">
 										<i class="far fa-money-bill-alt"></i>
 										<div class="vw_item_text">
 											<h6>Budget</h6>
-											<span>$500 - $2000</span>
+											<span>${{$job->budget}}</span>
 										</div>
 									</div>
 								</li>
@@ -57,53 +57,39 @@
 										<i class="far fa-clock"></i>
 										<div class="vw_item_text">
 											<h6>Posted Date</h6>
-											<span>4 days ago</span>
+											<span>{{$job->created_at->diffForHumans()}}</span>
 										</div>
 									</div>
-								</li>								
+								</li>
 							</ul>
 						</div>
 						<div class="job-item ptrl_2 mt-20">
-							<div class="job-top-dt">
+{{--							@foreach($jobs as $job)--}}
+                            <div class="job-top-dt">
 								<div class="job-left-dt">
-									<img src="images/homepage/latest-jobs/img-1.jpg" alt="">
+                                    @if($job->profile_image)
+                                        <img src="{{asset($job->profile_image)}}" alt="">
+                                    @else
+                                        <img src="images/homepage/latest-jobs/img-1.jpg" alt="">
+                                    @endif
 									<div class="job-ut-dts">
-										<a href="#"><h4>John Doe</h4></a>
-										<span><i class="fas fa-map-marker-alt"></i> New York City</span>
+										<a href="#"><h4>{{$job->fname.' '.$job->lname}}</h4></a>
+										<span><i class="fas fa-map-marker-alt"></i>{{$job->location}}</span>
 									</div>
 								</div>
 								<div class="job-right-dt">
-									<div class="job-price">$500 - $2000</div>
+									<div class="job-price">${{$job->budget}}</div>
 								</div>
 							</div>
-							
+{{--                            @endforeach--}}
 							<div class="job_dts">
-								<h4>Attachments</h4>
-								<ul class="download_files">
-									<li>
-										<div class="dwn_fls">
-											<div class="dwn-header">
-												<h6>Project Briefing Details</h6>												
-											</div>
-											<div class="dwn-footer">
-												<span>PDF</span>
-												<button class="download_button"><i class="fas fa-download"></i></button>
-											</div>
-										</div>
-									</li>
-									<li>
-										<div class="dwn_fls">
-											<div class="dwn-header">
-												<h6>Images</h6>												
-											</div>
-											<div class="dwn-footer">
-												<span>Zip</span>
-												<button class="download_button"><i class="fas fa-download"></i></button>
-											</div>
-										</div>
-									</li>
-								</ul>
-							</div>							
+								<h4>Description</h4>
+<div>
+
+								<p>{{$job->desc}}</p>
+    <br>
+</div>
+							</div>
 						</div>
 						<div class="find-lts-jobs">
 							<div class="main-heading bids_heading">
@@ -125,8 +111,8 @@
 													<i class="fas fa-star"></i>
 													<i class="fas fa-star"></i>
 													<i class="fas fa-star"></i>
-													<i class="fas fa-star"></i>								
-													<span>4.9</span> 									
+													<i class="fas fa-star"></i>
+													<span>4.9</span>
 												</div>
 											</div>
 										</div>
@@ -134,7 +120,7 @@
 											<div class="job-price job-price78">$500 - $1000</div>
 											<div class="job-fp dy_cl">in 5 days</div>
 										</div>
-									</div>													
+									</div>
 								</div>
 								<div class="job-item mt-30">
 									<div class="job-top-dt">
@@ -148,8 +134,8 @@
 													<i class="fas fa-star"></i>
 													<i class="fas fa-star"></i>
 													<i class="fas fa-star"></i>
-													<i class="fas fa-star"></i>								
-													<span>4.9</span> 									
+													<i class="fas fa-star"></i>
+													<span>4.9</span>
 												</div>
 											</div>
 										</div>
@@ -157,7 +143,7 @@
 											<div class="job-price job-price78">$500 - $1000</div>
 											<div class="job-fp dy_cl">in 5 days</div>
 										</div>
-									</div>													
+									</div>
 								</div>
 								<div class="job-item mt-30">
 									<div class="job-top-dt">
@@ -171,8 +157,8 @@
 													<i class="fas fa-star"></i>
 													<i class="fas fa-star"></i>
 													<i class="fas fa-star"></i>
-													<i class="fas fa-star"></i>								
-													<span>5.0</span> 									
+													<i class="fas fa-star"></i>
+													<span>5.0</span>
 												</div>
 											</div>
 										</div>
@@ -180,7 +166,7 @@
 											<div class="job-price job-price78">$600 - $1200</div>
 											<div class="job-fp dy_cl">in 5 days</div>
 										</div>
-									</div>													
+									</div>
 								</div>
 								<div class="job-item mt-30">
 									<div class="job-top-dt">
@@ -196,13 +182,13 @@
 											<div class="job-price job-price78">$400 - $1000</div>
 											<div class="job-fp dy_cl">in 5 days</div>
 										</div>
-									</div>													
+									</div>
 								</div>
-							</div>														
+							</div>
 						</div>
 					</div>
 					<div class="col-lg-3 col-md-4 mainpage">
-						<div class="total_days mtp_30">4 days 5 hours left</div>
+						<div class="total_days mtp_30">{{$job->created_at->diffForHumans()}} left</div>
 						<h4 class="bid_title">Bid Now This Job</h4>
 						<div class="bid_amount">
 							<div class="fltr-items-heading">
@@ -212,13 +198,13 @@
 								<div class="fltr-item-right">
 									<a href="#">Clear</a>
 								</div>
-							</div>								
-							<div class="filter-dd">									
+							</div>
+							<div class="filter-dd">
 								<div class="rg-slider">
 									<input class="rn-slider slider-input" type="hidden" value="5,500" />
 								</div>
 							</div>
-						</div>						
+						</div>
 						<div class="dlvry_days">
 							<div class="fltr-items-heading">
 								<div class="fltr-item-left">
@@ -227,7 +213,7 @@
 								<div class="fltr-item-right">
 									<a href="#">Clear</a>
 								</div>
-							</div>								
+							</div>
 							<div class="ui fluid search selection dropdown skills-search">
 								<input name="tags" type="hidden" value="">
 								<i class="dropdown icon"></i>
@@ -235,16 +221,16 @@
 								<span class="sizer" style=""></span>
 								<div class="default text">Select Days</div>
 								<div class="menu transition hidden" tabindex="-1">
-									<div class="item selected" data-value="Job1">5 Days</div>										
-									<div class="item" data-value="day1">10 Days</div>										
-									<div class="item" data-value="day2">15 Days</div>										
-									<div class="item" data-value="day3">20 Days</div>										
-									<div class="item" data-value="day4">25 Days</div>										
-									<div class="item" data-value="day5">30 Days</div>										
-									<div class="item" data-value="day6">50 Days</div>										
-									<div class="item" data-value="day7">70 Days</div>										
-									<div class="item" data-value="day8">120 Days</div>										
-																		
+									<div class="item selected" data-value="Job1">5 Days</div>
+									<div class="item" data-value="day1">10 Days</div>
+									<div class="item" data-value="day2">15 Days</div>
+									<div class="item" data-value="day3">20 Days</div>
+									<div class="item" data-value="day4">25 Days</div>
+									<div class="item" data-value="day5">30 Days</div>
+									<div class="item" data-value="day6">50 Days</div>
+									<div class="item" data-value="day7">70 Days</div>
+									<div class="item" data-value="day8">120 Days</div>
+
 								</div>
 							</div>
 						</div>
@@ -256,9 +242,9 @@
 							<li><a href="#"><i class="fab fa-google-plus-g"></i></a></li>
 							<li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
 						</ul>
-					</div>																																						
+					</div>
 				</div>
-			</div>					
+			</div>
 		</main>
 		<!-- Body End -->
 @endsection
