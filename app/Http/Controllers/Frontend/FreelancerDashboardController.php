@@ -121,7 +121,7 @@ class FreelancerDashboardController extends Controller
         $pay_rate_range = $request->input('pay_rate_range');
         $location = $request->input('location');
 //dd($location);
-        $this->data['users'] = User::query()
+        $this->data['users'] = User::select('users.*', 'professions.profession as profession_name')
             ->join('professions', 'users.professions_id', '=', 'professions.id');
 
         if (!empty($category)) {
@@ -138,7 +138,7 @@ class FreelancerDashboardController extends Controller
 //        dd($check);
         }
 //dd($this->data['users']);
-        $this->data['users'] = $this->data['users']->orderBy('created_at', 'desc')->get(['users.*', 'professions.profession as profession_name']);
+        $this->data['users'] = $this->data['users']->orderBy('created_at', 'desc')->paginate(10);
 
         return view('frontend.freelancer.browse_freelancers', $this->data);
     }

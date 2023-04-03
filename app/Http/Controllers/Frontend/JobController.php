@@ -108,7 +108,7 @@ class JobController extends Controller
             $this->data['jobs']->where('jobs.location', 'like', '%' . $location . '%');
         }
 
-        $this->data['jobs'] = $this->data['jobs']->orderBy('jobs.created_at', 'desc')->get();
+        $this->data['jobs'] = $this->data['jobs']->orderBy('jobs.created_at', 'desc')->paginate(10);
 
 //dd($this->data['jobs']);
 
@@ -119,8 +119,13 @@ class JobController extends Controller
 
 
 
-    public function job_single_view()
+    public function job_single_view($id)
     {
-        return view('frontend.job.job_single_view');
+        $this->data['job'] = Job::select('jobs.*','users.*','jobs.description as desc','users.first_name as fname','users.last_name as lname','professions.*')
+            ->join('users', 'users.id', '=', 'jobs.user_id')
+            ->join('professions', 'users.professions_id', '=', 'professions.id')
+        ->where('jobs.id',$id)->first();
+//        dd($this->data['job']);
+        return view('frontend.job.job_single_view',$this->data);
     }
 }

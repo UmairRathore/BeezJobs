@@ -155,28 +155,58 @@ t -->
 												<div class="job-buttons">
 													<ul class="link-btn">
 														<li><a href="#" class="link-j1" title="Apply Now">APPLY NOW</a></li>
-                                                        <li><a href="{{route('job_single_view')}}" class="link-j1" title="View Job">View Job</a></li>
+                                                        <li><a href="{{route('job_single_view',[$job->id])}}" class="link-j1" title="View Job">View Job</a></li>
 														<li class="bkd-pm"><button class="bookmark1" title="bookmark"><i class="fas fa-heart"></i></button></li>
 													</ul>
 												</div>
 											</div>
 										</div>
                                         @endforeach
+{{--                                                        {!! $jobs->links() !!}--}}
 										<div class="col-12">
 											<div class="main-p-pagination">
 												<nav aria-label="Page navigation example">
 													<ul class="pagination">
 														<li class="page-item">
-															<a class="page-link" href="#" aria-label="Previous">
+															<a class="page-link" href="{{ $jobs->PreviousPageUrl() }}" aria-label="Previous">
 																PREV
 															</a>
 														</li>
-														<li class="page-item"><a class="page-link active" href="#">1</a></li>
-														<li class="page-item"><a class="page-link" href="#">2</a></li>
-														<li class="page-item"><a class="page-link" href="#">...</a></li>
-														<li class="page-item"><a class="page-link" href="#">24</a></li>
+                                                        @if ($jobs->currentPage() > 3)
+                                                            <li class="page-item">
+                                                                <a class="page-link" href="{{ $jobs->url(1) }}">1</a>
+                                                            </li>
+                                                            @if ($jobs->currentPage() > 4)
+                                                                <li class="page-item">
+                                                                    <span class="page-link">...</span>
+                                                                </li>
+                                                            @endif
+                                                        @endif
+
+                                                        @for ($i = max(1, $jobs->currentPage() - 2); $i <= min($jobs->lastPage(), $jobs->currentPage() + 2); $i++)
+                                                            <li class="page-item{{ $i == $jobs->currentPage() ? ' active' : '' }}">
+                                                                @if ($i == $jobs->currentPage())
+                                                                    <span class="page-link">{{ $i }}</span>
+                                                                @else
+                                                                    <a class="page-link" href="{{ $jobs->url($i) }}">{{ $i }}</a>
+                                                                @endif
+                                                            </li>
+                                                        @endfor
+
+                                                        @if ($jobs->currentPage() < $jobs->lastPage() - 2)
+                                                            @if ($jobs->currentPage() < $jobs->lastPage() - 3)
+                                                                <li class="page-item">
+                                                                    <span class="page-link">...</span>
+                                                                </li>
+                                                            @endif
+                                                            <li class="page-item">
+                                                                <a class="page-link" href="{{ $jobs->url($jobs->lastPage()) }}">{{ $jobs->lastPage() }}</a>
+                                                            </li>
+                                                        @endif
+{{--
+{{--                                                        <li class="page-item"><a class="page-link" href="#">24</a></li>--}}
 														<li class="page-item">
-															<a class="page-link" href="#" aria-label="Next">
+															<a class="page-link" href="{{ $jobs->nextPageUrl() }}" aria-label="Next">
 																NEXT
 															</a>
 														</li>
@@ -185,6 +215,7 @@ t -->
 											</div>
 										</div>
 									</div>
+
 								</div>
 							</div>
 						</div>

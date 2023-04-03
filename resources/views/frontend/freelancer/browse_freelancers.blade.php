@@ -174,28 +174,57 @@
                                         </div>
                                     </div>
                                 @endforeach
-                                <div class="col-12">
-                                    <div class="main-p-pagination">
-                                        <nav aria-label="Page navigation example">
-                                            <ul class="pagination">
-                                                <li class="page-item">
-                                                    <a class="page-link" href="#" aria-label="Previous">
-                                                        PREV
-                                                    </a>
-                                                </li>
-                                                <li class="page-item"><a class="page-link active" href="#">1</a></li>
-                                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                                <li class="page-item"><a class="page-link" href="#">...</a></li>
-                                                <li class="page-item"><a class="page-link" href="#">24</a></li>
-                                                <li class="page-item">
-                                                    <a class="page-link" href="#" aria-label="Next">
-                                                        NEXT
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </nav>
+                                    <div class="col-12">
+                                        <div class="main-p-pagination">
+                                            <nav aria-label="Page navigation example">
+                                                <ul class="pagination">
+                                                    <li class="page-item">
+                                                        <a class="page-link" href="{{ $users->PreviousPageUrl() }}" aria-label="Previous">
+                                                            PREV
+                                                        </a>
+                                                    </li>
+                                                    @if ($users->currentPage() > 3)
+                                                        <li class="page-item">
+                                                            <a class="page-link" href="{{ $users->url(1) }}">1</a>
+                                                        </li>
+                                                        @if ($users->currentPage() > 4)
+                                                            <li class="page-item">
+                                                                <span class="page-link">...</span>
+                                                            </li>
+                                                        @endif
+                                                    @endif
+
+                                                    @for ($i = max(1, $users->currentPage() - 2); $i <= min($users->lastPage(), $users->currentPage() + 2); $i++)
+                                                        <li class="page-item{{ $i == $users->currentPage() ? ' active' : '' }}">
+                                                            @if ($i == $users->currentPage())
+                                                                <span class="page-link">{{ $i }}</span>
+                                                            @else
+                                                                <a class="page-link" href="{{ $users->url($i) }}">{{ $i }}</a>
+                                                            @endif
+                                                        </li>
+                                                    @endfor
+
+                                                    @if ($users->currentPage() < $users->lastPage() - 2)
+                                                        @if ($users->currentPage() < $users->lastPage() - 3)
+                                                            <li class="page-item">
+                                                                <span class="page-link">...</span>
+                                                            </li>
+                                                        @endif
+                                                        <li class="page-item">
+                                                            <a class="page-link" href="{{ $users->url($users->lastPage()) }}">{{ $users->lastPage() }}</a>
+                                                        </li>
+                                                    @endif
+                                                    {{--
+                                                    {{--                                                        <li class="page-item"><a class="page-link" href="#">24</a></li>--}}
+                                                    <li class="page-item">
+                                                        <a class="page-link" href="{{ $users->nextPageUrl() }}" aria-label="Next">
+                                                            NEXT
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </nav>
+                                        </div>
                                     </div>
-                                </div>
                             </div>
                         </div>
                     </div>

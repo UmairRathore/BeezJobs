@@ -89,7 +89,7 @@
                             @foreach($professions as $profession)
                                 <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
                                     <div class="p-category">
-                                        <a href="{{route('browse_jobs')}}" title="">
+                                        <a href="{{route('browse_jobs')}}?category={{ $profession->profession }}" title="">
                                             <img src="{{$profession->p_image}}" alt="">
                                             <span>{{$profession->profession}}</span>
                                             <?php
@@ -153,7 +153,7 @@
                                         <div class="job-buttons">
                                             <ul class="link-btn">
                                                 <li><a href="#" class="link-j1" title="Apply Now">APPLY NOW</a></li>
-                                                <li><a href="{{route('job_single_view')}}" class="link-j1" title="View Job">View Job</a></li>
+                                                <li><a href="{{route('job_single_view',[$job->id])}}" class="link-j1" title="View Job">View Job</a></li>
                                                 <li class="bkd-pm">
                                                     <button class="bookmark1" title="bookmark"><i class="fas fa-heart"></i></button>
                                                 </li>
@@ -255,7 +255,7 @@
                                                     <span>{{$user->profession}}</span>
                                                 </div>
                                             </div>
-                                            <div class="job-price hire-price">{{$user->pay_rate}}</div>
+                                            <div class="job-price hire-price">${{$user->pay_rate}}</div>
                                         </div>
                                         <div class="rating-location">
                                             <div class="left-rating">
