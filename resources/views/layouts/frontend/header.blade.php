@@ -180,18 +180,20 @@
                                     Pages <i class="fas fa-caret-down p-crt"></i>
                                 </a>
                                 <div class="dropdown-menu pages-dropdown">
-                                    <a class="link-item" href="about.html">About</a>
+                                    <a class="link-item" href="{{route('about.us')}}">About</a>
                                     <a class="link-item" href="our_blog.html">Our Blog</a>
                                     <a class="link-item" href="blog_single_view.html">Signle Blog View</a>
                                     <a class="link-item" href="pricing_plans.html">Pricing Plans</a>
                                     <a class="link-item" href="checkout.html">Checkout</a>
                                     <a class="link-item" href="plan_invoice.html">Invoice Slip</a>
-                                    <a class="link-item" href="sign_in.html">Sign in</a>
-                                    <a class="link-item" href="sign_up.html">Sign up</a>
+                                    @if(!auth()->check())
+                                    <a class="link-item" href="{{route('signin')}}">Sign in</a>
+                                    <a class="link-item" href="{{route('signup')}}">Sign up</a>
+                                    @endif
                                     <a class="link-item" href="sign_up_select_profile.html">Sign up Select Profiles</a>
                                     <a class="link-item" href="sign_up_freelancer_profile.html">Create Freelancer Profile</a>
                                     <a class="link-item" href="sign_up_company_profile.html">Create Company Profile</a>
-                                    <a class="link-item" href="contact_us.html">Contact</a>
+                                    <a class="link-item" href="{{route('contact.us')}}">Contact</a>
                                     <a class="link-item" href="help_center.html">Help Center</a>
                                 </div>
                             </li>
