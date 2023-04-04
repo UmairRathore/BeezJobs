@@ -1,10 +1,13 @@
 <?php
 
+use App\Http\Controllers\Admin\AboutController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\CityController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\PrivacyController;
 use App\Http\Controllers\Admin\ProfessionController;
 use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\TermsController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegistrationController;
@@ -121,6 +124,36 @@ Route::post('/add-profession', [ProfessionController::class, 'store'])->name('ba
 Route::get('/edit-profession/{id}', [ProfessionController::class, 'edit'])->name('backend.edit-profession');
 Route::put('/update-profession/{id}', [ProfessionController::class, 'update'])->name('backend.update-profession');
 Route::get('/delete-profession/{id}', [ProfessionController::class, 'destroy'])->name('backend.delete-profession');
+
+
+//Terms
+Route::get('/terms-list', [TermsController::class, 'index'])->name('backend.terms-list');
+Route::get('/add-terms', [TermsController::class, 'create'])->name('backend.show-terms');
+Route::post('/add-terms', [TermsController::class, 'store'])->name('backend.add-terms');
+Route::get('/edit-terms/{id}', [TermsController::class, 'edit'])->name('backend.edit-terms');
+Route::put('/update-terms/{id}', [TermsController::class, 'update'])->name('backend.update-terms');
+Route::get('/delete-terms/{id}', [TermsController::class, 'destroy'])->name('backend.delete-terms');
+
+
+//Profession
+Route::get('/privacypolicy-list', [PrivacyController::class, 'index'])->name('backend.privacypolicy-list');
+Route::get('/add-privacypolicy', [PrivacyController::class, 'create'])->name('backend.show-privacypolicy');
+Route::post('/add-privacypolicy', [PrivacyController::class, 'store'])->name('backend.add-privacypolicy');
+Route::get('/edit-privacypolicy/{id}', [PrivacyController::class, 'edit'])->name('backend.edit-privacypolicy');
+Route::put('/update-privacypolicy/{id}', [PrivacyController::class, 'update'])->name('backend.update-privacypolicy');
+Route::get('/delete-privacypolicy/{id}', [PrivacyController::class, 'destroy'])->name('backend.delete-privacypolicy');
+
+
+
+//About Us
+Route::get('/aboutus-list', [AboutController::class, 'index'])->name('backend.aboutus-list');
+Route::get('/add-aboutus', [AboutController::class, 'create'])->name('backend.show-aboutus');
+Route::post('/add-aboutus', [AboutController::class, 'store'])->name('backend.add-aboutus');
+Route::get('/edit-aboutus/{id}', [AboutController::class, 'edit'])->name('backend.edit-aboutus');
+Route::put('/update-aboutus/{id}', [AboutController::class, 'update'])->name('backend.update-aboutus');
+Route::get('/delete-aboutus/{id}', [AboutController::class, 'destroy'])->name('backend.delete-aboutus');
+
+
 
 //User
 Route::get('/user-list', [UserController::class, 'index'])->name('backend.user-list');

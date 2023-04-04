@@ -51,5 +51,26 @@ class HomeController extends Controller
     }
 
 
+    public function privacyPolicy()
+    {
+        return view('frontend.pages.privacy-policy');
+    }
+
+    public function terms()
+    {
+        return view('frontend.pages.terms');
+    }
+
+    public function aboutUs()
+    {
+        return view('frontend.pages.about-us');
+    }
+
+    public function contactUs()
+    {
+        return view('frontend.pages.contact-us');
+    }
+
+
 
 }
