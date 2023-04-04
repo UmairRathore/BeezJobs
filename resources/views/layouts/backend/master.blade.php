@@ -109,10 +109,12 @@
 <script src="{{asset('backend/js/demo/chart-pie-demo.js')}}"></script>
 
 
-
+<!-- Ckeditor -->
+<script src="{{asset('https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/ckeditor.js')}}"></script>
 
 
 </body>
 
 </html>
 @yield('datatableJs')
+@yield('ckeditor')
