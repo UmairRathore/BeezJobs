@@ -44,6 +44,9 @@
                 <h6 class="collapse-header">Pages:</h6>
                 <a class="collapse-item" href="{{route('backend.city-list')}}">Cities</a>
                 <a class="collapse-item" href="{{route('backend.profession-list')}}">Category Professions</a>
+                <a class="collapse-item" href="{{route('backend.aboutus-list')}}">About Us</a>
+                <a class="collapse-item" href="{{route('backend.privacypolicy-list')}}">Privacy Policy</a>
+                <a class="collapse-item" href="{{route('backend.terms-list')}}">Terms</a>
             </div>
         </div>
     </li>
