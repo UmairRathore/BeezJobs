@@ -31,8 +31,6 @@ class HomeController extends Controller
     {
         $this->data['cities'] = City::all();
         $this->data['professions'] = Profession::all();
-
-
         $this->data['jobs']=Job::select('jobs.*','u.first_name as fname','u.last_name as lname','u.profile_image','p.profession as profession')
             ->join('users as u','u.id','=','jobs.user_id')
             ->join('professions as p', 'u.professions_id', '=', 'p.id')
@@ -45,25 +43,19 @@ class HomeController extends Controller
         return view('frontend.index', $this->data);
     }
 
-    public function signin()
+
+    public function search(Request $request)
     {
-        return view('auth.signin');
-    }
+        $query = request('search');
+        $result = Job::select('jobs.*','professions.profession','jobs.location')
+            ->join('users', 'jobs.user_id', '=', 'users.id')
+            ->join('professions', 'users.professions_id', '=', 'professions.id')
+            ->orWhere('professions.profession', 'LIKE', '%'.$query.'%')
+            ->orWhere('jobs.location', 'LIKE', '%'.$query.'%')
+            ->get();
 
 
-    public function privacyPolicy()
-    {
-        return view('frontend.pages.privacy-policy');
-    }
-
-    public function terms()
-    {
-        return view('frontend.pages.terms');
-    }
-
-    public function aboutUs()
-    {
-        return view('frontend.pages.about-us');
+        return response()->json($result);
     }
 
     public function contactUs()
