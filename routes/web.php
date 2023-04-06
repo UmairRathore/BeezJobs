@@ -147,7 +147,7 @@ Route::get('/delete-privacypolicy/{id}', [PrivacyController::class, 'destroy'])-
 
 
 //Bid
-Route::post('/bid-store', [BidController::class, 'storeBid'])->name('backend.bid.store');
+Route::post('/bid-store', [JobController::class, 'storeBid'])->name('backend.bid.store');
 
 //About Us
 Route::get('/aboutus-list', [AboutController::class, 'index'])->name('backend.aboutus-list');
@@ -187,21 +187,39 @@ Route::get('/autocomplete', function () {
 
     $query = request('q');
 
-    $results = Job::select('jobs.location')
-        ->Where('location', 'LIKE', "%{$query}%")
-        ->get();
-//    dd($results);
-    return response()->json($results);
+    if (str_contains(strtolower($query), 'location')) {
+        $jobs = Job::select('jobs.location as location')
+            ->where('location', 'LIKE', '%'.$query.'%')
+            ->get();
+    } else if (str_contains(strtolower($query), 'category')) {
+        $jobs = Job::select('professions.profession as category')
+            ->join('users', 'users.id', '=', 'jobs.user_id')
+            ->join('professions', 'professions.id', '=', 'users.professions_id')
+            ->where('professions.profession', 'LIKE', "%{$query}%")
+            ->distinct()
+            ->get();
+    } else {
+        $jobs = [];
+    }
+
+    $results = [];
+
+    foreach ($jobs as $job) {
+        $results[] = $job->toArray();
+    }
+
+    if (str_contains(strtolower($query), 'location')) {
+        return response()->json(['type' => 'location', 'data' => $results]);
+    } else if (str_contains(strtolower($query), 'category')) {
+        return response()->json(['type' => 'category', 'data' => $results]);
+    } else {
+        return response()->json(['type' => 'none', 'data' => $results]);
+    }
 
 })->name('autocomplete');
 
-////Login
-//Route::get('/login', [LoginController::class, 'login'])->name('login');
-//Route::post('/login', [LoginController::class, 'postLogin'])->name('postlogin');
-//
-//Logout
-//Route::post('logout', [LoginController::class, 'logout'])->name('logout');
-//
+
+
 ////Forget Password
 Route::get('/forget', [LoginController::class, 'showForgetPasswordForm'])->name('forget.password');
 Route::post('/forget', [LoginController::class, 'submitForgetPasswordForm'])->name('forget.password.post');
