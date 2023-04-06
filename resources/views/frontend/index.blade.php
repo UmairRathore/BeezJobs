@@ -1,25 +1,47 @@
 @extends('layouts.frontend.master')
 @section('title', 'Home')
-@section('content')
 
+@section('content')
     <div class="Search-section">
         <div class="container">
             <form method="get" action="{{route('browse_jobs')}}">
-            <div class="row">
-                <div class="col-lg-10 col-md-5 col-12">
-                    <div class="form-group mb-0">
-                        <input name="search" class="search-1" type="text" placeholder="Keywords (e.g. Location,Job Title,...)">
+                <div class="row">
+                    <div class="col-lg-10 col-md-5 col-12">
+                        <div class="form-group mb-0">
+                            <input name="search" id="search_input" class="search-1" type="text" placeholder="Keywords (e.g. Location,Job Title,...)">
+                            <div class="dropdown">
+                                <ul id="search_suggestions_dropdown" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-3 col-12 mt-15">
+                        <button class="srch-btn" type="submit">Search Now</button>
                     </div>
                 </div>
-                <div class="col-lg-2 col-md-3 col-12 mt-15">
-{{--                    <a href="{{route('browse_jobs')}}">--}}
-                        <button class="srch-btn" type="submit">Search Now</button>
-{{--                    </a>--}}
-                </div>
-            </div>
-        </form>
+            </form>
         </div>
     </div>
+
+    {{--    <div class="Search-section">--}}
+    {{--        <div class="container">--}}
+    {{--            <div id="search-suggestions"></div>--}}
+    {{--            <form method="get" action="{{route('browse_jobs')}}">--}}
+    {{--            <div class="row">--}}
+    {{--                <div class="col-lg-10 col-md-5 col-12">--}}
+    {{--                    <div class="form-group mb-0">--}}
+    {{--                        <input name="search" id="search_input" class="search-1" type="text" placeholder="Keywords (e.g. Location,Job Title,...)">--}}
+    {{--                    </div>--}}
+    {{--                </div>--}}
+    {{--                <div class="col-lg-2 col-md-3 col-12 mt-15">--}}
+    {{--                        <button class="srch-btn" type="submit">Search Now</button>--}}
+    {{--                </div>--}}
+    {{--            </div>--}}
+    {{--        </form>--}}
+    {{--        </div>--}}
+    {{--    </div>--}}
+
+
     <div class="banner-slider">
         <div class="owl-carousel bnnr-owl owl-theme">
             @foreach($cities as $city)
@@ -35,10 +57,13 @@
                         <a href="{{ route('browse_freelancers') }}?location={{ $city->city }}">
                             <div class="featured-text">
                                 <div class="city-title">{{$city->city}}</div>
-{{--                                <form>--}}
-{{--                                <input type="hidden" name="location" value="$city->city">--}}
-                                <ins>125 Freelancers</ins>
-{{--                                </form>--}}
+                                {{--                                <form>--}}
+                                {{--                                <input type="hidden" name="location" value="$city->city">--}}
+                                <?php
+                                $citycount = \App\Models\User::where('location', 'like', '%' . $city->city . '%')->count();
+                                ?>
+                                <ins>{{$citycount}} Freelancers</ins>
+                                {{--                                </form>--}}
                             </div>
                         </a>
                     </div>
@@ -89,11 +114,11 @@
                             @foreach($professions as $profession)
                                 <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
                                     <div class="p-category">
-                                        <a href="{{route('browse_jobs')}}?category={{ $profession->profession }}" title="">
+                                        <a href="{{route('browse_freelancers')}}?category={{ $profession->id }}" title="">
                                             <img src="{{$profession->p_image}}" alt="">
                                             <span>{{$profession->profession}}</span>
                                             <?php
-                                            $professioncount= \App\Models\User::where('professions_id',$profession->id)->count();
+                                            $professioncount = \App\Models\User::where('professions_id', $profession->id)->count();
                                             ?>
                                             <p>{{$professioncount}}</p>
                                         </a>
@@ -137,7 +162,7 @@
 
                                                 @endif
                                                 <div class="job-ut-dts">
-                                                    <a href="#"><h4>{{$job->first_name.' '.$job->last_name}}</h4></a>
+                                                    <a href="{{route('other_freelancer_profile',[$job->user_id])}}"><h4>{{$job->first_name.' '.$job->last_name}}</h4></a>
                                                     <span><i class="fas fa-map-marker-alt"></i> {{$job->location}}</span>
                                                 </div>
                                             </div>
@@ -251,7 +276,7 @@
 
                                                 @endif
                                                 <div class="job-urs-dts">
-                                                    <a href="#"><h4>{{$user->first_name.' '.$user->last_name}}</h4></a>
+                                                    <a href="{{route('other_freelancer_profile',[$user->id])}}"><h4>{{$user->first_name.' '.$user->last_name}}</h4></a>
                                                     <span>{{$user->profession}}</span>
                                                 </div>
                                             </div>
@@ -368,4 +393,44 @@
         </div>
     </div>
 
+@endsection
+
+@section('search')
+
+    <script>
+
+        $(document).ready(function () {
+            $('#search_input').keyup(function () {
+                var searchTerm = $(this).val();
+                $.ajax({
+                    url: '{{ route("autocomplete") }}',
+                    dataType: 'json',
+                    data: {
+                        q: searchTerm
+                    },
+                    success: function (data) {
+                        $('#search_suggestions_dropdown').html('');
+                        $.each(data, function (index, value) {
+                            $('#search_suggestions_dropdown').append('<li><a href="#">' + value.location + '</a></li>');
+                        });
+                        $('#search_suggestions_dropdown').show();
+                    }
+                });
+            });
+
+            $(document).click(function (event) {
+                if (!$(event.target).closest('.dropdown').length) {
+                    $('#search_suggestions_dropdown').hide();
+                }
+            });
+
+            $('#search_suggestions_dropdown').on('click', 'li a', function () {
+                var suggestion = $(this).text();
+                $('#search_input').val(suggestion);
+                $('#search_suggestions_dropdown').hide();
+                $('form').submit();
+                return false;
+            });
+        });
+    </script>
 @endsection

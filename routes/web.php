@@ -184,12 +184,15 @@ Route::get('/search', [HomeController::class, 'search'])->name('search');
 
 
 Route::get('/autocomplete', function () {
+
     $query = request('q');
+
     $results = Job::select('jobs.location')
         ->Where('location', 'LIKE', "%{$query}%")
         ->get();
 //    dd($results);
     return response()->json($results);
+
 })->name('autocomplete');
 
 ////Login
