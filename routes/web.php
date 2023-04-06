@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AboutController;
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\BidController;
 use App\Http\Controllers\Admin\CityController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\PrivacyController;
@@ -16,6 +17,7 @@ use App\Http\Controllers\Frontend\FreelancerDashboardController;
 use App\Http\Controllers\Frontend\JobController;
 use App\Http\Controllers\Frontend\PortfolioController;
 
+use App\Models\Job;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -90,11 +92,11 @@ Route::get('/browse_jobs', [JobController::class, 'browse_jobs'])->name('browse_
 Route::get('/job_single_view/{id}', [JobController::class, 'job_single_view'])->name('job_single_view');
 
 
-Route::get('/about_us', [HomeController::class, 'aboutUs'])->name('about.us');
+Route::get('/about_us', [AboutController::class, 'aboutUs'])->name('about.us');
 Route::get('/contact_us', [HomeController::class, 'contactUs'])->name('contact.us');
 
-Route::get('/terms', [HomeController::class, 'terms'])->name('terms');
-Route::get('/privacy_policy', [HomeController::class, 'privacyPolicy'])->name('privacy.policy');
+Route::get('/terms', [TermsController::class, 'terms'])->name('terms');
+Route::get('/privacy_policy', [PrivacyController::class, 'privacyPolicy'])->name('privacy.policy');
 
 
 
@@ -144,6 +146,8 @@ Route::put('/update-privacypolicy/{id}', [PrivacyController::class, 'update'])->
 Route::get('/delete-privacypolicy/{id}', [PrivacyController::class, 'destroy'])->name('backend.delete-privacypolicy');
 
 
+//Bid
+Route::post('/bid-store', [BidController::class, 'storeBid'])->name('backend.bid.store');
 
 //About Us
 Route::get('/aboutus-list', [AboutController::class, 'index'])->name('backend.aboutus-list');
@@ -176,6 +180,17 @@ Route::post('/create_role', [RoleController::class, 'createRole'])->name('role.s
 
 
 
+Route::get('/search', [HomeController::class, 'search'])->name('search');
+
+
+Route::get('/autocomplete', function () {
+    $query = request('q');
+    $results = Job::select('jobs.location')
+        ->Where('location', 'LIKE', "%{$query}%")
+        ->get();
+//    dd($results);
+    return response()->json($results);
+})->name('autocomplete');
 
 ////Login
 //Route::get('/login', [LoginController::class, 'login'])->name('login');
