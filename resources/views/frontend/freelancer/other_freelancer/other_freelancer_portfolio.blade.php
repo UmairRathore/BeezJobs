@@ -19,9 +19,9 @@
 <main class="browse-section">
     <div class="container">
         <div class="row">
-            @include('frontend.freelancer.other_freelancer.other_freelancer_sidebar')
+            @include('frontend.freelancer.other_freelancer.layout.other_freelancer_sidebar')
             <div class="col-lg-9 col-md-8 mainpage">
-                @include('frontend.freelancer.other_freelancer.other_freelancer_nav')
+                @include('frontend.freelancer.other_freelancer.layout.other_freelancer_nav')
                 <div class="portfolio_heading">
                     <div class="portfolio_left">
                         <h4>Portfolio</h4>
