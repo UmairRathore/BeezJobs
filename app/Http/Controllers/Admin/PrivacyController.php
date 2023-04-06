@@ -9,7 +9,14 @@ use Illuminate\Support\Facades\Validator;
 
 class PrivacyController extends Controller
 {
-    //
+    //Privacy Policy front end page
+
+    public function privacyPolicy()
+    {
+        $show = Privacy::first();
+        return view('frontend.pages.privacy-policy',compact('show'));
+    }
+
 
     //Privacy Policy_LIST
     public function index()

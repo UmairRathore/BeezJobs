@@ -11,11 +11,22 @@ use Illuminate\Support\Facades\Validator;
 class AboutController extends Controller
 {
 
+
+//About page front end
+    public function aboutUs()
+    {
+        $show = About::first();
+                return view('frontend.pages.about-us',compact('show'));
+
+
+    }
+
     //About_LIST
     public function index()
     {
 
         $show = About::all();
+//        dd($show);
         return view('backend.aboutus.aboutus-list', compact('show'));
 
     }

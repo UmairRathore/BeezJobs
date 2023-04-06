@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\About;
 use App\Models\Privacy;
 use App\Models\Terms;
 use Illuminate\Http\Request;
@@ -10,7 +11,14 @@ use Illuminate\Support\Facades\Validator;
 
 class TermsController extends Controller
 {
-    //
+    //Terms frontend page
+
+    public function terms()
+    {
+        $show = Terms::first();
+
+        return view('frontend.pages.terms',compact('show'));
+    }
     //Terms _LIST
     public function index()
     {
