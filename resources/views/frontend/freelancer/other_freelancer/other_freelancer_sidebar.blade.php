@@ -80,7 +80,7 @@
                         <h6>Hourly Rate</h6>
                     </div>
                     <div class="rtl_right2">
-                        <span>${{$users->budget}} / hr</span>
+                        <span>${{$users->pay_rate}} / hr</span>
                     </div>
                 </li>
                 <li>
