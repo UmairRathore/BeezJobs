@@ -21,8 +21,8 @@
     </div>
 </div>
 <div class="container">
-    <div class="row">
-        <div class="col-lg-3 col-md-3">
+    <div class="row justify-content-between">
+        <div class="col-lg-4 col-md-4">
             <div class="about-jobby">
                 <a href="{{route('index')}}"><img src="images/logo1.svg" alt=""></a>
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque eu purus et diam blandit vehicula sit amet sed metus. Fusce condimentum non neque at fringilla. Aenean malesuada aliquet tincidunt.</p>
@@ -41,28 +41,18 @@
                 </ul>
             </div>
         </div>
-        <div class="col-lg-3 col-md-3">
+        <div class="col-lg-2 col-md-2">
             <div class="footer-links">
                 <h4>For Users</h4>
                 <ul>
-                    <li><a href="{{route('browse_freelancers')}}">Browese Freelancers</a></li>
-                    <li><a href="{{route('browse_jobs')}}">Browese Jobs</a></li>
+                    <li><a href="{{route('browse_freelancers')}}">Browse Freelancers</a></li>
+                    <li><a href="{{route('browse_jobs')}}">Browse Jobs</a></li>
                     <li><a href="{{(route('post_a_job'))}}">Post a Job</a></li>
 
                 </ul>
             </div>
         </div>
-{{--        <div class="col-lg-3 col-md-3">--}}
-{{--            <div class="footer-links">--}}
-{{--                <h4>For Candidates</h4>--}}
-{{--                <ul>--}}
-{{--                    <li><a href="{{route('browse_jobs')}}">Browese Jobs</a></li>--}}
-{{--                    <li><a href="my_freelancer_jobs.html">Jobs Alerts</a></li>--}}
-{{--                    <li><a href="my_freelancer_jobs.html">Applied Jobs</a></li>--}}
-{{--                    <li><a href="my_freelancer_bookmarks.html">Bookmarks</a></li>--}}
-{{--                </ul>--}}
-{{--            </div>--}}
-{{--        </div>--}}
+
     </div>
 </div>
 <div class="copy-social">
