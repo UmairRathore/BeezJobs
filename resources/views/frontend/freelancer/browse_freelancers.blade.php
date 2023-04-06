@@ -70,7 +70,7 @@
                             </div>
                             <div class="filter-dd">
                                 <div class="rg-slider">
-                                    <input class="rn-slider slider-input" type="range" min="0" max="1000" step="1"  name="pay_rate_range"/>
+                                    <input class="rn-slider slider-input" value="0" type="range" min="0" max="1000" step="1"  name="pay_rate_range"/>
 
 {{--                                    <input class="rn-slider slider-input" type="range" value="5,500"/>--}}
                                 </div>
@@ -136,9 +136,9 @@
                                                 <div class="job-center-dt">
                                                     <img src="{{asset($user->profile_image)}}" alt="">
                                                     <div class="job-urs-dts">
-                                                        <a href="#"><h4>{{$user->first_name.' '.$user->last_name}}</h4></a>
+                                                        <a href="{{route('other_freelancer_profile',[$user->id])}}"><h4>{{$user->first_name.' '.$user->last_name}}</h4></a>
                                                         <span>{{$user->profession}}</span>
-                                                        <div class="avialable">{{$user->time_of_da}}</div>
+                                                        <div class="avialable">{{$user->time_of_day}}</div>
                                                     </div>
                                                 </div>
                                                 <div class="job-price hire-price">${{$user->pay_rate}}/hr</div>
@@ -165,7 +165,7 @@
                                             <div class="job-buttons">
                                                 <ul class="link-btn">
                                                     <li><a href="{{route('other_freelancer_profile',[$user->id])}}" class="link-j1" title="View Profile">View Profile</a></li>
-                                                    <li><a href="#" class="link-j1" title="Hire Me">Hire Me</a></li>
+                                                    <li><a href="#" class="link-j1" title="Hire Me">Hire Me </a></li>
                                                     <li class="bkd-pm">
                                                         <button class="bookmark1" title="bookmark"><i class="fas fa-heart"></i></button>
                                                     </li>

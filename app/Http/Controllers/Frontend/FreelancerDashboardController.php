@@ -117,71 +117,74 @@ class FreelancerDashboardController extends Controller
 //            ->orderBy('created_at', 'desc')->get();
 
         $this->data['categories'] = Profession::get();
+
         $category = $request->input('category');
         $pay_rate_range = $request->input('pay_rate_range');
         $location = $request->input('location');
-//dd($location);
+        $search = $request->input('search');
+
         $this->data['users'] = User::select('users.*', 'professions.profession as profession_name')
             ->join('professions', 'users.professions_id', '=', 'professions.id');
+
+
+        if (!empty($search)) {
+            $this->data['users']->where('professions.id',$search)
+                ->orwhere('users.location', 'like', '%'.$search.'%')->first();
+        }
 
         if (!empty($category)) {
             $this->data['users']->where('professions.id', $category);
         }
 
         if (!empty($pay_rate_range)) {
-            $this->data['users']->where('pay_rate', '>=', $pay_rate_range);
+            if($pay_rate_range==0)
+            {
+                $pay_rate_range=null;
+            }
+            else
+            {
+                $this->data['users']->where('users.pay_rate', '>=', $pay_rate_range);
+            }
         }
 
         if (!empty($location)) {
-//            dd($location);
-            $check = $this->data['users']->where('location', 'like', '%' . $location . '%');
-//        dd($check);
+             $this->data['users']->where('users.location', 'like', '%' . $location . '%');
         }
-//dd($this->data['users']);
         $this->data['users'] = $this->data['users']->orderBy('created_at', 'desc')->paginate(10);
 
         return view('frontend.freelancer.browse_freelancers', $this->data);
     }
 
-//    function user_search(Request $request)
-//    {
-//
-//
-//        return redirect()->back();
-//    }
+
     function other_freelancer_profile($id)
     {
-        $this->data['users']= User::find($id)
-            ->select('users.*','p.profession as profession')
+             $this->data['users']= User::where('users.id',$id)
+            ->select('users.*','users.profile_image','p.profession as profession')
             ->join('professions as p', 'users.professions_id', '=', 'p.id')
             ->first();
-//        dd($this->data['users']);
 
         return view('frontend.freelancer.other_freelancer.other_freelancer_profile',$this->data);
     }
     function other_freelancer_portfolio($id)
     {
 
-
-        $this->data['users']= User::find($id)
+        $this->data['users']= User::where('users.id',$id)
             ->select('users.*','p.profession as profession')
             ->join('professions as p', 'users.professions_id', '=', 'p.id')
-            ->where('users.id',$id)
             ->first();
 
                 $this->data['portfolios']= Portfolio::where('user_id',$id)
             ->get();
 
 
-        return view('frontend.freelancer.other_freelancer.portfolio.other_freelancer_portfolio',$this->data);
+        return view('frontend.freelancer.other_freelancer.other_freelancer_portfolio',$this->data);
     }
 
     function other_freelancer_review($id)
     {
-        $this->data['users']= User::find($id)
+                $this->data['users']= User::where('users.id',$id)
             ->select('users.*','p.profession as profession')
             ->join('professions as p', 'users.professions_id', '=', 'p.id')
-            ->where('users.id',$id)
             ->first();
 
         return view('frontend.freelancer.other_freelancer.other_freelancer_review',$this->data);
