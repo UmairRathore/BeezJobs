@@ -40,6 +40,20 @@ Route::get('/jobs/random', [JobController::class, 'createRandomJobs'])->name('ad
 Route::get('/', [HomeController::class, 'index'])->name('index');
 
 
+Route::get('/autocomplete', function () {
+
+    $query = request('q');
+
+    $results = \App\Models\Profession::select('professions.profession as category')
+        ->where('professions.profession', 'LIKE', "%{$query}%")
+        ->get();
+    return response()->json($results);
+
+
+})->name('autocomplete');
+
+
+
 Route::get('/signup', [RegistrationController::class, 'signup'])->name('signup');
 Route::post('/signup', [RegistrationController::class, 'postsignUp'])->name('postsignup');
 
@@ -177,46 +191,6 @@ Route::post('/create_profession', [ProfessionController::class, 'createProfessio
 //Role
 Route::get('/create_role', [RoleController::class, 'showRole'])->name('role.show');
 Route::post('/create_role', [RoleController::class, 'createRole'])->name('role.store');
-
-
-
-Route::get('/search', [HomeController::class, 'search'])->name('search');
-
-
-Route::get('/autocomplete', function () {
-
-    $query = request('q');
-
-    if (str_contains(strtolower($query), 'location')) {
-        $jobs = Job::select('jobs.location as location')
-            ->where('location', 'LIKE', '%'.$query.'%')
-            ->get();
-    } else if (str_contains(strtolower($query), 'category')) {
-        $jobs = Job::select('professions.profession as category')
-            ->join('users', 'users.id', '=', 'jobs.user_id')
-            ->join('professions', 'professions.id', '=', 'users.professions_id')
-            ->where('professions.profession', 'LIKE', "%{$query}%")
-            ->distinct()
-            ->get();
-    } else {
-        $jobs = [];
-    }
-
-    $results = [];
-
-    foreach ($jobs as $job) {
-        $results[] = $job->toArray();
-    }
-
-    if (str_contains(strtolower($query), 'location')) {
-        return response()->json(['type' => 'location', 'data' => $results]);
-    } else if (str_contains(strtolower($query), 'category')) {
-        return response()->json(['type' => 'category', 'data' => $results]);
-    } else {
-        return response()->json(['type' => 'none', 'data' => $results]);
-    }
-
-})->name('autocomplete');
 
 
 

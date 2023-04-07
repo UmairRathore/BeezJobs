@@ -21,7 +21,7 @@
             <div class="row">
                 @include('frontend.freelancer.other_freelancer.layout.other_freelancer_sidebar')
                 <div class="col-lg-9 col-md-8 mainpage">
-                    @include('frontend.freelancer.other_freelancer.other_freelancer_nav')
+                    @include('frontend.freelancer.other_freelancer.layout.other_freelancer_nav')
 
                     <div class="view_chart">
                         <div class="view_chart_header">

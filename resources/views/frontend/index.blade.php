@@ -9,7 +9,7 @@
                     <div class="col-lg-10 col-md-5 col-12">
                         <div class="form-group mb-0">
                             <input name="search" id="search_input" class="search-1" type="text" placeholder="Keywords (e.g. Location,Job Title,...)">
-                            <div class="dropdown">
+                            <div class="col-lg-10 col-md-5 col-12 dropdown">
                                 <ul id="search_suggestions_dropdown" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                 </ul>
                             </div>
@@ -22,25 +22,6 @@
             </form>
         </div>
     </div>
-
-    {{--    <div class="Search-section">--}}
-    {{--        <div class="container">--}}
-    {{--            <div id="search-suggestions"></div>--}}
-    {{--            <form method="get" action="{{route('browse_jobs')}}">--}}
-    {{--            <div class="row">--}}
-    {{--                <div class="col-lg-10 col-md-5 col-12">--}}
-    {{--                    <div class="form-group mb-0">--}}
-    {{--                        <input name="search" id="search_input" class="search-1" type="text" placeholder="Keywords (e.g. Location,Job Title,...)">--}}
-    {{--                    </div>--}}
-    {{--                </div>--}}
-    {{--                <div class="col-lg-2 col-md-3 col-12 mt-15">--}}
-    {{--                        <button class="srch-btn" type="submit">Search Now</button>--}}
-    {{--                </div>--}}
-    {{--            </div>--}}
-    {{--        </form>--}}
-    {{--        </div>--}}
-    {{--    </div>--}}
-
 
     <div class="banner-slider">
         <div class="owl-carousel bnnr-owl owl-theme">
@@ -303,7 +284,7 @@
                                         </div>
                                         <div class="job-buttons">
                                             <ul class="link-btn">
-                                                <li><a href="{{route('other_freelancer_profile',[$user->id])}}" class="link-j1" title="View Profile">View Profile</a></li>
+                                                <li><a href="{{route('other_freelancer_profile',[$user->id])}}" class="link-j1" title="View Profile">View {{$user->id}}Profile</a></li>
                                                 <li><a href="#" class="link-j1" title="Hire Me">Hire Me</a></li>
                                                 <li class="bkd-pm">
                                                     <button class="bookmark1" title="bookmark"><i class="fas fa-heart"></i></button>
@@ -411,7 +392,7 @@
                     success: function (data) {
                         $('#search_suggestions_dropdown').html('');
                         $.each(data, function (index, value) {
-                            $('#search_suggestions_dropdown').append('<li><a href="#">' + value.location + '</a></li>');
+                            $('#search_suggestions_dropdown').append('<li><a href="#">' + value.category + '</a></li>');
                         });
                         $('#search_suggestions_dropdown').show();
                     }
