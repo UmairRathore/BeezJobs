@@ -44,19 +44,6 @@ class HomeController extends Controller
     }
 
 
-    public function search(Request $request)
-    {
-        $query = request('search');
-        $result = Job::select('jobs.*','professions.profession','jobs.location')
-            ->join('users', 'jobs.user_id', '=', 'users.id')
-            ->join('professions', 'users.professions_id', '=', 'professions.id')
-            ->orWhere('professions.profession', 'LIKE', '%'.$query.'%')
-            ->orWhere('jobs.location', 'LIKE', '%'.$query.'%')
-            ->get();
-
-
-        return response()->json($result);
-    }
 
     public function contactUs()
     {
