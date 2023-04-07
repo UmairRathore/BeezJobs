@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Bid;
 use App\Models\City;
 use App\Models\Job;
 use App\Models\Profession;
@@ -81,17 +82,16 @@ class JobController extends Controller
         $this->data['categories'] = Profession::get();
 
 
-        $this->data['jobs'] = Job::select('jobs.*','users.*','professions.*')
+        $this->data['jobs'] = Job::select('jobs.*','jobs.location','jobs.id as jid','users.*','professions.*')
             ->join('users', 'users.id', '=', 'jobs.user_id')
-            ->join('professions', 'users.professions_id', '=', 'professions.id');
+            ->join('professions', 'professions.id', '=', 'users.professions_id');
+
 
         $search = $request->search;
         $category = $request->category;
         $pay_rate_range = $request->pay_rate_range;
         $location = $request->location;
 
-
-//        dd($search);
         if (!empty($search)) {
             $this->data['jobs']->where('professions.profession','like','% '.$search.'%')
                 ->orwhere('jobs.location', 'like', '%'.$search.'%');
@@ -101,16 +101,19 @@ class JobController extends Controller
         }
 
         if (!empty($pay_rate_range)) {
-            $this->data['jobs']->where('jobs.budget', '>=', $pay_rate_range);
+            if ($pay_rate_range==0)
+            {
+                $pay_rate_range = null;
+            }
+                $this->data['jobs']->where('jobs.budget', '<=', $pay_rate_range);
         }
 
         if (!empty($location)) {
             $this->data['jobs']->where('jobs.location', 'like', '%' . $location . '%');
         }
 
+//dd( $this->data['jobs'] );
         $this->data['jobs'] = $this->data['jobs']->orderBy('jobs.created_at', 'desc')->paginate(10);
-
-//dd($this->data['jobs']);
 
         return view('frontend.job.browse_jobs',$this->data);
     }
@@ -121,11 +124,44 @@ class JobController extends Controller
 
     public function job_single_view($id)
     {
-        $this->data['job'] = Job::select('jobs.*','users.*','jobs.description as desc','users.first_name as fname','users.last_name as lname','professions.*')
+//        dd($id);
+        $this->data['job'] = Job::where('jobs.id',$id)->select('jobs.*')
             ->join('users', 'users.id', '=', 'jobs.user_id')
             ->join('professions', 'users.professions_id', '=', 'professions.id')
-        ->where('jobs.id',$id)->first();
+        ->first();
+
+//        dd($this->data['job']->id);
+
+
+        $this->data['bids'] = Bid::select('bids.*','u.location','u.first_name','u.last_name')->where('job_id',$id)->join('users as u','u.id','=','bids.user_id')->get();
 //        dd($this->data['job']);
         return view('frontend.job.job_single_view',$this->data);
+    }
+    public function storeBid(Request $request)
+    {
+//        dd($request);
+        $validator = Validator::make($request->all(),
+            [
+                'user_id' => 'required',
+                'job_id' => 'required',
+                'bid_description' => 'required',
+                'bid_budget' => 'required',
+            ]);
+
+
+        if ($validator->fails()) {
+            return back()->with('required_fields_empty', 'FIll all the required fields!')
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $show = new Bid();
+        $show->user_id = auth()->user()->id;
+        $show->job_id = $request->input('job_id');
+        $show->bid_budget = $request->input('bid_budget');
+        $show->bid_description = $request->input('bid_description');
+
+        $show->save();
+        return back()->with('info_created', 'You Bid has been added Successfully!');
     }
 }

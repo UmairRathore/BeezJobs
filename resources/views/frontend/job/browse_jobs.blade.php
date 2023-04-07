@@ -1,16 +1,11 @@
 @extends('layouts.frontend.master')
-@section('title', 'Home')
+@section('title', 'Browse Jobs')
 @section('content')
 
 
 
 
-<!-- Title Star
-t -->
-
-
-
-
+<!-- Title Start -->
 
 <div class="title-bar">
 			<div class="container">
@@ -77,7 +72,7 @@ t -->
                                     </div>
                                     <div class="filter-dd">
                                         <div class="rg-slider">
-                                            <input class="rn-slider slider-input" type="range" min="0" max="1000" step="1"  name="pay_rate_range"/>
+                                            <input class="rn-slider slider-input" type="range" min="0" max="10" step="1" value="0"  name="pay_rate_range"/>
 
                                             {{--                                    <input class="rn-slider slider-input" type="range" value="5,500"/>--}}
                                         </div>
@@ -155,7 +150,7 @@ t -->
 												<div class="job-buttons">
 													<ul class="link-btn">
 														<li><a href="#" class="link-j1" title="Apply Now">APPLY NOW</a></li>
-                                                        <li><a href="{{route('job_single_view',[$job->id])}}" class="link-j1" title="View Job">View Job</a></li>
+                                                        <li><a href="{{route('job_single_view',[$job->jid])}}" class="link-j1" title="View Job">View Job</a></li>
 														<li class="bkd-pm"><button class="bookmark1" title="bookmark"><i class="fas fa-heart"></i></button></li>
 													</ul>
 												</div>
