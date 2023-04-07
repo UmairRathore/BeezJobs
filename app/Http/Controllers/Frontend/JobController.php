@@ -82,19 +82,27 @@ class JobController extends Controller
         $this->data['categories'] = Profession::get();
 
 
-        $this->data['jobs'] = Job::select('jobs.*','jobs.location','jobs.id as jid','users.*','professions.*')
+        $search = $request->search;
+
+//        dd($search);
+//        $this->data['jobs'] = Job::select('jobs.*','jobs.location','jobs.id as jid','users.*','professions.profession')
+//            ->join('users', 'users.id', '=', 'jobs.user_id')
+//            ->join('professions', 'professions.id', '=', 'users.professions_id')
+//            ->where('professions.profession','like','% '.$search.'%')
+//        ->get();
+
+        $this->data['jobs'] = Job::select('jobs.*','jobs.id as jid', 'professions.profession')
             ->join('users', 'users.id', '=', 'jobs.user_id')
             ->join('professions', 'professions.id', '=', 'users.professions_id');
-
-
-        $search = $request->search;
+//            ->where('professions.profession', 'LIKE', "%{$search}%")
+//            ->get();
+//dd($this->data['jobs'] );
         $category = $request->category;
         $pay_rate_range = $request->pay_rate_range;
         $location = $request->location;
 
         if (!empty($search)) {
-            $this->data['jobs']->where('professions.profession','like','% '.$search.'%')
-                ->orwhere('jobs.location', 'like', '%'.$search.'%');
+            $this->data['jobs']->where('professions.profession','LIKE',"%{$search}%");
         }
         if (!empty($category)) {
             $this->data['jobs']->where('professions.id', $category);
@@ -109,7 +117,7 @@ class JobController extends Controller
         }
 
         if (!empty($location)) {
-            $this->data['jobs']->where('jobs.location', 'like', '%' . $location . '%');
+            $this->data['jobs']->where('jobs.location', 'like', "%{$location}%");
         }
 
 //dd( $this->data['jobs'] );
