@@ -8,7 +8,7 @@
 
 
 @section('content')
-    <link href="{{asset('vendor/toastr/css/toastr.min.css')}}" rel="stylesheet">
+    <link href="{{asset('vendor_public/toastr/css/toastr.min.css')}}" rel="stylesheet">
     <style>
         .switch {
             position: relative;
@@ -144,9 +144,9 @@
     </div>
 
 
-    <script src="{{asset('backend/vendor/jquery/jquery.js')}}"></script>
+    <script src="{{asset('backend/vendor_public/jquery/jquery.js')}}"></script>
 
-    <script src="{{asset('vendor/toastr/js/toastr.min.js')}}"></script>
+    <script src="{{asset('vendor_public/toastr/js/toastr.min.js')}}"></script>
     <script>
 
         $(document).on("click", ".checkbox_list", function () {

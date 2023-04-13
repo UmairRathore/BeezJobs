@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Bid;
+use App\Models\Chat;
 use App\Models\City;
 use App\Models\Job;
+
 use App\Models\Profession;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -133,17 +135,61 @@ class JobController extends Controller
     public function job_single_view($id)
     {
 //        dd($id);
-        $this->data['job'] = Job::where('jobs.id',$id)->select('jobs.*')
+        if (Auth::user()) {
+            $user_id = Auth::user()->id;
+        }
+        $this->data['job'] = Job::where('jobs.id', $id)->select('jobs.*','users.first_name','users.last_name')
             ->join('users', 'users.id', '=', 'jobs.user_id')
             ->join('professions', 'users.professions_id', '=', 'professions.id')
-        ->first();
+            ->first();
 
-//        dd($this->data['job']->id);
+        $this->data['bids'] = Bid::select('bids.*', 'jobs.user_id as jobUserId','u.location', 'u.first_name', 'u.last_name')
+            ->where('job_id', $id)
+            ->join('users as u', 'u.id', '=', 'bids.user_id')
+            ->join('jobs', 'jobs.id', '=', 'bids.job_id')->get();
+//        dd($this->data['bids']);
+
+        foreach ($this->data['bids'] as $bid_chat_id) {
+//        dd($bid_chat_id->user_id);
+//            dd($bid_chat_id->jobUserId);
+//            dd($this->data['job']->user_id);
+//            $this->data['chats'] = Chat::whereIn('receiver_id', [$this->data['bids']->user_id, $user_id])
+            $this->data['chats'] = Chat::whereIn('receiver_id', [$bid_chat_id->user_id, $user_id])
+                ->whereIn('sender_id', [$bid_chat_id->jobUserId, $user_id])
+                ->get();
+//                ->whereIn('sender_id', [$this->data['bids']->user_id, $user_id])->get();
+        return view('frontend.job.job_single_view', $this->data);
+        }
+//            dd($this->data['chats']);
+//        dd($this->data['chat']);
+    }
+
+    public function singlePost($id)
+    {
+        $reciever_id = Post::where('id', $id)->value('user_id');
+        $user_id = 0;
+        if(Auth::user()){
+            $user_id = Auth::user()->id;
+        }
+        $this->data['messages'] = Messaging::whereIn('receiver_id', [$reciever_id, $user_id])
+            ->whereIn('sender_id', [$reciever_id, $user_id])->get();
+
+        $this->data['singlepost'] = $this->_model::
+        Select('posts.*', 'u.username','u.description as userdesc','u.user_image')
+            ->join('users as u', 'u.id', '=', 'posts.user_id')
+            ->where('posts.id', $id)
+            ->get();
+
+        $this->data['commentcount'] = $this->_model::
+        Select('posts.*', 'u.username')
+            ->join('comments as c', 'c.post_id', '=', 'posts.id')
+            ->where('posts.id', $id)
+            ->where('c.parent_id', null)
+            ->count();
+        $this->data['comments'][] = $this->data['commentcount'];
 
 
-        $this->data['bids'] = Bid::select('bids.*','u.location','u.first_name','u.last_name')->where('job_id',$id)->join('users as u','u.id','=','bids.user_id')->get();
-//        dd($this->data['job']);
-        return view('frontend.job.job_single_view',$this->data);
+        return view($this->_viewPath . 'single-post', $this->data);
     }
     public function storeBid(Request $request)
     {

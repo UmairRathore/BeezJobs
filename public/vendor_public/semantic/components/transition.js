@@ -79,7 +79,7 @@ $.fn.transition = function() {
           moduleNamespace = 'module-' + settings.namespace;
           instance        = $module.data(moduleNamespace) || module;
 
-          // get vendor specific events
+          // get vendor_public specific events
           animationEnd    = module.get.animationEndEvent();
 
           if(methodInvoked) {

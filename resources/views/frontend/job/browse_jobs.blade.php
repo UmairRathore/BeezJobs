@@ -131,7 +131,7 @@
                                                         @if($job->profile_image)
 														<img src="{{asset($job->profile_image)}}" alt="">
                                                         @else
-														<img src="images/homepage/latest-jobs/img-1.jpg" alt="">
+														<img src="{{asset('images/homepage/latest-jobs/img-1.jpg')}}" alt="">
                                                             @endif
 														<div class="job-ut-dts">
 															<a href="{{route('other_freelancer_profile',[$job->user_id])}}"><h4>{{$job->first_name.' '.$job->last_name}}</h4></a>

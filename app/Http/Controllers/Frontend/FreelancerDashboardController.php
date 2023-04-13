@@ -24,10 +24,10 @@ class FreelancerDashboardController extends Controller
     {
         return view('frontend.freelancer.my_freelancer_settings');
     }
-    function my_freelancer_messages()
-    {
-        return view('frontend.freelancer.my_freelancer_messages');
-    }
+//    function my_freelancer_messages()
+//    {
+//        return view('frontend.freelancer.my_freelancer_messages');
+//    }
     function my_freelancer_jobs()
     {
         return view('frontend.freelancer.my_freelancer_jobs');
@@ -148,7 +148,7 @@ class FreelancerDashboardController extends Controller
         }
 
         if (!empty($location)) {
-             $this->data['users']->where('users.location', 'like', '%' . $location . '%');
+             $this->data['users']->where('users.location', 'like',"%{$location}%");
         }
         $this->data['users'] = $this->data['users']->orderBy('created_at', 'desc')->paginate(10);
 

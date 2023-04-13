@@ -89,7 +89,7 @@
 
 
 @section('status')
-    <script src="{{asset('vendor/toastr/js/toastr.min.js')}}"></script>
+    <script src="{{asset('vendor_public/toastr/js/toastr.min.js')}}"></script>
     <script>
 
         $(document).on("click", ".checkbox_list", function () {

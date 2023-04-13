@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AboutController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\BidController;
+use App\Http\Controllers\Admin\ChatController;
 use App\Http\Controllers\Admin\CityController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\PrivacyController;
@@ -35,6 +36,10 @@ use Illuminate\Support\Facades\Route;
 //Authentication
 Route::get('/users/random', [UserController::class, 'createRandomUsers'])->name('add.random');
 Route::get('/jobs/random', [JobController::class, 'createRandomJobs'])->name('add.random.jobs');
+
+
+Route::post('storechat', [ChatController::class, 'store']);  //whenever use ajax don't use name function
+
 
 
 Route::get('/', [HomeController::class, 'index'])->name('index');
@@ -71,7 +76,8 @@ Route::get('/selectprofile/{role_id}', [RegistrationController::class, 'postsele
 //freelancer
 Route::get('/my_freelancer_dashboard', [FreelancerDashboardController::class, 'my_freelancer_dashboard'])->name('my_freelancer_dashboard');
 Route::get('/my_freelancer_setting', [FreelancerDashboardController::class, 'my_freelancer_settings'])->name('my_freelancer_setting');
-Route::get('/my_freelancer_messages', [FreelancerDashboardController::class, 'my_freelancer_messages'])->name('my_freelancer_messages');
+Route::get('/my_freelancer_messages', [ChatController::class, 'my_freelancer_messages'])->name('my_freelancer_messages');
+Route::get('/freelancer_texting/{id}', [ChatController::class, 'texting'])->name('freelancer_texting');
 Route::get('/my_freelancer_jobs', [FreelancerDashboardController::class, 'my_freelancer_jobs'])->name('my_freelancer_jobs');
 Route::get('/my_freelancer_bids', [FreelancerDashboardController::class, 'my_freelancer_bids'])->name('my_freelancer_bids');
 Route::get('/my_freelancer_portfolio', [FreelancerDashboardController::class, 'my_freelancer_portfolio'])->name('my_freelancer_portfolio');

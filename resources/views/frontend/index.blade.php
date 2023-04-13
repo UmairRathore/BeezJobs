@@ -2,14 +2,53 @@
 @section('title', 'Home')
 
 @section('content')
+    <style>
+        #search_suggestions_dropdown {
+            width: 100%;
+            /*height: 200px;*/
+            overflow-y: scroll; /* add a scrollbar if content overflows the height */
+        }
+        .dropdown-menu {
+            width: 400px;
+            height: auto;
+            max-height: 300px;
+            overflow-y: auto;
+            padding: 10px;
+            border-radius: 4px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            border: none;
+        }
+
+        .dropdown-menu li {
+            padding: 5px;
+        }
+
+        .dropdown-menu li:hover {
+            background-color: #f5f5f5;
+        }
+
+        .dropdown-menu h3 {
+            margin-bottom: 5px;
+            font-size: 18px;
+        }
+
+        .dropdown-menu p {
+            margin-bottom: 0;
+            font-size: 14px;
+            color: #666;
+        }
+        .dropdown-menu li a {
+            color: black;
+        }
+    </style>
     <div class="Search-section">
         <div class="container">
             <form method="get" action="{{route('browse_jobs')}}">
                 <div class="row">
                     <div class="col-lg-10 col-md-5 col-12">
                         <div class="form-group mb-0">
-                            <input name="search" id="search_input" class="search-1" type="text" placeholder="Keywords (e.g. Location,Job Title,...)">
-                            <div class="col-lg-10 col-md-5 col-12 dropdown">
+                            <input name="search" id="search_input" class="search-1" type="text" placeholder="Keywords (Job Title,...)">
+                            <div class="dropdown">
                                 <ul id="search_suggestions_dropdown" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                 </ul>
                             </div>

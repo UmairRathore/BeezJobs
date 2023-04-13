@@ -14,7 +14,7 @@
     <title>@yield('title')</title>
 
     <!-- Custom fonts for this template-->
-    <link href="{{asset('backend/vendor/fontawesome-free/css/all.min.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{asset('backend/vendor_public/fontawesome-free/css/all.min.css')}}" rel="stylesheet" type="text/css">
     @yield('datatableCSS')
 
     <link
@@ -92,17 +92,17 @@
 </div>
 
 <!-- Bootstrap core JavaScript-->
-<script src="{{asset('backend/vendor/jquery/jquery.js')}}"></script>
-<script src="{{asset('backend/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+<script src="{{asset('backend/vendor_public/jquery/jquery.js')}}"></script>
+<script src="{{asset('backend/vendor_public/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 
 <!-- Core plugin JavaScript-->
-<script src="{{asset('backend/vendor/jquery-easing/jquery.easing.min.js')}}"></script>
+<script src="{{asset('backend/vendor_public/jquery-easing/jquery.easing.min.js')}}"></script>
 
 <!-- Custom scripts for all pages-->
 <script src="{{asset('backend/js/sb-admin-2.min.js')}}"></script>
 
 <!-- Page level plugins -->
-<script src="{{asset('backend/vendor/chart.js/Chart.min.js')}}"></script>
+<script src="{{asset('backend/vendor_public/chart.js/Chart.min.js')}}"></script>
 
 <!-- Page level custom scripts -->
 <script src="{{asset('backend/js/demo/chart-area-demo.js')}}"></script>
