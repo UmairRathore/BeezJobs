@@ -23,6 +23,21 @@
                             </li>
                         </ul>
                     </div>
+                    <?php
+                    $messages = \App\Models\Chat::
+                    where('sender_id', Auth()->user()->id)
+                        ->orWhere('receiver_id',Auth()->user()->id)
+                        ->orderby('id', 'desc')
+                        ->get()
+                        ->unique('sender_id')
+                        ->pluck('sender_id');
+                    $users = \App\Models\User::whereIn('id',$messages)
+                        ->where('id','!=',Auth()->user()->id)
+                        ->get();
+
+
+                    ?>
+{{--                                            {{dd($users)}}--}}
                     <div class="top-right-hd">
                         <ul>
                             <li class="dropdown">
@@ -30,38 +45,28 @@
                                     <i class="fas fa-envelope"></i><div class="circle-alrt"></div>
                                 </a>
                                 <div class="dropdown-menu message-dropdown dropdown-menu-right">
+
+                                            @foreach($users as $user)
                                     <div class="user-request-list">
                                         <div class="request-users">
                                             <div class="user-request-dt">
-                                                <a href="#"><img src="images/user-dp-1.jpg" alt="">
-                                                    <div class="user-title1">Jassica William </div>
-                                                    <span>Hey How are you John Doe...</span>
+                                                <a href="{{route('freelancer_texting',[$user->id])}}">
+
+                                                    <img src="images/user-dp-1.jpg" alt="">
+                                                    <div class="user-title1">{{$user->first_name.' '.$user->last_name}} </div>
+                                                    <?php
+                                                    $latestMessage=  \App\Models\Chat::where('sender_id', Auth()->user()->id)
+                                                        ->orWhere('receiver_id',$user->id)
+                                                        ->orderby('id', 'desc')
+                                                        ->pluck('message')
+                                                        ->first();
+                                                    ?>
+                                                    <span>{{$latestMessage}}</span>
                                                 </a>
                                             </div>
                                             <div class="time5">2 min ago</div>
                                         </div>
-                                    </div>
-                                    <div class="user-request-list">
-                                        <div class="request-users">
-                                            <div class="user-request-dt">
-                                                <a href="#"><img src="images/user-dp-1.jpg" alt="">
-                                                    <div class="user-title1">Rock Smith </div>
-                                                    <span>Interesting Event! I will join this...</span>
-                                                </a>
-                                            </div>
-                                            <div class="time5">5 min ago</div>
-                                        </div>
-                                    </div>
-                                    <div class="user-request-list">
-                                        <div class="request-users">
-                                            <div class="user-request-dt">
-                                                <a href="#"><img src="images/user-dp-1.jpg" alt="">
-                                                    <div class="user-title1">Joy Doe </div>
-                                                    <span>Hey Sir! What about you...</span>
-                                                </a>
-                                            </div>
-                                            <div class="time5">10 min ago</div>
-                                        </div>
+                                            @endforeach
                                     </div>
                                     <div class="user-request-list">
                                         <a href="{{route('my_freelancer_messages')}}" class="view-all">View All Messages</a>
