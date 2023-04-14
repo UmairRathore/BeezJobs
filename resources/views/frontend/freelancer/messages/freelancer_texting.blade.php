@@ -149,10 +149,12 @@
                                                             <div class="usr-mg-info">
                                                                 {{--															<h3>Johnson Smith</h3>--}}
                                                                 <h3>{{$data->first_name}} </h3>
+                                                                {{$latestMessage}}
                                                                 {{--															<p>Thanks for the hired me...</p>--}}
                                                             </div><!--usr-mg-info end-->
                                                             <span class="posted_time">1:55 PM</span>
                                                             <span class="msg-notifc">1</span>
+                                                        </a>
                                                     </div><!--usr-msg-details end-->
                                                 </li>
                                             @endforeach
@@ -161,7 +163,7 @@
                                 </div><!--msgs-list end-->
                             </div>
                             <div class="col-xl-8 col-md-12 mission-slider">
-                                <div id="chat" class="mesgs">
+                                <div class="mesgs">
                                 <div id="mesgs" class="main-conversation-box">
 
 
@@ -185,16 +187,15 @@
                                         <a href="#" title="" class="ed-opts-open"><i></i></a>
                                     </div><!--message-bar-head end-->
 
-
-                                    <div class="messages-line scrollstyle_4">
-                                        <div class="mCustomScrollbar">
+                                    <div class="messages-line main_chat scrollstyle_4"  id="chat">
+                                        <div id="main_chat" class="mCustomScrollbar">
                                             @foreach($messages as $message)
                                                 @if(Auth::user()->id == $message->sender_id)
                                                     <div class="main-message-box ta-right">
                                                         <div class="message-dt">
                                                             <div class="message-inner-dt">
 {{--                                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec rutrum congue leo eget malesuada. Vivamus suscipit tortor eget felis porttitor.</p>--}}
-                                                           <p>{{$message->message}}</p>
+                                                           <p style="width: auto;">{{$message->message}}</p>
                                                             </div><!--message-inner-dt end-->
                                                             <span>{{$message->created_at->diffForHumans()}}</span>
                                                         </div><!--message-dt end-->
@@ -248,19 +249,17 @@
 
                                                     success: function (response) {
 
-                                                        console.log(response);
+                                                        //
                                                         $('#chatmodalform')[0].reset(); // Clear the form
-                                                        $("#chat").load(location.href + " #chat");
+                                                        $("#chat").load(location.href + " #chat")
+
+                                                        //
+                                                            $('.main_chat').animate({
+                                                                scrollTop: $('.main_chat').prop('scrollHeight')
+                                                            }, 200);
 
                                                     },
                                                 });
-                                            });
-                                            $("#btn-chat").click(function (e) {
-                                                // $("#repliesdiv").toggleClass("d-none");
-                                                $("#mesgs").animate({
-                                                    scrollTop: ($('#chat').offset().top)
-                                                }, 200);
-
                                             });
 
 
@@ -277,4 +276,14 @@
         </div>
         </div>
     </main>
+@endsection
+@section('pageload')
+    <script>
+        $(window).on('load', function () {
+            // Scroll to the bottom of the chat container
+            $('.main_chat').animate({
+                scrollTop: $('.main_chat').prop('scrollHeight')
+            }, 200);
+        });
+    </script>
 @endsection
