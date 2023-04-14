@@ -323,7 +323,7 @@
                                         </div>
                                         <div class="job-buttons">
                                             <ul class="link-btn">
-                                                <li><a href="{{route('other_freelancer_profile',[$user->id])}}" class="link-j1" title="View Profile">View {{$user->id}}Profile</a></li>
+                                                <li><a href="{{route('other_freelancer_profile',[$user->id])}}" class="link-j1" title="View Profile">View Profile</a></li>
                                                 <li><a href="#" class="link-j1" title="Hire Me">Hire Me</a></li>
                                                 <li class="bkd-pm">
                                                     <button class="bookmark1" title="bookmark"><i class="fas fa-heart"></i></button>
