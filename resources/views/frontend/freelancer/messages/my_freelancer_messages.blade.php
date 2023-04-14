@@ -98,6 +98,7 @@
 														<div class="usr-mg-info">
 {{--															<h3>Johnson Smith</h3>--}}
                                                             <h3>{{$data->first_name}} </h3>
+                                                            <p>{{$latestMessage}} <p>
 {{--															<p>Thanks for the hired me...</p>--}}
 														</div><!--usr-mg-info end-->
 														<span class="posted_time">1:55 PM</span>

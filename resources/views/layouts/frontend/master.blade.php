@@ -68,6 +68,7 @@
 @yield('Location')
 @yield('search')
 @yield('chatmodal')
+@yield('pageload')
 </body>
 
 </html>
