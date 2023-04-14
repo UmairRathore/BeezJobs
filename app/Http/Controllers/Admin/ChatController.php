@@ -38,14 +38,16 @@ class ChatController extends Controller
             $messages = $this->_model::
             where('sender_id', Auth()->user()->id)
                 ->orWhere('receiver_id',Auth()->user()->id)
-//                ->leftjoin('users as u', 'u.id', '=', 'messagings.receiver_id')
                 ->orderby('id', 'desc')
                 ->get()
                 ->unique('sender_id')
                 ->pluck('sender_id');
-//            dd($messages);
-//return $messages;
 
+        $this->data['latestMessage']=  $this->_model::where('sender_id', Auth()->user()->id)
+            ->orWhere('receiver_id',Auth()->user()->id)
+            ->orderby('id', 'desc')
+            ->pluck('message')
+            ->first();
             $user = User::whereIn('id',$messages)
                 ->where('id','!=',Auth()->user()->id)
                 ->get();
@@ -69,7 +71,6 @@ class ChatController extends Controller
                 'message' => 'required',
             ]
         );
-        //         'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         if ($validator->fails()) {
             return back()->with('required_fields_empty', 'FIll all the required fields!')
                 ->withErrors($validator)
@@ -97,12 +98,16 @@ class ChatController extends Controller
             $messages = $this->_model::
             where('sender_id', Auth()->user()->id)
                 ->orWhere('receiver_id',Auth()->user()->id)
-
                 ->orderby('id', 'desc')
                 ->get()
                 ->unique('sender_id')
                 ->pluck('sender_id');
 
+        $this->data['latestMessage']=  $this->_model::where('sender_id', Auth()->user()->id)
+                ->orWhere('receiver_id',Auth()->user()->id)
+                ->orderby('id', 'desc')
+                ->pluck('message')
+                ->first();
 
             $user = User::whereIn('id',$messages)
                 ->where('id','!=',Auth()->user()->id)
