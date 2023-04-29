@@ -1,3 +1,10 @@
+<?php
+
+namespace App\Http\Controllers\Admin;
+use Auth;
+use App\Http\Controllers\Controller;
+use App\Models\Chat;
+?>
 @extends('layouts.frontend.master')
 @section('title', 'Home')
 
@@ -5,6 +12,43 @@
 
 @section('content')
 <style>
+    /* Style the modal */
+    .offer_modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+
+    /* Modal Content/Box */
+    .offer_modal_content {
+        background-color: #fefefe;
+        margin: 5% auto; /* 15% from the top and centered */
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%; /* Could be more or less, depending on screen size */
+    }
+
+    /* Close Button */
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
     .main-message-box {
         display: flex;
         flex-direction: row;
@@ -146,13 +190,21 @@
                                                                 <img src="images/messages/dp-1.jpg" alt="">
                                                                 <span class="msg-status"></span>
                                                             </div>
+                                                            <?php
+															$latestMessage=  Chat::whereIn('sender_id', [$data->id,Auth()->user()->id])
+															->whereIn('receiver_id',[$data->id,Auth()->user()->id])
+															->orderby('id', 'desc')
+															->pluck('message')
+															->first();
+															?>
                                                             <div class="usr-mg-info">
                                                                 {{--															<h3>Johnson Smith</h3>--}}
                                                                 <h3>{{$data->first_name}} </h3>
+                                                                {{$latestMessage}}
                                                                 {{--															<p>Thanks for the hired me...</p>--}}
                                                             </div><!--usr-mg-info end-->
-                                                            <span class="posted_time">1:55 PM</span>
-                                                            <span class="msg-notifc">1</span>
+
+                                                        </a>
                                                     </div><!--usr-msg-details end-->
                                                 </li>
                                             @endforeach
@@ -161,7 +213,7 @@
                                 </div><!--msgs-list end-->
                             </div>
                             <div class="col-xl-8 col-md-12 mission-slider">
-                                <div id="chat" class="mesgs">
+                                <div class="mesgs">
                                 <div id="mesgs" class="main-conversation-box">
 
 
@@ -185,16 +237,15 @@
                                         <a href="#" title="" class="ed-opts-open"><i></i></a>
                                     </div><!--message-bar-head end-->
 
-
-                                    <div class="messages-line scrollstyle_4">
-                                        <div class="mCustomScrollbar">
+                                    <div class="messages-line main_chat scrollstyle_4"  id="chat">
+                                        <div id="main_chat" class="mCustomScrollbar">
                                             @foreach($messages as $message)
                                                 @if(Auth::user()->id == $message->sender_id)
                                                     <div class="main-message-box ta-right">
                                                         <div class="message-dt">
                                                             <div class="message-inner-dt">
 {{--                                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec rutrum congue leo eget malesuada. Vivamus suscipit tortor eget felis porttitor.</p>--}}
-                                                           <p>{{$message->message}}</p>
+                                                           <p style="width: auto;">{{$message->message}}</p>
                                                             </div><!--message-inner-dt end-->
                                                             <span>{{$message->created_at->diffForHumans()}}</span>
                                                         </div><!--message-dt end-->
@@ -222,12 +273,41 @@
                                                        value="{{ old('message') }}" id="message" placeholder="Write your message here..."/>
 
                                                 {{--                                                <button class="msg_send_btn" id="btn-chat" type="submit"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>--}}
-
+                                                <button id="make-offer-btn" type="button">Makeoffer</button>
                                                 <button id="btn-chat" type="submit">Send</button>
                                             </div>
                                         </form>
+
+                                        <!-- Offer Popup -->
+                                        <div id="offer-popup" style="display: none" class="modal">
+                                            <div class="modal-content">
+                                                <span class="close">&times;</span>
+                                                <h2>Make an Offer</h2>
+                                                <form id="offer-form">
+                                                    <input type="hidden" id="receiver-id" name="receiver_id" value="{{$reciever_id}}">
+                                                    <input type="hidden" id="sender-id" name="sender_id" value="{{auth()->user()->id}}">
+                                                    <div class="form-group">
+                                                        <label for="price">Price:</label>
+                                                        <input type="text" class="form-control" id="price" name="price">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="description">Description:</label>
+                                                        <textarea class="form-control" id="description" name="description"></textarea>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="time-of-job">Time of Job:</label>
+                                                        <input type="text" class="form-control" id="time_of_job" name="time_of_job">
+                                                    </div>
+                                                    <button id="submit-offer-btn" type="submit" class="btn btn-primary">Submit</button>
+                                                </form>
+                                            </div>
+                                        </div>
+
+
+
                                         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
                                         <script type="text/javascript">
+                                            // Submit the chat message form using AJAX
                                             $('#chatmodalform').on('submit', function (e) {
                                                 e.preventDefault();
                                                 // alert('ok')
@@ -248,27 +328,129 @@
 
                                                     success: function (response) {
 
-                                                        console.log(response);
+                                                        //
                                                         $('#chatmodalform')[0].reset(); // Clear the form
-                                                        $("#chat").load(location.href + " #chat");
+                                                        $("#chat").load(location.href + " #chat")
+
+                                                        //
+                                                            $('.main_chat').animate({
+                                                                scrollTop: $('.main_chat').prop('scrollHeight')
+                                                            }, 200);
 
                                                     },
                                                 });
                                             });
-                                            $("#btn-chat").click(function (e) {
-                                                // $("#repliesdiv").toggleClass("d-none");
-                                                $("#mesgs").animate({
-                                                    scrollTop: ($('#chat').offset().top)
-                                                }, 200);
 
+                                            $('#make-offer-btn').on('click', function() {
+                                                $('#offer-popup').show();
                                             });
 
+
+                                            $('#submit-offer-btn').on('click', function() {
+                                                // Get the values from the form
+                                                var receiver_id = $('#receiver_id').val();
+                                                var sender_id = $('#sender_id').val();
+                                                var price = $('#price').val();
+                                                var description = $('#description').val();
+                                                var time_of_job = $('#time_of_job').val();
+
+
+                                                $.ajax({
+                                                    url: '/makeOffer',
+                                                    type: 'POST',
+                                                    data: {
+                                                        "_token": "{{ csrf_token() }}",
+                                                        receiver_id: receiver_id,
+                                                        sender_id: sender_id,
+                                                        price: price,
+                                                        description: description,
+                                                        time_of_job: time_of_job
+                                                    },
+                                                    success: function(response) {
+                                                        // Hide the offer popup
+                                                        $('#offer-popup').hide();
+
+                                                        // Display the accept/reject card
+                                                        var acceptRejectCard = '<div class="card"><div class="card-body">' +
+                                                            '<h5 class="card-title">New Offer Received</h5>' +
+                                                            '<p class="card-text">' + description + '</p>' +
+                                                            '<p class="card-text">' + price + '</p>' +
+                                                            '<p class="card-text">' + time_of_job + '</p>' +
+                                                            '<button class="btn btn-success" onclick="acceptOffer(' + response.offer_id + ')">Accept</button>' +
+                                                            '<button class="btn btn-danger" onclick="rejectOffer(' + response.offer_id + ')">Reject</button>' +
+                                                            '</div></div>';
+
+                                                        $('#main_chat').append(acceptRejectCard);
+                                                    },
+                                                    error: function() {
+                                                        // Display an error message
+                                                        alert('An error occurred while making the offer.');
+                                                    }
+                                                });
+                                            });
+
+
+                                            // Function to accept an offer
+                                            function acceptOffer(offerId) {
+                                                // Make an AJAX request to accept the offer
+                                                $.ajax({
+                                                    url: '/accept_offer',
+                                                    type: 'POST',
+                                                    data: {offer_id: offerId},
+                                                    success: function() {
+                                                        // Display a success message
+                                                        alert('Offer accepted!');
+
+                                                        // Remove the accept/reject card from the chat modal
+                                                        $('#main_chat').find('.card').remove();
+                                                    },
+                                                    error: function() {
+                                                        // Display an error message
+                                                        alert('An error occurred while accepting the offer.');
+                                                    }
+                                                });
+                                            }
+
+                                            // Function to reject an offer
+                                            function rejectOffer(offerId) {
+                                                // Make an AJAX request to reject the offer
+                                                $.ajax({
+                                                    url: '/reject_offer',
+                                                    type: 'POST',
+                                                    data: {offer_id: offerId},
+                                                    success: function() {
+                                                        // Display a success message
+                                                        alert('Offer rejected!');
+
+                                                        // Remove the accept/reject card from the chat modal
+                                                        $('#main_chat').find('.card').remove();
+                                                    },
+                                                    error: function() {
+                                                        // Display an error message
+                                                        alert('An error occurred while rejecting the offer.');
+                                                    }
+                                                });
+                                            }
 
                                         </script>
                                     </div><!--message-send-area end-->
                                 </div><!--main-conversation-box end-->
                                 </div>
                             </div><!--main-conversation-box end-->
+{{--                                        <div id="offer-modal" class="offer_modal">--}}
+{{--                                            <div class="offer_modal_content">--}}
+{{--                                                <span class="close">Make Offer modal &times;</span>--}}
+{{--                                                <form id="offer-form">--}}
+{{--                                                    <!-- Add form fields for making an offer -->--}}
+{{--                                                    <input type="text" name="description" class="form-control @error('description') is-invalid @enderror"--}}
+{{--                                                           value="{{ old('description') }}" id="description" placeholder="Write your description here..."/>--}}
+{{--                                                    <input type="text" name="price" class="form-control  @error('price') is-invalid @enderror"--}}
+{{--                                                           value="{{ old('price') }}" id="price" placeholder="Write your price here..."/>--}}
+{{--                                                    <input type="text" name="delivery_time" class="write_msg form-control input-sm chat_input @error('delivery_time') is-invalid @enderror"--}}
+{{--                                                           value="{{ old('delivery_time') }}" id="delivery_time" placeholder="Write your message here..."/>--}}
+{{--                                                </form>--}}
+{{--                                            </div>--}}
+{{--                                        </div>--}}
                         </div>
                     </div>
                 </div><!--messages-sec end-->
@@ -277,4 +459,14 @@
         </div>
         </div>
     </main>
+@endsection
+@section('pageload')
+    <script>
+        $(window).on('load', function () {
+            // Scroll to the bottom of the chat container
+            $('.main_chat').animate({
+                scrollTop: $('.main_chat').prop('scrollHeight')
+            }, 200);
+        });
+    </script>
 @endsection

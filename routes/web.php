@@ -39,6 +39,7 @@ Route::get('/jobs/random', [JobController::class, 'createRandomJobs'])->name('ad
 
 
 Route::post('storechat', [ChatController::class, 'store']);  //whenever use ajax don't use name function
+Route::post('makeOffer', [ChatController::class, 'makeOffer']);  //whenever use ajax don't use name function
 
 
 

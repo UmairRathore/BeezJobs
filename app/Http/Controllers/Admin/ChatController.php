@@ -43,7 +43,7 @@ class ChatController extends Controller
                 ->unique('sender_id')
                 ->pluck('sender_id')
                 ->toArray();
-                
+
                 $messages2 = $this->_model::
             where('sender_id', Auth()->user()->id)
                 ->orWhere('receiver_id',Auth()->user()->id)
@@ -54,7 +54,7 @@ class ChatController extends Controller
                 ->toArray();
                 $result1 = array_merge($messages1, $messages2);
                 $result = array_unique($result1);
-                
+
         $this->data['latestMessage']=  $this->_model::where('sender_id', Auth()->user()->id)
             ->orWhere('receiver_id',Auth()->user()->id)
             ->orderby('id', 'desc')
@@ -64,7 +64,7 @@ class ChatController extends Controller
             $user = User::whereIn('id',$result)
                 ->where('id','!=',Auth()->user()->id)
                 ->get();
-            
+
             $this->data['leftwallmessages'] = $user;
 
 
@@ -76,11 +76,25 @@ class ChatController extends Controller
 
     public function store(Request $request)
     {
-        
+
         $this->data['messages'] = new Chat();
         $this->data['messages']->sender_id = $request->sender_id;
         $this->data['messages']->receiver_id = $request->receiver_id;
         $this->data['messages']->message = $request->message;
+        $this->data['messages']->save();
+
+        return 1;
+    }
+
+    public function makeOffer(Request $request)
+    {
+
+        $this->data['messages'] = new Chat();
+        $this->data['messages']->sender_id = $request->sender_id;
+        $this->data['messages']->receiver_id = $request->receiver_id;
+        $this->data['messages']->description = $request->description;
+        $this->data['messages']->price = $request->price;
+        $this->data['messages']->time_of_job = $request->time_of_job;
         $this->data['messages']->save();
 
         return 1;
@@ -104,7 +118,7 @@ class ChatController extends Controller
                 ->unique('sender_id')
                 ->pluck('sender_id')
                 ->toArray();
-                
+
                 $messages2 = $this->_model::
             where('sender_id', Auth()->user()->id)
                 ->orWhere('receiver_id',Auth()->user()->id)
