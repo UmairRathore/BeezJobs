@@ -138,62 +138,33 @@ class JobController extends Controller
         if (Auth::user()) {
             $user_id = Auth::user()->id;
         }
-        $this->data['job'] = Job::where('jobs.id', $id)->select('jobs.*','users.first_name','users.last_name')
-            ->join('users', 'users.id', '=', 'jobs.user_id')
-            ->join('professions', 'users.professions_id', '=', 'professions.id')
-            ->first();
+//        $this->data['job']
 
+//        dd($this->data['job']);
+
+//        $this->data['bids']
         $this->data['bids'] = Bid::select('bids.*', 'jobs.user_id as jobUserId','u.location', 'u.first_name', 'u.last_name')
             ->where('job_id', $id)
             ->join('users as u', 'u.id', '=', 'bids.user_id')
             ->join('jobs', 'jobs.id', '=', 'bids.job_id')->get();
-//        dd($this->data['bids']);
 
-        foreach ($this->data['bids'] as $bid_chat_id) {
-//        dd($bid_chat_id->user_id);
-//            dd($bid_chat_id->jobUserId);
-//            dd($this->data['job']->user_id);
-//            $this->data['chats'] = Chat::whereIn('receiver_id', [$this->data['bids']->user_id, $user_id])
-            $this->data['chats'] = Chat::whereIn('receiver_id', [$bid_chat_id->user_id, $user_id])
-                ->whereIn('sender_id', [$bid_chat_id->jobUserId, $user_id])
-                ->get();
-//                ->whereIn('sender_id', [$this->data['bids']->user_id, $user_id])->get();
+
+        $this->data['job']= Job::where('jobs.id', $id)->select('jobs.*','users.first_name','users.last_name')
+            ->join('users', 'users.id', '=', 'jobs.user_id')
+            ->join('professions', 'users.professions_id', '=', 'professions.id')
+            ->first();
+
         return view('frontend.job.job_single_view', $this->data);
-        }
-//            dd($this->data['chats']);
-//        dd($this->data['chat']);
+
+
     }
 
-    public function singlePost($id)
-    {
-        $reciever_id = Post::where('id', $id)->value('user_id');
-        $user_id = 0;
-        if(Auth::user()){
-            $user_id = Auth::user()->id;
-        }
-        $this->data['messages'] = Messaging::whereIn('receiver_id', [$reciever_id, $user_id])
-            ->whereIn('sender_id', [$reciever_id, $user_id])->get();
 
-        $this->data['singlepost'] = $this->_model::
-        Select('posts.*', 'u.username','u.description as userdesc','u.user_image')
-            ->join('users as u', 'u.id', '=', 'posts.user_id')
-            ->where('posts.id', $id)
-            ->get();
-
-        $this->data['commentcount'] = $this->_model::
-        Select('posts.*', 'u.username')
-            ->join('comments as c', 'c.post_id', '=', 'posts.id')
-            ->where('posts.id', $id)
-            ->where('c.parent_id', null)
-            ->count();
-        $this->data['comments'][] = $this->data['commentcount'];
-
-
-        return view($this->_viewPath . 'single-post', $this->data);
-    }
     public function storeBid(Request $request)
     {
-//        dd($request);
+//dd($request->user_id);
+
+
         $validator = Validator::make($request->all(),
             [
                 'user_id' => 'required',
@@ -201,21 +172,24 @@ class JobController extends Controller
                 'bid_description' => 'required',
                 'bid_budget' => 'required',
             ]);
-
-
         if ($validator->fails()) {
             return back()->with('required_fields_empty', 'FIll all the required fields!')
                 ->withErrors($validator)
                 ->withInput();
         }
 
+            $check = Bid::where('user_id','=',$request->user_id )->where( 'job_id','=',$request->job_id)->first();
+        if($check) {
+            return back()->with('required_fields_empty', "Bid placed already. Can't place more than one bid");
+        }else
+            {
         $show = new Bid();
         $show->user_id = auth()->user()->id;
         $show->job_id = $request->input('job_id');
         $show->bid_budget = $request->input('bid_budget');
         $show->bid_description = $request->input('bid_description');
-
         $show->save();
         return back()->with('info_created', 'You Bid has been added Successfully!');
+            }
     }
 }

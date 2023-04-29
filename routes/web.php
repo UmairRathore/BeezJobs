@@ -109,7 +109,8 @@ Route::get('/delete_freelancer_portfolio/{id}', [PortfolioController::class, 'de
 Route::get('/post_a_job', [JobController::class, 'showJob'])->name('post_a_job');
 Route::post('/post_a_job', [JobController::class, 'createJob'])->name('post_a_job');
 Route::get('/browse_jobs', [JobController::class, 'browse_jobs'])->name('browse_jobs');
-Route::get('/job_single_view/{id}', [JobController::class, 'job_single_view'])->name('job_single_view');
+//Route::get('/job_single_view/{id}', [JobController::class, 'job_single_view'])->name('job_single_view');
+Route::get('/job/{id}', [JobController::class, 'job_single_view'])->name('job_single_view');
 
 
 Route::get('/about_us', [AboutController::class, 'aboutUs'])->name('about.us');

@@ -18,11 +18,11 @@ class FreelancerDashboardController extends Controller
 
     function my_freelancer_dashboard()
     {
-        return view('frontend.freelancer.my_freelancer_dashboard');
+        return view('frontend.freelancer.my_freelancer.my_freelancer_dashboard');
     }
     function my_freelancer_settings()
     {
-        return view('frontend.freelancer.my_freelancer_settings');
+        return view('frontend.freelancer.my_freelancer.my_freelancer_settings');
     }
 //    function my_freelancer_messages()
 //    {
@@ -30,37 +30,37 @@ class FreelancerDashboardController extends Controller
 //    }
     function my_freelancer_jobs()
     {
-        return view('frontend.freelancer.my_freelancer_jobs');
+        return view('frontend.freelancer.my_freelancer.my_freelancer_jobs');
     }
     function my_freelancer_bids()
     {
-        return view('frontend.freelancer.my_freelancer_bids');
+        return view('frontend.freelancer.my_freelancer.my_freelancer_bids');
     }
     function my_freelancer_portfolio()
     {
         $user_id = auth()->user()->id;
         $data['portfolios'] = Portfolio::where('user_id', $user_id)->get();
-        return view('frontend.freelancer.my_freelancer_portfolio', $data);
+        return view('frontend.freelancer.my_freelancer.my_freelancer_portfolio', $data);
     }
     function my_freelancer_bookmarks()
     {
-        return view('frontend.freelancer.my_freelancer_bookmarks');
+        return view('frontend.freelancer.my_freelancer.my_freelancer_bookmarks');
     }
     function my_freelancer_payments()
     {
-        return view('frontend.freelancer.my_freelancer_payments');
+        return view('frontend.freelancer.my_freelancer.my_freelancer_payments');
     }
     function my_freelancer_profile()
     {
-        return view('frontend.freelancer.my_freelancer_profile');
+        return view('frontend.freelancer.my_freelancer.my_freelancer_profile');
     }
     function my_freelancer_notifications()
     {
-        return view('frontend.freelancer.my_freelancer_notifications');
+        return view('frontend.freelancer.my_freelancer.my_freelancer_notifications');
     }
     function my_freelancer_reviews()
     {
-        return view('frontend.freelancer.my_freelancer_reviews');
+        return view('frontend.freelancer.my_freelancer.my_freelancer_reviews');
     }
     function update_freelancer_social_media_links(Request $request)
     {
@@ -143,7 +143,7 @@ class FreelancerDashboardController extends Controller
             }
             else
             {
-                $this->data['users']->where('users.pay_rate', '>=', $pay_rate_range);
+                $this->data['users']->where('users.pay_rate', '<=', $pay_rate_range);
             }
         }
 

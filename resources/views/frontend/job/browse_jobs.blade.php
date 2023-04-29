@@ -72,7 +72,7 @@
                                     </div>
                                     <div class="filter-dd">
                                         <div class="rg-slider">
-                                            <input class="rn-slider slider-input" type="range" min="0" max="10" step="1" value="0"  name="pay_rate_range"/>
+                                            <input class="rn-slider slider-input" type="range" min="0" max="1000" step="1" value="0"  name="pay_rate_range"/>
 
                                             {{--                                    <input class="rn-slider slider-input" type="range" value="5,500"/>--}}
                                         </div>

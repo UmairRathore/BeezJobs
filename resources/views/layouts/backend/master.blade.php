@@ -112,6 +112,14 @@
 <!-- Ckeditor -->
 <script src="{{asset('https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/ckeditor.js')}}"></script>
 
+<script>
+    $(document).ready(function() {
+        var url = window.location.href;
+        console.log(url);
+        $('.nav-item a[href="'+url+'"]').addClass('active');
+        $('.nav-item a.active').parents('.collapse').addClass('show');
+    });
+</script>
 
 </body>
 

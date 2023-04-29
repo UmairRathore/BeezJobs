@@ -36,43 +36,9 @@ container">
 								<a href="{{route('signout')}}" class="main_lg_btn">Logout</a>
 							</div>
 						</div>
-						<div class="account_tabs">
-						    <ul class="nav nav-tabs">
-								<li class="nav-item">
-									<a class="nav-link" href="{{route('my_freelancer_dashboard')}}">Dashboard</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link" href="{{route('my_freelancer_profile')}}">Profile</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link" href="{{route('my_freelancer_portfolio')}}">Portfolio</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link" href="{{route('my_freelancer_notifications')}}">Notifications</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link" href="{{route('my_freelancer_messages')}}">Messages</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link" href="{{route('my_freelancer_bookmarks')}}">Bookmarks</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link" href="{{route('my_freelancer_jobs')}}">Jobs</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link active" href="{{route('my_freelancer_bids')}}">Bids</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link" href="{{route('my_freelancer_reviews')}}">Reviews</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link" href="{{route('my_freelancer_payments')}}">Payment</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link" href="{{route('my_freelancer_setting')}}"><i class="fas fa-cog"></i></a>
-								</li>
-							</ul>
-						</div>
+                        <div class="account_tabs">
+                            @include('frontend.freelancer.my_freelancer.layout.my_freelancer_navbar')
+                        </div>
 						<div class="jobs_manage">
 							<div class="row">
 								<div class="col-lg-3">
@@ -315,4 +281,14 @@ container">
 			</div>
 		</main>
 
+@endsection
+
+@section('active_tab')
+    <script>
+        $(document).ready(function() {
+            var url = window.location.href;
+            // console.log(url);
+            $('.nav-item a[href="'+url+'"]').addClass('active');
+        });
+    </script>
 @endsection

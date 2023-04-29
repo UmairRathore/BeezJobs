@@ -8,7 +8,7 @@
 
 <!-- Title Start -->
 <div class="tit
-le-bar">			
+le-bar">
 			<div class="container">
 				<div class="row">
 					<div class="col-lg-12">
@@ -16,13 +16,13 @@ le-bar">
 							<li class="breadcrumb-item"><a href="/">Home</a></li>
 							<li class="breadcrumb-item active" aria-current="page">My Account</li>
 						</ol>
-					</div>		
-				</div>		
-			</div>		
+					</div>
+				</div>
+			</div>
 		</div>
 		<!-- Title Start -->
-		<!-- Body Start -->	
-		<main class="browse-section">				
+		<!-- Body Start -->
+		<main class="browse-section">
 			<div class="container">
 				<div class="row">
 					<div class="col-lg-3 col-md-4">
@@ -37,43 +37,8 @@ le-bar">
 								<a href="{{route('signout')}}" class="main_lg_btn">Logout</a>
 							</div>
 						</div>
-						<div class="account_tabs">
-						   <ul class="nav nav-tabs">
-								<li class="nav-item">
-									<a class="nav-link" href="{{route('my_freelancer_dashboard')}}">Dashboard</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link" href="{{route('my_freelancer_profile')}}">Profile</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link" href="{{route('my_freelancer_portfolio')}}">Portfolio</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link" href="{{route('my_freelancer_notifications')}}">Notifications</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link" href="{{route('my_freelancer_messages')}}">Messages</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link" href="{{route('my_freelancer_bookmarks')}}">Bookmarks</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link" href="{{route('my_freelancer_jobs')}}">Jobs</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link active" href="{{route('my_freelancer_bids')}}">Bids</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link" href="{{route('my_freelancer_reviews')}}">Reviews</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link" href="{{route('my_freelancer_payments')}}">Payment</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link" href="{{route('my_freelancer_setting')}}"><i class="fas fa-cog"></i></a>
-								</li>
-							</ul>
-						</div>
+                        <div class="account_tabs">
+                            @include('frontend.freelancer.my_freelancer.layout.my_freelancer_navbar')                        </div>
 						<div class="all_bookmarks">
 							<div class="add-ons-dt accordion" id="accordionExample">
 								<div class="bookmark_card">
@@ -91,14 +56,14 @@ le-bar">
 																	<li><div class="vw1254"><i class="fas fa-briefcase"></i>Full Time</div></li>
 																	<li><div class="vw1254"><i class="far fa-money-bill-alt"></i>$599 - Manual</div></li>
 																	<li><div class="vw1254"><i class="far fa-clock"></i>1 day ago</div></li>
-																</ul>														
+																</ul>
 															</div>
 														</div>
 														<div class="col-md-2">
 															<a href="#" class="delete_icon"><i class="far fa-trash-alt"></i></a>
 														</div>
 													</div>
-												</li>											
+												</li>
 												<li>
 													<div class="row">
 														<div class="col-md-10">
@@ -109,22 +74,22 @@ le-bar">
 																	<li><div class="vw1254"><i class="fas fa-briefcase"></i>Full Time</div></li>
 																	<li><div class="vw1254"><i class="far fa-money-bill-alt"></i>$50 / hr</div></li>
 																	<li><div class="vw1254"><i class="far fa-clock"></i>1 day ago</div></li>
-																</ul>														
+																</ul>
 															</div>
 														</div>
 														<div class="col-md-2">
 															<a href="#" class="delete_icon"><i class="far fa-trash-alt"></i></a>
 														</div>
 													</div>
-												</li>												
+												</li>
 											</ul>
 										</div>
 									</div>
-								</div>														
+								</div>
 								<div class="bookmark_card">
 									<button class="bookmark_collapse" data-toggle="collapse" data-target="#collapse2" aria-expanded="true" aria-controls="collapse2">Bookmarked Projetcs</button>
 									<div id="collapse2" class="collapse show">
-										<div class="card-body">																				
+										<div class="card-body">
 											<ul class="all_applied_jobs jobs_bookmarks">
 												<li>
 													<div class="row">
@@ -136,14 +101,14 @@ le-bar">
 																	<li><div class="vw1254"><i class="fas fa-shield-alt"></i>Verified</div></li>
 																	<li><div class="vw1254"><i class="far fa-money-bill-alt"></i>$599 - $2500</div></li>
 																	<li><div class="vw1254"><i class="far fa-clock"></i>1 day ago</div></li>
-																</ul>														
+																</ul>
 															</div>
 														</div>
 														<div class="col-md-2">
 															<a href="#" class="delete_icon"><i class="far fa-trash-alt"></i></a>
 														</div>
 													</div>
-												</li>											
+												</li>
 												<li>
 													<div class="row">
 														<div class="col-md-10">
@@ -154,22 +119,22 @@ le-bar">
 																	<li><div class="vw1254"><i class="fas fa-shield-alt"></i>Verified</div></li>
 																	<li><div class="vw1254"><i class="far fa-money-bill-alt"></i>$200 - $1000</div></li>
 																	<li><div class="vw1254"><i class="far fa-clock"></i>2 day ago</div></li>
-																</ul>														
+																</ul>
 															</div>
 														</div>
 														<div class="col-md-2">
 															<a href="#" class="delete_icon"><i class="far fa-trash-alt"></i></a>
 														</div>
 													</div>
-												</li>												
+												</li>
 											</ul>
 										</div>
 									</div>
-								</div>																					
+								</div>
 								<div class="bookmark_card">
 									<button class="bookmark_collapse" data-toggle="collapse" data-target="#collapse3" aria-expanded="true" aria-controls="collapse3">Bookmarked Freelancers</button>
-									<div id="collapse3" class="collapse show">	
-										<div class="card-body">								
+									<div id="collapse3" class="collapse show">
+										<div class="card-body">
 											<ul class="all_applied_jobs jobs_bookmarks">
 												<li>
 													<div class="job-center-dt">
@@ -193,8 +158,8 @@ le-bar">
 																			<i class="fas fa-star"></i>
 																			<i class="fas fa-star"></i>
 																			<i class="fas fa-star"></i>
-																			<i class="fas fa-star"></i>								
-																			<span>4.9</span> 
+																			<i class="fas fa-star"></i>
+																			<span>4.9</span>
 																		</div>
 																	</div>
 																	<div class="right-location">
@@ -233,8 +198,8 @@ le-bar">
 																			<i class="fas fa-star"></i>
 																			<i class="fas fa-star"></i>
 																			<i class="fas fa-star"></i>
-																			<i class="fas fa-star"></i>								
-																			<span>4.9</span> 
+																			<i class="fas fa-star"></i>
+																			<span>4.9</span>
 																		</div>
 																	</div>
 																	<div class="right-location">
@@ -251,23 +216,32 @@ le-bar">
 														</div>
 													</div>
 												</li>
-											</ul>								
+											</ul>
 										</div>
 									</div>
 								</div>
 								<div class="bookmark_card">
 									<button class="bookmark_collapse" data-toggle="collapse" data-target="#collapse4" aria-expanded="true" aria-controls="collapse4">Bookmarked Companies</button>
-									<div id="collapse4" class="collapse show">	
-										<div class="card-body">								
-											<p class="cmpny_saved">No Company Bookmarked</p>								
+									<div id="collapse4" class="collapse show">
+										<div class="card-body">
+											<p class="cmpny_saved">No Company Bookmarked</p>
 										</div>
 									</div>
-								</div>	
-							</div>							
+								</div>
+							</div>
 						</div>
-												
-					</div>																																						
+
+					</div>
 				</div>
-			</div>					
+			</div>
 		</main>
+@endsection
+@section('active_tab')
+    <script>
+        $(document).ready(function() {
+            var url = window.location.href;
+            // console.log(url);
+            $('.nav-item a[href="'+url+'"]').addClass('active');
+        });
+    </script>
 @endsection

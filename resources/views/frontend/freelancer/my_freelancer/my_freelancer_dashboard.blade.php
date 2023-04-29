@@ -2,7 +2,7 @@
 @section('title', 'Home')
 
 @section('content')
-<div class="title-bar">			
+<div class="title-bar">
 			<div class="container">
 				<div class="row">
 					<div class="col-lg-12">
@@ -10,13 +10,13 @@
 							<li class="breadcrumb-item"><a href="/">Home</a></li>
 							<li class="breadcrumb-item active" aria-current="page">My Account</li>
 						</ol>
-					</div>		
-				</div>		
-			</div>		
+					</div>
+				</div>
+			</div>
 		</div>
 		<!-- Title Start -->
-		<!-- Body Start -->	
-		<main class="browse-section">				
+		<!-- Body Start -->
+		<main class="browse-section">
 			<div class="container">
 				<div class="row">
 					<div class="col-lg-3 col-md-4">
@@ -31,43 +31,8 @@
 								<a href="{{route('signout')}}" class="main_lg_btn">Logout</a>
 							</div>
 						</div>
-						<div class="account_tabs">
-						<ul class="nav nav-tabs">
-								<li class="nav-item">
-									<a class="nav-link" href="{{route('my_freelancer_dashboard')}}">Dashboard</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link" href="{{route('my_freelancer_profile')}}">Profile</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link" href="{{route('my_freelancer_portfolio')}}">Portfolio</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link" href="{{route('my_freelancer_notifications')}}">Notifications</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link" href="{{route('my_freelancer_messages')}}">Messages</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link" href="{{route('my_freelancer_bookmarks')}}">Bookmarks</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link" href="{{route('my_freelancer_jobs')}}">Jobs</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link active" href="{{route('my_freelancer_bids')}}">Bids</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link" href="{{route('my_freelancer_reviews')}}">Reviews</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link" href="{{route('my_freelancer_payments')}}">Payment</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link" href="{{route('my_freelancer_setting')}}"><i class="fas fa-cog"></i></a>
-								</li>
-							</ul>
-						</div>
+                        <div class="account_tabs">
+                            @include('frontend.freelancer.my_freelancer.layout.my_freelancer_navbar')                        </div>
 						<div class="total_1254">
 							<div class="row">
 								<div class="col-lg-4 col-12">
@@ -124,7 +89,7 @@
 								<div class="col-lg-6">
 									<div class="view_chart">
 										<div class="view_chart_header">
-											<h4>Static Analytics</h4>										
+											<h4>Static Analytics</h4>
 										</div>
 										<div class="view_chart_body">
 											<div class="pie_chart_view">
@@ -152,7 +117,7 @@
 															<span>20</span>
 														</div>
 													</div>
-												</li>	
+												</li>
 												<li>
 													<div class="static_items">
 														<div class="static_left">
@@ -163,7 +128,7 @@
 															<span>10</span>
 														</div>
 													</div>
-												</li>	
+												</li>
 												<li>
 													<div class="static_items">
 														<div class="static_left">
@@ -174,7 +139,7 @@
 															<span>20</span>
 														</div>
 													</div>
-												</li>	
+												</li>
 											</ul>
 										</div>
 									</div>
@@ -182,7 +147,7 @@
 								<div class="col-lg-6">
 									<div class="view_chart">
 										<div class="view_chart_header">
-											<h4>Notes</h4>										
+											<h4>Notes</h4>
 										</div>
 										<div class="view_chart_body">
 											<ul class="all_notes scrollstyle_4">
@@ -240,15 +205,15 @@
 											<button class="add_note_btn" type="button" data-toggle="modal" data-target="#addnoteModal">Add Note</button>
 										</div>
 									</div>
-								</div>							
+								</div>
 							</div>
 						</div>
 						<div class="dsh150">
-							<div class="row">							
+							<div class="row">
 								<div class="col-lg-7">
 									<div class="view_chart">
 										<div class="view_chart_header">
-											<h4>Applied Jobs</h4>										
+											<h4>Applied Jobs</h4>
 										</div>
 										<div class="view_applied_jobs_body">
 											<ul class="all_applied_jobs scrollstyle_4">
@@ -265,7 +230,7 @@
 															<button class="apled_btn50">Applied</button>
 														</div>
 													</div>
-												</li>											
+												</li>
 												<li>
 													<div class="applied_item">
 														<a href="#">Front End Developer</a>
@@ -316,7 +281,7 @@
 								<div class="col-lg-5">
 									<div class="view_chart">
 										<div class="view_chart_header">
-											<h4>Order Plans Summery</h4>										
+											<h4>Order Plans Summery</h4>
 										</div>
 										<div class="view_applied_jobs_body">
 											<ul class="all_paid_plans scrollstyle_4">
@@ -331,7 +296,7 @@
 															<button class="paid_btn">Paid</button>
 														</div>
 													</div>
-												</li>										
+												</li>
 												<li>
 													<div class="plan_dts">
 														<div class="plan_dt_left">
@@ -368,15 +333,24 @@
 														</div>
 													</div>
 												</li>
-											</ul>										
+											</ul>
 										</div>
 									</div>
-								</div>							
-							</div>						
-						</div>						
-					</div>																																						
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
-			</div>					
+			</div>
 		</main>
 @endsection
 
+@section('active_tab')
+    <script>
+        $(document).ready(function() {
+            var url = window.location.href;
+            // console.log(url);
+            $('.nav-item a[href="'+url+'"]').addClass('active');
+        });
+    </script>
+@endsection

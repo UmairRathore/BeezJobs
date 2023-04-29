@@ -35,21 +35,36 @@ class ChatController extends Controller
     {
 
 
-            $messages = $this->_model::
+            $messages1 = $this->_model::
             where('sender_id', Auth()->user()->id)
                 ->orWhere('receiver_id',Auth()->user()->id)
-//                ->leftjoin('users as u', 'u.id', '=', 'messagings.receiver_id')
                 ->orderby('id', 'desc')
                 ->get()
                 ->unique('sender_id')
-                ->pluck('sender_id');
-//            dd($messages);
-//return $messages;
+                ->pluck('sender_id')
+                ->toArray();
+                
+                $messages2 = $this->_model::
+            where('sender_id', Auth()->user()->id)
+                ->orWhere('receiver_id',Auth()->user()->id)
+                ->orderby('id', 'desc')
+                ->get()
+                ->unique('receiver_id')
+                ->pluck('receiver_id')
+                ->toArray();
+                $result1 = array_merge($messages1, $messages2);
+                $result = array_unique($result1);
+                
+        $this->data['latestMessage']=  $this->_model::where('sender_id', Auth()->user()->id)
+            ->orWhere('receiver_id',Auth()->user()->id)
+            ->orderby('id', 'desc')
+            ->pluck('message')
+            ->first();
 
-            $user = User::whereIn('id',$messages)
+            $user = User::whereIn('id',$result)
                 ->where('id','!=',Auth()->user()->id)
                 ->get();
-
+            
             $this->data['leftwallmessages'] = $user;
 
 
@@ -61,20 +76,7 @@ class ChatController extends Controller
 
     public function store(Request $request)
     {
-        $validator = Validator::make(
-            $request->all(),
-            [
-                'sender_id' => 'required',
-                'receiver_id' => 'required',
-                'message' => 'required',
-            ]
-        );
-        //         'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        if ($validator->fails()) {
-            return back()->with('required_fields_empty', 'FIll all the required fields!')
-                ->withErrors($validator)
-                ->withInput();
-        }
+        
         $this->data['messages'] = new Chat();
         $this->data['messages']->sender_id = $request->sender_id;
         $this->data['messages']->receiver_id = $request->receiver_id;
@@ -94,17 +96,32 @@ class ChatController extends Controller
 
             $this->data['reciever_id'] = $reciever_id;
 
-            $messages = $this->_model::
+            $messages1 = $this->_model::
             where('sender_id', Auth()->user()->id)
                 ->orWhere('receiver_id',Auth()->user()->id)
-
                 ->orderby('id', 'desc')
                 ->get()
                 ->unique('sender_id')
-                ->pluck('sender_id');
+                ->pluck('sender_id')
+                ->toArray();
+                
+                $messages2 = $this->_model::
+            where('sender_id', Auth()->user()->id)
+                ->orWhere('receiver_id',Auth()->user()->id)
+                ->orderby('id', 'desc')
+                ->get()
+                ->unique('receiver_id')
+                ->pluck('receiver_id')
+                ->toArray();
+                $result1 = array_merge($messages1, $messages2);
+                $result = array_unique($result1);
+        $this->data['latestMessage']=  $this->_model::where('sender_id', Auth()->user()->id)
+                ->orWhere('receiver_id',Auth()->user()->id)
+                ->orderby('id', 'desc')
+                ->pluck('message')
+                ->first();
 
-
-            $user = User::whereIn('id',$messages)
+            $user = User::whereIn('id',$result)
                 ->where('id','!=',Auth()->user()->id)
                 ->get();
             $this->data['leftwallmessages'] = $user;

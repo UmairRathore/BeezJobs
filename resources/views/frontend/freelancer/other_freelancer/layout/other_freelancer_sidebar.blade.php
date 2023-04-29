@@ -15,7 +15,9 @@
             </div>
             <ul class="user_btns">
                 <li><button class="hire_btn" type="button">Hire Me</button></li>
-                <li><button class="hire_btn" type="button">Message</button></li>
+                <li>
+{{--                    <button class="hire_btn" type="button">Message</button>--}}
+                    <a href="{{route('freelancer_texting',[$users->id])}}"><button class="hire_btn" type="button">Message</button> </a></li>
             </ul>
         </div>
         <?php

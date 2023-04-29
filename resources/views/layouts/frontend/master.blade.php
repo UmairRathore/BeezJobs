@@ -64,10 +64,16 @@
 <!--SELECT2-->
 <script src="{{asset('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js')}}"></script>
 
+
+
+
+@yield('active_tab')
 @yield('google_Map_Location_SignUp')
 @yield('Location')
 @yield('search')
-@yield('chatmodal')
+{{--@yield('chatmodal')--}}
+@yield('pageload')
+
 </body>
 
 </html>

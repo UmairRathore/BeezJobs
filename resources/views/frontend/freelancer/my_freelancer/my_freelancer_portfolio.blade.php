@@ -1,9 +1,9 @@
 @extends('layouts.frontend.master')
 @section('title', 'Home')
 
- 
+
 @section('content')
-<div class="title-bar">			
+<div class="title-bar">
 			<div class="container">
 				<div class="row">
 					<div class="col-lg-12">
@@ -11,13 +11,13 @@
 							<li class="breadcrumb-item"><a href="/">Home</a></li>
 							<li class="breadcrumb-item active" aria-current="page">My Account</li>
 						</ol>
-					</div>		
-				</div>		
-			</div>		
+					</div>
+				</div>
+			</div>
 		</div>
 		<!-- Title Start -->
-		<!-- Body Start -->	
-		<main class="browse-section">				
+		<!-- Body Start -->
+		<main class="browse-section">
 			<div class="container">
 				<div class="row">
 					<div class="col-lg-3 col-md-4">
@@ -32,46 +32,11 @@
 								<a href="{{route('signout')}}" class="main_lg_btn">Logout</a>
 							</div>
 						</div>
-						<div class="account_tabs">
-						   <ul class="nav nav-tabs">
-								<li class="nav-item">
-									<a class="nav-link" href="{{route('my_freelancer_dashboard')}}">Dashboard</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link" href="{{route('my_freelancer_profile')}}">Profile</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link" href="{{route('my_freelancer_portfolio')}}">Portfolio</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link" href="{{route('my_freelancer_notifications')}}">Notifications</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link" href="{{route('my_freelancer_messages')}}">Messages</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link" href="{{route('my_freelancer_bookmarks')}}">Bookmarks</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link" href="{{route('my_freelancer_jobs')}}">Jobs</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link active" href="{{route('my_freelancer_bids')}}">Bids</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link" href="{{route('my_freelancer_reviews')}}">Reviews</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link" href="{{route('my_freelancer_payments')}}">Payment</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link" href="{{route('my_freelancer_setting')}}"><i class="fas fa-cog"></i></a>
-								</li>
-							</ul>
-						</div>
+                        <div class="account_tabs">
+                            @include('frontend.freelancer.my_freelancer.layout.my_freelancer_navbar')                        </div>
 						<div class="portfolio_heading">
 							<div class="portfolio_left">
-								<h4>Portfolio</h4>				
+								<h4>Portfolio</h4>
 							</div>
 							@if (session('alert'))
 								<div class="alert alert-danger">
@@ -80,19 +45,19 @@
 							@endif
 							<div class="portfolio_right">
 								<button class="add_portfolio_btn" type="button" data-toggle="modal" data-target="#addportfolioModal">Add Portfolio</button>
-							</div>		
+							</div>
 						</div>
 						<div class="dsh150">
 							<div class="row">
 								@foreach($portfolios as $portfolio)
 								<div class="col-lg-4">
 									<div class="portfolio_item">
-										<div class="portfolio_img">										
+										<div class="portfolio_img">
 											<img src="{{$portfolio->file}}" alt="">
 											<div class="portfolio_overlay">
 												<div class="overlay_items">
 													<a href="#" target="_blank"><i class="fas fa-external-link-alt"></i>Live Preview</a>
-													
+
 													<a href="{{ URL('delete_freelancer_portfolio/'.$portfolio->id )}}"><button class="delete_portfolio_btn"><i class="far fa-trash-alt"></i></button></a>
 												</div>
 											</div>
@@ -101,12 +66,12 @@
 									</div>
 								</div>
 								@endforeach
-								
+
 							</div>
 						</div>
-					</div>																																						
+					</div>
 				</div>
-			</div>					
+			</div>
 		</main>
 		<div class="apply_job_form">
 			<div class="modal fade" id="addportfolioModal" tabindex="-1" role="dialog">
@@ -129,11 +94,11 @@
 									</div>
 									<div class="form-group">
 										<input type="text" class="job-input" name="link" placeholder="website link">
-									</div>								
+									</div>
 									<div class="form-group">
 										<input type="file" name="file" id="file2">
-										
-									</div>									
+
+									</div>
 								</div>
 								<div class="apply_btn150">
 									<button class="apply_job50" type="submit">Add Portfolio</button>
@@ -147,4 +112,13 @@
 			</div>
 		</div>
 
+@endsection
+@section('active_tab')
+    <script>
+        $(document).ready(function() {
+            var url = window.location.href;
+            // console.log(url);
+            $('.nav-item a[href="'+url+'"]').addClass('active');
+        });
+    </script>
 @endsection

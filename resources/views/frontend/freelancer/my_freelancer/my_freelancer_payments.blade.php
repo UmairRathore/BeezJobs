@@ -8,7 +8,7 @@
 	<!-- Header End -->
 		<!-- Title Start -->
 		<div class="t
-itle-bar">			
+itle-bar">
 			<div class="container">
 				<div class="row">
 					<div class="col-lg-12">
@@ -16,13 +16,13 @@ itle-bar">
 							<li class="breadcrumb-item"><a href="/">Home</a></li>
 							<li class="breadcrumb-item active" aria-current="page">My Account</li>
 						</ol>
-					</div>		
-				</div>		
-			</div>		
+					</div>
+				</div>
+			</div>
 		</div>
 		<!-- Title Start -->
-		<!-- Body Start -->	
-		<main class="browse-section">				
+		<!-- Body Start -->
+		<main class="browse-section">
 			<div class="container">
 				<div class="row">
 					<div class="col-lg-3 col-md-4">
@@ -37,45 +37,10 @@ itle-bar">
 								<a href="{{route('signout')}}" class="main_lg_btn">Logout</a>
 							</div>
 						</div>
-						<div class="account_tabs">
-						    <ul class="nav nav-tabs">
-								<li class="nav-item">
-									<a class="nav-link" href="{{route('my_freelancer_dashboard')}}">Dashboard</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link" href="{{route('my_freelancer_profile')}}">Profile</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link" href="{{route('my_freelancer_portfolio')}}">Portfolio</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link" href="{{route('my_freelancer_notifications')}}">Notifications</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link" href="{{route('my_freelancer_messages')}}">Messages</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link" href="{{route('my_freelancer_bookmarks')}}">Bookmarks</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link" href="{{route('my_freelancer_jobs')}}">Jobs</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link active" href="{{route('my_freelancer_bids')}}">Bids</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link" href="{{route('my_freelancer_reviews')}}">Reviews</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link" href="{{route('my_freelancer_payments')}}">Payment</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link" href="{{route('my_freelancer_setting')}}"><i class="fas fa-cog"></i></a>
-								</li>
-							</ul>
-						</div>
+                        <div class="account_tabs">
+                            @include('frontend.freelancer.my_freelancer.layout.my_freelancer_navbar')                        </div>
 						<div class="jobs_manage">
-							<div class="row">																									
+							<div class="row">
 								<div class="col-lg-3">
 									<div class="jobs_tabs">
 										<ul class="nav job_nav nav-tabs" id="myTab" role="tablist">
@@ -85,7 +50,7 @@ itle-bar">
 											<li class="nav-item job_nav_item">
 												<a class="nav-link" href="#transaction" id="transaction-tab" data-toggle="tab">Transactions</a>
 											</li>
-										</ul>										
+										</ul>
 									</div>
 								</div>
 								<div class="col-lg-9">
@@ -111,11 +76,11 @@ itle-bar">
 															</div>
 														</div>
 													</div>
-												</div>														
+												</div>
 												<div class="bookmark_card">
 													<button class="bookmark_collapse" data-toggle="collapse" data-target="#collapse2" aria-expanded="true" aria-controls="collapse2">Send Payment</button>
 													<div id="collapse2" class="collapse show">
-														<div class="card-body">																				
+														<div class="card-body">
 															<div class="send_payment_dt">
 																<div class="post_job_body">
 																	<div class="form-group">
@@ -130,11 +95,11 @@ itle-bar">
 																<div class="protection">
 																	<i class="fas fa-shield-alt"></i>With Jobby payment protection, only pay for work delivered.
 																</div>
-																<div class="post_job_body">																	
+																<div class="post_job_body">
 																	<div class="ui radio checkbox apply_check">
 																		<input type="radio" name="example1" checked>
 																		<label style="color:#242424 !important;">Credit or Debit Cards</label>
-																	</div>																
+																	</div>
 																	<div class="form-group">
 																		<label class="label15">Card Number*</label>
 																		<input type="text" class="job-input" placeholder="Enter Card Number">
@@ -156,11 +121,11 @@ itle-bar">
 																					<label class="label15">Cvv*</label>
 																					<input type="text" class="job-input" placeholder="Enter Cvv">
 																				</div>
-																			</div>																		
+																			</div>
 																		</div>
 																	</div>
 																</div>
-																<div class="post_job_body lineppyl">																	
+																<div class="post_job_body lineppyl">
 																	<div class="ui radio checkbox apply_check">
 																		<input type="radio" name="example1">
 																		<label style="color:#242424 !important;">Paypal</label>
@@ -169,18 +134,18 @@ itle-bar">
 																		<label class="label15">Email Address*</label>
 																		<input type="email" class="job-input" placeholder="Enter Email Address">
 																	</div>
-																	<button class="withdraw_btn">CONTINUE</button>																
-																</div>																
+																	<button class="withdraw_btn">CONTINUE</button>
+																</div>
 															</div>
 														</div>
 													</div>
-												</div>																							
-											</div>											
+												</div>
+											</div>
 										</div>
 										<div class="tab-pane fade" id="transaction">
 											<div class="view_chart">
 												<div class="view_chart_header">
-													<h4>Transactions</h4>								
+													<h4>Transactions</h4>
 												</div>
 												<div class="transaction_body">
 													<div class="table-responsive-md">
@@ -287,18 +252,27 @@ itle-bar">
 																	</td>
 																</tr>
 															</tbody>
-														</table>														
+														</table>
 													</div>
 												</div>
 											</div>
-										</div>										
+										</div>
 									</div>
-								</div>	
-							</div>							
-						</div>						
-					</div>																																						
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
-			</div>					
+			</div>
 		</main>
 
+@endsection
+@section('active_tab')
+    <script>
+        $(document).ready(function() {
+            var url = window.location.href;
+            // console.log(url);
+            $('.nav-item a[href="'+url+'"]').addClass('active');
+        });
+    </script>
 @endsection

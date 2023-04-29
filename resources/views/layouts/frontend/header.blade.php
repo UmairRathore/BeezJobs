@@ -23,6 +23,34 @@
                             </li>
                         </ul>
                     </div>
+                    <?php
+                    
+                        $messages1 = \App\Models\Chat::
+                    where('sender_id', Auth()->user()->id)
+                        ->orWhere('receiver_id',Auth()->user()->id)
+                        ->orderby('id', 'desc')
+                        ->get()
+                        ->unique('sender_id')
+                        ->pluck('sender_id')
+                        ->toArray();
+                        
+                        $messages2 = \App\Models\Chat::
+                    where('sender_id', Auth()->user()->id)
+                        ->orWhere('receiver_id',Auth()->user()->id)
+                        ->orderby('id', 'desc')
+                        ->get()
+                        ->unique('receiver_id')
+                        ->pluck('receiver_id')
+                        ->toArray();
+                        $result1 = array_merge($messages1, $messages2);
+                        $result = array_unique($result1);
+                    $users = \App\Models\User::whereIn('id',$result)
+                        ->where('id','!=',Auth()->user()->id)
+                        ->get();
+
+
+                    ?>
+{{--                                            {{dd($users)}}--}}
                     <div class="top-right-hd">
                         <ul>
                             <li class="dropdown">
@@ -30,38 +58,28 @@
                                     <i class="fas fa-envelope"></i><div class="circle-alrt"></div>
                                 </a>
                                 <div class="dropdown-menu message-dropdown dropdown-menu-right">
+
+                                            @foreach($users as $user)
                                     <div class="user-request-list">
                                         <div class="request-users">
                                             <div class="user-request-dt">
-                                                <a href="#"><img src="images/user-dp-1.jpg" alt="">
-                                                    <div class="user-title1">Jassica William </div>
-                                                    <span>Hey How are you John Doe...</span>
+                                                <a href="{{route('freelancer_texting',[$user->id])}}">
+
+                                                    <img src="images/user-dp-1.jpg" alt="">
+                                                    <div class="user-title1">{{$user->first_name.' '.$user->last_name}} </div>
+                                                    <?php
+                                                    $latestMessage=  \App\Models\Chat::where('sender_id', Auth()->user()->id)
+                                                        ->orWhere('receiver_id',$user->id)
+                                                        ->orderby('id', 'desc')
+                                                        ->pluck('message')
+                                                        ->first();
+                                                    ?>
+                                                    <span>{{$latestMessage}}</span>
                                                 </a>
                                             </div>
                                             <div class="time5">2 min ago</div>
                                         </div>
-                                    </div>
-                                    <div class="user-request-list">
-                                        <div class="request-users">
-                                            <div class="user-request-dt">
-                                                <a href="#"><img src="images/user-dp-1.jpg" alt="">
-                                                    <div class="user-title1">Rock Smith </div>
-                                                    <span>Interesting Event! I will join this...</span>
-                                                </a>
-                                            </div>
-                                            <div class="time5">5 min ago</div>
-                                        </div>
-                                    </div>
-                                    <div class="user-request-list">
-                                        <div class="request-users">
-                                            <div class="user-request-dt">
-                                                <a href="#"><img src="images/user-dp-1.jpg" alt="">
-                                                    <div class="user-title1">Joy Doe </div>
-                                                    <span>Hey Sir! What about you...</span>
-                                                </a>
-                                            </div>
-                                            <div class="time5">10 min ago</div>
-                                        </div>
+                                            @endforeach
                                     </div>
                                     <div class="user-request-list">
                                         <a href="{{route('my_freelancer_messages')}}" class="view-all">View All Messages</a>
@@ -118,7 +136,7 @@
                                         @if(auth()->user()->profile_image)
                                         <div class="user-dp"><img src="{{asset(auth()->user()->profile_image)}}" alt=""></div>
                                         @else
-                                            <div class="user-dp"><img src="images/user-dp-1.jpg" alt=""></div>
+                                            <div class="user-dp"><img src="{{asset('images/user-dp-1.jpg')}}" alt=""></div>
                                         @endif
                                             <span>Hi {{auth()->user()->first_name}}</span>
                                         <i class="fas fa-sort-down"></i>
