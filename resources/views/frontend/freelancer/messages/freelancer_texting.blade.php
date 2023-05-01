@@ -253,10 +253,37 @@ use App\Models\Chat;
                                                 @else
                                                     <div class="main-message-box st3">
                                                         <div class="message-dt st3">
-                                                            <div class="message-inner-dt">
+                                                            <div id="messagestatus" class="message-inner-dt">
+                                                                @if($message->message == null)
+                                                                    <div class="card">
+                                                                        <div class="card-body">
+                                                                            <h5 class="card-title">New Offer Received</h5>
+                                                                            <h5>Title</h5>
+                                                                            <p class="card-text">{{$message->description}}</p>
+                                                                            <h5>Price</h5>
+                                                                            <p class="card-text"> {{$message->price}} </p>
+                                                                            <h5>Time</h5>
+                                                                            <p class="card-text"> {{$message->time_of_job}}</p>
+                                                                            <button class="btn btn-success" onclick="acceptOffer( {{$message->id}} )">Accept</button>
+                                                                            <button class="btn btn-danger" onclick="rejectOffer( {{$message->id}} )">Reject</button>
+                                                                        </div>
+                                                                    </div>
+                                                                @elseif($message->reject == 1 && $message->message == 'rejected' )
+                                                                    <div class="card">
+                                                                    <div class="card-body">
+                                                                        <p>{{$message->description}}</p>
+                                                                        <p>{{$message->price}}</p>
+                                                                        <p>{{$message->time_of_job}}</p>
+                                                                    <button class="btn btn-danger" disabled>Rejected</button>
+                                                                    </div>
+                                                                    </div>
+
+                                                                @else
                                                                 <p>{{$message->message}}</p>
-                                                            </div><!--message-inner-dt end-->
+                                                                @endif
                                                             <span>{{$message->created_at->diffForHumans()}}</span>
+                                                            </div><!--message-inner-dt end-->
+
                                                         </div><!--message-dt end-->
                                                     </div><!--main-message-box end-->
                                                 @endif
@@ -270,7 +297,7 @@ use App\Models\Chat;
                                                 <input id="receiver_id" type="hidden" value="{{$reciever_id}}">
                                                 <input id="sender_id" type="hidden" value="{{Auth::user()->id}}">
                                                 <input type="text" class="write_msg form-control input-sm chat_input @error('messsage') is-invalid @enderror"
-                                                       value="{{ old('message') }}" id="message" placeholder="Write your message here..."/>
+                                                       value="{{ old('message') }}" id="message" placeholder="Write your message here..." required/>
 
                                                 {{--                                                <button class="msg_send_btn" id="btn-chat" type="submit"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>--}}
                                                 <button id="make-offer-btn" type="button">Makeoffer</button>
@@ -279,30 +306,35 @@ use App\Models\Chat;
                                         </form>
 
                                         <!-- Offer Popup -->
-                                        <div id="offer-popup" style="display: none" class="modal">
-                                            <div class="modal-content">
-                                                <span class="close">&times;</span>
-                                                <h2>Make an Offer</h2>
-                                                <form id="offer-form">
-                                                    <input type="hidden" id="receiver-id" name="receiver_id" value="{{$reciever_id}}">
-                                                    <input type="hidden" id="sender-id" name="sender_id" value="{{auth()->user()->id}}">
-                                                    <div class="form-group">
-                                                        <label for="price">Price:</label>
-                                                        <input type="text" class="form-control" id="price" name="price">
+                                        <div id="offer-popup" style="display: none" class="modal" tabindex="-1">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">Create an Offer</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                     </div>
-                                                    <div class="form-group">
-                                                        <label for="description">Description:</label>
-                                                        <textarea class="form-control" id="description" name="description"></textarea>
+                                                    <div class="modal-body">
+                                                        <form id="offer-form">
+                                                            <input type="hidden" id="receiver-id" name="receiver_id" value="{{$reciever_id}}">
+                                                            <input type="hidden" id="sender-id" name="sender_id" value="{{auth()->user()->id}}">
+                                                            <div class="form-group">
+                                                                <label for="description">Title:</label>
+                                                                <input type="text" class="form-control" id="description" name="description">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="price">Price:</label>
+                                                                <input type="text" class="form-control" id="price" name="price">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="time-of-job">Time </label>
+                                                                <input type="text" class="form-control" id="time_of_job" name="time_of_job">
+                                                            </div>
+                                                            <button id="submit-offer-btn" type="submit" class="btn btn-primary">Submit</button>
+                                                        </form>
                                                     </div>
-                                                    <div class="form-group">
-                                                        <label for="time-of-job">Time of Job:</label>
-                                                        <input type="text" class="form-control" id="time_of_job" name="time_of_job">
-                                                    </div>
-                                                    <button id="submit-offer-btn" type="submit" class="btn btn-primary">Submit</button>
-                                                </form>
+                                                </div>
                                             </div>
                                         </div>
-
 
 
                                         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
@@ -366,23 +398,11 @@ use App\Models\Chat;
                                                         description: description,
                                                         time_of_job: time_of_job
                                                     },
-                                                    success: function(response) {
-                                                        // Hide the offer popup
-                                                        $('#offer-popup').hide();
 
-                                                        // Display the accept/reject card
-                                                        var acceptRejectCard = '<div class="card"><div class="card-body">' +
-                                                            '<h5 class="card-title">New Offer Received</h5>' +
-                                                            '<p class="card-text">' + description + '</p>' +
-                                                            '<p class="card-text">' + price + '</p>' +
-                                                            '<p class="card-text">' + time_of_job + '</p>' +
-                                                            '<button class="btn btn-success" onclick="acceptOffer(' + response.offer_id + ')">Accept</button>' +
-                                                            '<button class="btn btn-danger" onclick="rejectOffer(' + response.offer_id + ')">Reject</button>' +
-                                                            '</div></div>';
-
-                                                        $('#main_chat').append(acceptRejectCard);
+                                                    success: function (response) {
+                                                        alert('ok');
                                                     },
-                                                    error: function() {
+                                                    error: function () {
                                                         // Display an error message
                                                         alert('An error occurred while making the offer.');
                                                     }
@@ -396,7 +416,8 @@ use App\Models\Chat;
                                                 $.ajax({
                                                     url: '/accept_offer',
                                                     type: 'POST',
-                                                    data: {offer_id: offerId},
+                                                    data: {
+                                                        "_token": "{{ csrf_token() }}",offer_id: offerId},
                                                     success: function() {
                                                         // Display a success message
                                                         alert('Offer accepted!');
@@ -410,20 +431,26 @@ use App\Models\Chat;
                                                     }
                                                 });
                                             }
-
+                                            //
                                             // Function to reject an offer
                                             function rejectOffer(offerId) {
                                                 // Make an AJAX request to reject the offer
+                                                    alert(offerId);
+
                                                 $.ajax({
-                                                    url: '/reject_offer',
+                                                    url: '/rejectOffer',
                                                     type: 'POST',
-                                                    data: {offer_id: offerId},
+                                                    data: {"_token": "{{ csrf_token() }}",offer_id: offerId},
                                                     success: function() {
                                                         // Display a success message
                                                         alert('Offer rejected!');
+                                                        $('#messagestatus').load(location.href + ' #messagestatus');
+                                                        $('.main_chat').animate({
+                                                            scrollTop: $('.main_chat').prop('scrollHeight')
+                                                        }, 200);
 
-                                                        // Remove the accept/reject card from the chat modal
-                                                        $('#main_chat').find('.card').remove();
+
+
                                                     },
                                                     error: function() {
                                                         // Display an error message

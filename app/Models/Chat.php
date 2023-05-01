@@ -14,6 +14,11 @@ class Chat extends Model
             'sender_id',
             'receiver_id',
             'message',
+            'time_of_job',
+            'description',
+            'price',
+            'reject',
+            'accept',
             'status',
 
         ];

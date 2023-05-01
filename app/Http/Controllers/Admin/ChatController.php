@@ -101,6 +101,32 @@ class ChatController extends Controller
     }
 
 
+    public function rejectOffer(Request $request)
+    {
+
+//        dd($request);
+        $offerId = $request->input('offer_id');
+        $this->data['messages'] = Chat::find($offerId);
+        $this->data['messages']->reject = '1';
+        $this->data['messages']->message = 'rejected';
+        $this->data['messages']->save();
+
+        return 1;
+    }
+
+    public function acceptOffer(Request $request)
+    {
+
+//        dd($request);
+        $offerId = $request->input('offer_id');
+        $this->data['messages'] = Chat::find($offerId);
+        $this->data['messages']->accept = '1';
+        $this->data['messages']->save();
+
+        return 1;
+    }
+
+
 
 
 
@@ -143,8 +169,6 @@ class ChatController extends Controller
             $user_id = Auth::user()->id;
             $this->data['messages'] = chat::whereIn('receiver_id', [$reciever_id, $user_id])
                 ->whereIn('sender_id', [$reciever_id, $user_id])->get();
-
-
 
             return view('frontend.freelancer.messages.freelancer_texting', $this->data);
 
