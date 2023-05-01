@@ -2,9 +2,9 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-
 use App\Http\Controllers\Controller;
 use App\Models\Chat;
+
 ?>
 @extends('layouts.frontend.master')
 @section('title', 'Home')
