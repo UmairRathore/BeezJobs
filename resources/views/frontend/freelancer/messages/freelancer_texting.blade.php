@@ -193,8 +193,9 @@ use App\Models\Chat;
                                                             <?php
 															$latestMessage=  Chat::whereIn('sender_id', [$data->id,Auth()->user()->id])
 															->whereIn('receiver_id',[$data->id,Auth()->user()->id])
+															->where('message','!=',Null)
 															->orderby('id', 'desc')
-															->pluck('message')
+															->pluck('message','created_at')
 															->first();
 															?>
                                                             <div class="usr-mg-info">
@@ -221,13 +222,13 @@ use App\Models\Chat;
                                     <div class="message-bar-head">
                                         <div class="usr-msg-details">
                                             <div class="usr-ms-img">
-{{--                                                <img src="images/messages/dp-1.jpg" alt="">--}}
+                                                <img src="{{asset('images/messages/dp-1.jpg')}}" alt="">
                                             </div>
                                             <div class="usr-mg-info">
                                                 <?php
-//                                                dd($reciever_id);
+//
                                                 $name =  \App\Models\User::select('users.first_name','users.last_name')->where('id',$reciever_id)->first();
-//                                                dd($name);
+//
                                                 ?>
                                                 <h3>{{$name->first_name.' '.$name->last_name}}</h3>
 {{--                                                <p>Online</p>--}}
@@ -240,21 +241,30 @@ use App\Models\Chat;
                                     <div class="messages-line main_chat scrollstyle_4"  id="chat">
                                         <div id="main_chat" class="mCustomScrollbar">
                                             @foreach($messages as $message)
+                                                <!--Sender-->
+
                                                 @if(Auth::user()->id == $message->sender_id)
                                                     <div class="main-message-box ta-right">
                                                         <div class="message-dt">
+                                                            @if($message->message != Null )
                                                             <div class="message-inner-dt">
 {{--                                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec rutrum congue leo eget malesuada. Vivamus suscipit tortor eget felis porttitor.</p>--}}
                                                            <p style="width: auto;">{{$message->message}}</p>
                                                             </div><!--message-inner-dt end-->
                                                             <span>{{$message->created_at->diffForHumans()}}</span>
+                                                        @endif
                                                         </div><!--message-dt end-->
                                                     </div><!--main-message-box end-->
+
+                                                    <!--Sender-->
                                                 @else
+
+                                                    <!-- Receiver -->
+
                                                     <div class="main-message-box st3">
                                                         <div class="message-dt st3">
                                                             <div id="messagestatus" class="message-inner-dt">
-                                                                @if($message->message == null)
+                                                                @if($message->message == Null )
                                                                     <div class="card">
                                                                         <div class="card-body">
                                                                             <h5 class="card-title">New Offer Received</h5>
@@ -268,7 +278,7 @@ use App\Models\Chat;
                                                                             <button class="btn btn-danger" onclick="rejectOffer( {{$message->id}} )">Reject</button>
                                                                         </div>
                                                                     </div>
-                                                                @elseif($message->reject == 1 && $message->message == 'rejected' )
+                                                                @elseif($message->reject == 1 && $message->message != Null)
                                                                     <div class="card">
                                                                     <div class="card-body">
                                                                         <p>{{$message->description}}</p>
@@ -277,15 +287,17 @@ use App\Models\Chat;
                                                                     <button class="btn btn-danger" disabled>Rejected</button>
                                                                     </div>
                                                                     </div>
-
                                                                 @else
                                                                 <p>{{$message->message}}</p>
                                                                 @endif
-                                                            <span>{{$message->created_at->diffForHumans()}}</span>
                                                             </div><!--message-inner-dt end-->
+                                                            <span>{{$message->created_at->diffForHumans()}}</span>
 
                                                         </div><!--message-dt end-->
                                                     </div><!--main-message-box end-->
+
+                                                    <!-- Receiver -->
+
                                                 @endif
                                             @endforeach
                                         </div>
@@ -464,20 +476,6 @@ use App\Models\Chat;
                                 </div><!--main-conversation-box end-->
                                 </div>
                             </div><!--main-conversation-box end-->
-{{--                                        <div id="offer-modal" class="offer_modal">--}}
-{{--                                            <div class="offer_modal_content">--}}
-{{--                                                <span class="close">Make Offer modal &times;</span>--}}
-{{--                                                <form id="offer-form">--}}
-{{--                                                    <!-- Add form fields for making an offer -->--}}
-{{--                                                    <input type="text" name="description" class="form-control @error('description') is-invalid @enderror"--}}
-{{--                                                           value="{{ old('description') }}" id="description" placeholder="Write your description here..."/>--}}
-{{--                                                    <input type="text" name="price" class="form-control  @error('price') is-invalid @enderror"--}}
-{{--                                                           value="{{ old('price') }}" id="price" placeholder="Write your price here..."/>--}}
-{{--                                                    <input type="text" name="delivery_time" class="write_msg form-control input-sm chat_input @error('delivery_time') is-invalid @enderror"--}}
-{{--                                                           value="{{ old('delivery_time') }}" id="delivery_time" placeholder="Write your message here..."/>--}}
-{{--                                                </form>--}}
-{{--                                            </div>--}}
-{{--                                        </div>--}}
                         </div>
                     </div>
                 </div><!--messages-sec end-->

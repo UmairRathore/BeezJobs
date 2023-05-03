@@ -24,30 +24,30 @@
                         </ul>
                     </div>
                     <?php
-                    
-                        $messages1 = \App\Models\Chat::
-                    where('sender_id', Auth()->user()->id)
-                        ->orWhere('receiver_id',Auth()->user()->id)
-                        ->orderby('id', 'desc')
-                        ->get()
-                        ->unique('sender_id')
-                        ->pluck('sender_id')
-                        ->toArray();
-                        
-                        $messages2 = \App\Models\Chat::
-                    where('sender_id', Auth()->user()->id)
-                        ->orWhere('receiver_id',Auth()->user()->id)
-                        ->orderby('id', 'desc')
-                        ->get()
-                        ->unique('receiver_id')
-                        ->pluck('receiver_id')
-                        ->toArray();
-                        $result1 = array_merge($messages1, $messages2);
-                        $result = array_unique($result1);
-                    $users = \App\Models\User::whereIn('id',$result)
-                        ->where('id','!=',Auth()->user()->id)
-                        ->get();
+if(auth()->check()) {
+    $messages1 = \App\Models\Chat::
+    where('sender_id', Auth()->user()->id)
+        ->orWhere('receiver_id', Auth()->user()->id)
+        ->orderby('id', 'desc')
+        ->get()
+        ->unique('sender_id')
+        ->pluck('sender_id')
+        ->toArray();
 
+    $messages2 = \App\Models\Chat::
+    where('sender_id', Auth()->user()->id)
+        ->orWhere('receiver_id', Auth()->user()->id)
+        ->orderby('id', 'desc')
+        ->get()
+        ->unique('receiver_id')
+        ->pluck('receiver_id')
+        ->toArray();
+    $result1 = array_merge($messages1, $messages2);
+    $result = array_unique($result1);
+    $users = \App\Models\User::whereIn('id', $result)
+        ->where('id', '!=', Auth()->user()->id)
+        ->get();
+}
 
                     ?>
 {{--                                            {{dd($users)}}--}}
@@ -58,28 +58,35 @@
                                     <i class="fas fa-envelope"></i><div class="circle-alrt"></div>
                                 </a>
                                 <div class="dropdown-menu message-dropdown dropdown-menu-right">
-
+@if(isset($users))
                                             @foreach($users as $user)
                                     <div class="user-request-list">
                                         <div class="request-users">
                                             <div class="user-request-dt">
                                                 <a href="{{route('freelancer_texting',[$user->id])}}">
 
-                                                    <img src="images/user-dp-1.jpg" alt="">
+                                                    <img src="{{asset('images/user-dp-1.jpg')}}" alt="">
                                                     <div class="user-title1">{{$user->first_name.' '.$user->last_name}} </div>
+                                                    @if(isset($latestMessage))
                                                     <?php
-                                                    $latestMessage=  \App\Models\Chat::where('sender_id', Auth()->user()->id)
+                                                    $latestMessage=  \App\Models\Chat::
+                                                        where('sender_id', Auth()->user()->id)
                                                         ->orWhere('receiver_id',$user->id)
+                                                        ->where('message','!=',Null)
                                                         ->orderby('id', 'desc')
-                                                        ->pluck('message')
+                                                        ->pluck(['message', 'created_at'])
                                                         ->first();
+
+//                                                    dd($latestMessage);
                                                     ?>
                                                     <span>{{$latestMessage}}</span>
+                                                        @endif
                                                 </a>
                                             </div>
-                                            <div class="time5">2 min ago</div>
+                                            <div class="time5">{{$latestMessage->created_at->diffForHumans()}}</div>
                                         </div>
                                             @endforeach
+                                        @endif
                                     </div>
                                     <div class="user-request-list">
                                         <a href="{{route('my_freelancer_messages')}}" class="view-all">View All Messages</a>

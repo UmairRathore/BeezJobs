@@ -108,7 +108,7 @@ class ChatController extends Controller
         $offerId = $request->input('offer_id');
         $this->data['messages'] = Chat::find($offerId);
         $this->data['messages']->reject = '1';
-        $this->data['messages']->message = 'rejected';
+//        $this->data['messages']->message = 'rejected';
         $this->data['messages']->save();
 
         return 1;
