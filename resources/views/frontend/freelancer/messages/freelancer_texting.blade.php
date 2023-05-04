@@ -264,7 +264,7 @@ use App\Models\Chat;
                                                     <div class="main-message-box st3">
                                                         <div class="message-dt st3">
                                                             <div id="messagestatus" class="message-inner-dt">
-                                                                @if($message->message == Null )
+                                                                @if($message->message == Null and $message->reject == Null)
                                                                     <div class="card">
                                                                         <div class="card-body">
                                                                             <h5 class="card-title">New Offer Received</h5>
@@ -278,7 +278,7 @@ use App\Models\Chat;
                                                                             <button class="btn btn-danger" onclick="rejectOffer( {{$message->id}} )">Reject</button>
                                                                         </div>
                                                                     </div>
-                                                                @elseif($message->reject == 1 && $message->message != Null)
+                                                                @elseif($message->reject == 1)
                                                                     <div class="card">
                                                                     <div class="card-body">
                                                                         <p>{{$message->description}}</p>
