@@ -74,7 +74,7 @@ if(auth()->check()) {
                                                         ->orWhere('receiver_id',$user->id)
                                                         ->where('message','!=',Null)
                                                         ->orderby('id', 'desc')
-                                                        ->pluck(['message', 'created_at'])
+                                                        ->pluck('message')
                                                         ->first();
 
 //                                                    dd($latestMessage);
@@ -83,7 +83,7 @@ if(auth()->check()) {
                                                         @endif
                                                 </a>
                                             </div>
-                                            <div class="time5">{{$latestMessage->created_at->diffForHumans()}}</div>
+{{--                                            <div class="time5">{{$latestMessage->created_at->diffForHumans()}}</div>--}}
                                         </div>
                                             @endforeach
                                         @endif

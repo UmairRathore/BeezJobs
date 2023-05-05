@@ -80,7 +80,11 @@ Route::get('/my_freelancer_dashboard', [FreelancerDashboardController::class, 'm
 Route::get('/my_freelancer_setting', [FreelancerDashboardController::class, 'my_freelancer_settings'])->name('my_freelancer_setting');
 Route::get('/my_freelancer_messages', [ChatController::class, 'my_freelancer_messages'])->name('my_freelancer_messages');
 Route::get('/freelancer_texting/{id}', [ChatController::class, 'texting'])->name('freelancer_texting');
+
+
 Route::get('/my_freelancer_jobs', [FreelancerDashboardController::class, 'my_freelancer_jobs'])->name('my_freelancer_jobs');
+
+
 Route::get('/my_freelancer_bids', [FreelancerDashboardController::class, 'my_freelancer_bids'])->name('my_freelancer_bids');
 Route::get('/my_freelancer_portfolio', [FreelancerDashboardController::class, 'my_freelancer_portfolio'])->name('my_freelancer_portfolio');
 Route::get('/my_freelancer_bookmarks', [FreelancerDashboardController::class, 'my_freelancer_bookmarks'])->name('my_freelancer_bookmarks');

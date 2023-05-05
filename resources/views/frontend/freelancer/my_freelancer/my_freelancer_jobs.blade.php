@@ -45,7 +45,17 @@ container">
 									<div class="jobs_tabs">
 										<ul class="nav job_nav nav-tabs" id="myTab" role="tablist">
 											<li class="nav-item">
-												<a class="nav-link active" href="#manage_jobs" id="manage-job-tab" data-toggle="tab">Manage Jobs</a>
+												<a class="nav-link active" href="#sent_jobs" id="manage-job-tab" data-toggle="tab">Sent Jobs</a>
+											</li>
+                                            <li class="nav-item">
+												<a class="nav-link" href="#received_jobs" id="manage-job-tab" data-toggle="tab">Received Jobs</a>
+											</li>
+                                            <li class="nav-item">
+												<a class="nav-link" href="#orders" id="manage-job-tab" data-toggle="tab">Orders</a>
+											</li>
+
+                                            <li class="nav-item">
+												<a class="nav-link" href="#manage_jobs" id="manage-job-tab" data-toggle="tab">Manage Jobs</a>
 											</li>
 											<li class="nav-item job_nav_item">
 												<a class="nav-link" href="#applied_jobs" id="applied-job-tab" data-toggle="tab">Applied Jobs</a>
@@ -62,7 +72,106 @@ container">
 								</div>
 								<div class="col-lg-9">
 									<div class="tab-content" id="myTabContent">
-										<div class="tab-pane fade show active" id="manage_jobs" role="tabpanel">
+                                        <div class="tab-pane fade show active" id="sent_jobs" role="tabpanel">
+                                            <div class="view_chart">
+                                                <div class="view_chart_header">
+                                                    <h4>Sent Offers</h4>
+                                                </div>
+                                                <div class="job_bid_body">
+                                                    <ul class="all_applied_jobs jobs_bookmarks">
+                                                        @foreach($SentOffers as $sentoffer)
+                                                        <li>
+                                                            <div class="applied_item">
+                                                                <a href="#">{{$sentoffer->description}}</a>
+                                                                @if($sentoffer->reject == Null and $sentoffer->accept == Null)
+                                                                <span class="badge_alrt">Pending Approval</span>
+                                                                    @elseif($sentoffer->reject == 1 and $sentoffer->accept == Null)
+                                                                    <span class="badge_alrt">Rejected</span>
+                                                                @elseif($sentoffer->reject == Null and $sentoffer->accept == 1)
+                                                                    <span class="badge_alrt">Accepted</span>
+                                                                @endif
+                                                                <ul class="view_dt_job">
+{{--                                                                    <li><div class="vw1254"><i class="far fa-clock"></i>Posted on 3 August 2018</div></li>--}}
+{{--                                                                    <li><div class="vw1254"><i class="far fa-clock"></i>Expiring on 3 September 2018</div></li>--}}
+                                                                </ul>
+                                                                <div class="btn_link23">
+                                                                    <button class="apled_btn60"><span class="badge badge-light">0</span>APPLIED CANDIDATES</button>
+                                                                    <a href="#" class="delete_icon1"><i class="far fa-trash-alt"></i></a>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                        @endforeach
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+										<div class="tab-pane fade show" id="received_jobs" role="tabpanel">
+											<div class="view_chart">
+												<div class="view_chart_header">
+													<h4>Received Jobs</h4>
+												</div>
+												<div class="job_bid_body">
+													<ul class="all_applied_jobs jobs_bookmarks">
+                                                        @foreach($RecievedOffers as $recievedoffer)
+														<li>
+															<div class="applied_item">
+																<a href="#">{{$recievedoffer->description}}</a><!--title-->
+                                                                @if($recievedoffer->reject == Null and $recievedoffer->accept == Null)
+                                                                    <span class="badge_alrt">Pending Approval</span>
+                                                                @elseif($recievedoffer->reject == 1 and $recievedoffer->accept == Null)
+                                                                    <span class="badge_alrt">Rejected</span>
+                                                                @elseif($recievedoffer->reject == Null and $recievedoffer->accept == 1)
+                                                                    <span class="badge_alrt">Accepted</span>
+                                                                @endif
+																<ul class="view_dt_job">
+{{--																	<li><div class="vw1254"><i class="far fa-clock"></i>Posted on 3 August 2018</div></li>--}}
+{{--																	<li><div class="vw1254"><i class="far fa-clock"></i>Expiring on 3 September 2018</div></li>--}}
+																</ul>
+																<div class="btn_link23">
+{{--																	<button class="apled_btn60"><span class="badge badge-light">0</span>APPLIED CANDIDATES</button>--}}
+{{--																	<a href="#" class="delete_icon1"><i class="far fa-trash-alt"></i></a>--}}
+																</div>
+															</div>
+														</li>
+                                                            @endforeach
+													</ul>
+												</div>
+											</div>
+										</div>
+										<div class="tab-pane fade show" id="orders" role="tabpanel">
+											<div class="view_chart">
+												<div class="view_chart_header">
+													<h4>Orders</h4>
+												</div>
+												<div class="job_bid_body">
+													<ul class="all_applied_jobs jobs_bookmarks">
+                                                        @foreach($Orders as $order)
+														<li>
+															<div class="applied_item">
+                                                                <a href="#">{{$order->description}}</a><!--title-->
+{{--                                                                @if($order->reject == Null and $order->accept == Null)--}}
+{{--                                                                    <span class="badge_alrt">Pending Approval</span>--}}
+{{--                                                                @elseif($order->reject == 1 and $order->accept == Null)--}}
+{{--                                                                    <span class="badge_alrt">Rejected</span>--}}
+{{--                                                                @elseif($order->reject == Null and $order->accept == 1)--}}
+{{--                                                                    <span class="badge_alrt">Accepted</span>--}}
+{{--                                                                @endif--}}
+																<ul class="view_dt_job">
+{{--																	<li><div class="vw1254"><i class="far fa-clock"></i>Posted on 3 August 2018</div></li>--}}
+{{--																	<li><div class="vw1254"><i class="far fa-clock"></i>Expiring on 3 September 2018</div></li>--}}
+																</ul>
+																<div class="btn_link23">
+{{--																	<button class="apled_btn60"><span class="badge badge-light">0</span>APPLIED CANDIDATES</button>--}}
+{{--																	<a href="#" class="delete_icon1"><i class="far fa-trash-alt"></i></a>--}}
+																</div>
+															</div>
+														</li>
+                                                        @endforeach
+													</ul>
+												</div>
+											</div>
+										</div>
+										<div class="tab-pane fade show" id="manage_jobs" role="tabpanel">
 											<div class="view_chart">
 												<div class="view_chart_header">
 													<h4>Manage Jobs</h4>

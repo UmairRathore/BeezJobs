@@ -15,6 +15,15 @@ class CreateAcceptedOffersTable extends Migration
     {
         Schema::create('accepted_offers', function (Blueprint $table) {
             $table->id();
+            $table->integer('sender_id');
+            $table->integer('reciever_id');
+            $table->string('title');
+            $table->date('date');
+            $table->enum('time_of_day', ['morning', 'afternoon', 'evening', 'night']);
+            $table->enum('online_or_in_person', ['online', 'in_person']);
+            $table->string('location');
+            $table->text('description');
+            $table->float('budget');
             $table->timestamps();
         });
     }

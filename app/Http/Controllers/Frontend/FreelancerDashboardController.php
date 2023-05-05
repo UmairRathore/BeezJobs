@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Chat;
 use App\Models\Profession;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,53 +17,53 @@ use Illuminate\Support\Facades\Hash;
 class FreelancerDashboardController extends Controller
 {
 
-    function my_freelancer_dashboard()
+    public function my_freelancer_dashboard()
     {
         return view('frontend.freelancer.my_freelancer.my_freelancer_dashboard');
     }
-    function my_freelancer_settings()
+    public function my_freelancer_settings()
     {
         return view('frontend.freelancer.my_freelancer.my_freelancer_settings');
     }
-//    function my_freelancer_messages()
+//    public function my_freelancer_messages()
 //    {
 //        return view('frontend.freelancer.my_freelancer_messages');
 //    }
-    function my_freelancer_jobs()
-    {
-        return view('frontend.freelancer.my_freelancer.my_freelancer_jobs');
-    }
-    function my_freelancer_bids()
+//    public function my_freelancer_jobs()
+//    {
+//        return view('frontend.freelancer.my_freelancer.my_freelancer_jobs');
+//    }
+    public function my_freelancer_bids()
     {
         return view('frontend.freelancer.my_freelancer.my_freelancer_bids');
     }
-    function my_freelancer_portfolio()
+    public function my_freelancer_portfolio()
     {
         $user_id = auth()->user()->id;
         $data['portfolios'] = Portfolio::where('user_id', $user_id)->get();
         return view('frontend.freelancer.my_freelancer.my_freelancer_portfolio', $data);
     }
-    function my_freelancer_bookmarks()
+    public function my_freelancer_bookmarks()
     {
         return view('frontend.freelancer.my_freelancer.my_freelancer_bookmarks');
     }
-    function my_freelancer_payments()
+    public function my_freelancer_payments()
     {
         return view('frontend.freelancer.my_freelancer.my_freelancer_payments');
     }
-    function my_freelancer_profile()
+    public function my_freelancer_profile()
     {
         return view('frontend.freelancer.my_freelancer.my_freelancer_profile');
     }
-    function my_freelancer_notifications()
+    public function my_freelancer_notifications()
     {
         return view('frontend.freelancer.my_freelancer.my_freelancer_notifications');
     }
-    function my_freelancer_reviews()
+    public function my_freelancer_reviews()
     {
         return view('frontend.freelancer.my_freelancer.my_freelancer_reviews');
     }
-    function update_freelancer_social_media_links(Request $request)
+    public function update_freelancer_social_media_links(Request $request)
     {
         $id = auth()->user()->id;
 
@@ -83,7 +84,7 @@ class FreelancerDashboardController extends Controller
             return redirect()->back()->with('alert', 'Something is wrong!');
         }
     }
-    function change_freelancer_password(Request $request)
+    public function change_freelancer_password(Request $request)
     {
 
         $this->validate($request, [
@@ -109,7 +110,7 @@ class FreelancerDashboardController extends Controller
 
 
     }
-    function browse_freelancers(Request $request)
+    public function browse_freelancers(Request $request)
     {
 
 //        $this->data['users']= User::select('users.*','p.profession as profession')
@@ -156,7 +157,7 @@ class FreelancerDashboardController extends Controller
     }
 
 
-    function other_freelancer_profile($id)
+    public function other_freelancer_profile($id)
     {
              $this->data['users']= User::where('users.id',$id)
             ->select('users.*','users.profile_image','p.profession as profession')
@@ -165,7 +166,7 @@ class FreelancerDashboardController extends Controller
 
         return view('frontend.freelancer.other_freelancer.other_freelancer_profile',$this->data);
     }
-    function other_freelancer_portfolio($id)
+    public function other_freelancer_portfolio($id)
     {
 
         $this->data['users']= User::where('users.id',$id)
@@ -180,7 +181,7 @@ class FreelancerDashboardController extends Controller
         return view('frontend.freelancer.other_freelancer.other_freelancer_portfolio',$this->data);
     }
 
-    function other_freelancer_review($id)
+    public function other_freelancer_review($id)
     {
                 $this->data['users']= User::where('users.id',$id)
             ->select('users.*','p.profession as profession')
@@ -188,6 +189,19 @@ class FreelancerDashboardController extends Controller
             ->first();
 
         return view('frontend.freelancer.other_freelancer.other_freelancer_review',$this->data);
+    }
+
+
+    public function my_freelancer_jobs()
+    {
+//        $id=Auth()->check()->id;
+//        dd(Auth()->check()->id);
+        $this->data['SentOffers'] = Chat::where('sender_id',Auth()->user()->id)->where('message',Null)->get();
+//        dd($this->data['SentOffers']);
+        $this->data['RecievedOffers'] = Chat::where('receiver_id',Auth()->user()->id)->where('message',Null)->get();
+        $this->data['Orders'] = Chat::where('sender_id',Auth()->user()->id)->where('message',Null)->where('accept',1)->get();
+        return view('frontend.freelancer.my_freelancer.my_freelancer_jobs', $this->data);
+
     }
 
 }
