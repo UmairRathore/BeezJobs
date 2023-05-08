@@ -1,5 +1,5 @@
 @extends('layouts.frontend.master')
-@section('title', 'Home')
+@section('title', 'Post a Job')
 
 
 
@@ -24,9 +24,14 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-8">
-                @if (session('alert'))
+                    @if (session('success'))
+                        <div class="alert alert-danger">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+                @if (session('error'))
                     <div class="alert alert-danger">
-                        {{ session('alert') }}
+                        {{ session('error') }}
                     </div>
                 @endif
                     <div class="main-heading bids_heading">
@@ -55,15 +60,15 @@
                                         Time and Date
                                     </div>
                                 </div>
-{{--                                <div class="col-lg-6">--}}
-{{--                                    <div class="form-group">--}}
-{{--                                        <label class="label15">Date*</label>--}}
-{{--                                        <div class="smm_input">--}}
-{{--                                            <input type="text" name="date" class="job-input datepicker-here" data-language="en" value="{{auth()->user()->birthday}}">--}}
-{{--                                            <div class="mix_max"><i class="fas fa-calendar-alt"></i></div>--}}
-{{--                                        </div>--}}
-{{--                                    </div> --}}
-{{--                                </div>--}}
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="label15">Date*</label>
+                                        <div class="smm_input">
+                                            <input type="date" name="date" class="job-input" data-language="en" value="{{auth()->user()->birthday}}">
+                                            <div class="mix_max"><i class="fas fa-calendar-alt"></i></div>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label class="label15">Time*</label>
@@ -77,8 +82,6 @@
                                         </div>
                                     </div>
                                 </div>
-
-
                                 <div class="col-lg-12">
                                     <div class="requires">
                                         Location
@@ -110,14 +113,12 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="label15">Budget*</label>
+{{--                                    <label class="label15">Budget*</label>--}}
                                     <div class="smm_input">
                                         <input type="text" name="budget" class="job-input" placeholder="Budget">
                                         <div class="fa-money"><i class="fas fa-money"></i></div>
                                     </div>
                                 </div>
-
-
                                 <div class="col-lg-12">
                                     <button class="post_jp_btn" type="submit">Post a Job</button>
                                 </div>

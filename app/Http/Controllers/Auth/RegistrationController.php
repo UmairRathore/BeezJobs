@@ -50,12 +50,13 @@ class RegistrationController extends Controller
         $this->data['user']->latitude = $request->input('latitude');
         $this->data['user']->longitude = $request->input('longitude');
         $this->data['user']->status = 0;
+        $this->data['user']->role_id = 2;
 //        dd($this->data['user']);
 //        $this->data['user']->save();
         $check = $this->data['user']->save();
 //        dd($check);
         if ($check) {
-            return redirect()->route('signin')->with('alert', 'Signup Successfully! You Can Login Now');
+            return redirect()->route('signin')->with('success', 'Signup Successfully! You Can Login Now');
 
         } else {
             return redirect()->route('signin')->with('alert', 'Something Is Wrong Try Again!');
@@ -104,9 +105,9 @@ class RegistrationController extends Controller
             $this->data['user']->save();
             $check = $this->data['user']->save();
         if ($check) {
-            return redirect()->back()->with('alert', 'Profile is updated successfully!');
+            return redirect()->back()->with('success', 'Profile is updated successfully!');
         } else {
-            return redirect()->back()->with('alert', 'Something is wrong!');
+            return redirect()->back()->with('error', 'Something is wrong!');
         }
         }
     }

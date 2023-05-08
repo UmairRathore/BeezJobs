@@ -415,6 +415,12 @@
 
     <script>
 
+            $(document).ready(function () {
+            var url = window.location.href;
+            // console.log(url);
+            $('.nav-item a[href="' + url + '"]').addClass('active');
+        });
+
         $(document).ready(function () {
             $('#search_input').keyup(function () {
                 var searchTerm = $(this).val();

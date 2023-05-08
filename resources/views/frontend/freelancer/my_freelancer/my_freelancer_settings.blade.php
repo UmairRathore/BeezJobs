@@ -1,5 +1,5 @@
 @extends('layouts.frontend.master')
-@section('title', 'Home')
+@section('title', 'Freelancer Settings')
 
 
 
@@ -69,11 +69,16 @@ container">
 												</div>
 
 												<div class="post_job_body">
-												@if (session('alert'))
+												@if (session('success'))
 													<div class="alert alert-danger">
-														{{ session('alert') }}
+														{{ session('success') }}
 													</div>
 												@endif
+                                                    @if (session('error'))
+                                                        <div class="alert alert-danger">
+                                                            {{ session('error') }}
+                                                        </div>
+                                                    @endif
 												<form method="POST" action="{{route('freelancesignup')}}" enctype="multipart/form-data">
 														@csrf
 														<div class="row">

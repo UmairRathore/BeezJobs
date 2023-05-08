@@ -1,5 +1,5 @@
 @extends('layouts.frontend.master')
-@section('title', 'Home')
+@section('title', 'Freelancer Dashboard')
 
 @section('content')
 <div class="title-bar">

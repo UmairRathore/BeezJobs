@@ -54,6 +54,8 @@ class LoginController extends Controller
         $email = $request->email;
         $password = $request->password;
 
+//        dd($request);
+
 
 
         if (Auth::guard('user')->attempt(['email' => $email, 'password' => $password], true) && auth('user')->user()->status == 1 && auth('user')->user()->role_id == 1) {
@@ -87,7 +89,7 @@ class LoginController extends Controller
                     return redirect()->route('showjob')->with('success', 'Job created successfully!');
 
                 } else {
-                    return redirect()->route('showjob')->with('success', 'Job did not created successfully!');
+                    return redirect()->route('showjob')->with('error', 'Job did not created successfully!');
                 }
                 }
                 else{return redirect('/freelancesignup');}

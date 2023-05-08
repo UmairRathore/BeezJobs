@@ -167,13 +167,13 @@ if(auth()->check()) {
                                     @endif
                                     <div class="dropdown-menu account-dropdown dropdown-menu-right">
                                         <a class="link-item" href="{{route('my_freelancer_dashboard')}}">Dashboard</a>
-                                        <a class="link-item" href="{{route('my_freelancer_setting')}}">Setting</a>
-                                        <a class="link-item" href="{{route('my_freelancer_messages')}}">My Messages</a>
-                                        <a class="link-item" href="{{route('my_freelancer_jobs')}}">My Jobs</a>
-                                        <a class="link-item" href="{{route('my_freelancer_bids')}}">My Bids</a>
-                                        <a class="link-item" href="{{route('my_freelancer_portfolio')}}">My Portfolio</a>
-                                        <a class="link-item" href="{{route('my_freelancer_bookmarks')}}">My Bookmarks</a>
+                                        <a class="link-item" href="{{route('my_freelancer_messages')}}"> Messages</a>
+                                        <a class="link-item" href="{{route('my_freelancer_jobs')}}"> Jobs</a>
+                                        <a class="link-item" href="{{route('my_freelancer_bids')}}"> Bids</a>
+                                        <a class="link-item" href="{{route('my_freelancer_portfolio')}}"> Portfolio</a>
+                                        <a class="link-item" href="{{route('my_freelancer_bookmarks')}}"> Bookmarks</a>
                                         <a class="link-item" href="{{route('my_freelancer_payments')}}">Payments</a>
+                                        <a class="link-item" href="{{route('my_freelancer_setting')}}">Setting</a>
                                         <a class="link-item" href="{{route('signout')}}">Logout</a>
                                     </div>
                                 </div>
@@ -194,39 +194,40 @@ if(auth()->check()) {
                     <button class="navbar-toggler align-self-start" type="button">
                         <i class="fas fa-bars"></i>
                     </button>
+
                     <div class="collapse navbar-collapse d-flex flex-column flex-lg-row flex-xl-row justify-content-lg-end bg-dark1 p-3 p-lg-0 mt1-5 mt-lg-0 mobileMenu" id="navbarSupportedContent">
                         <ul class="navbar-nav align-self-stretch">
-                            <li class="nav-item active">
+                            <li class="nav-item">
                                 <a class="nav-link" href="{{route('index')}}">Home <span class="sr-only">(current)</span></a>
                             </li>
-                            <li class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle-no-caret" role="button" data-toggle="dropdown">Find Jobs</a>
-                                <div class="dropdown-menu pages-dropdown">
-                                    <a class="link-item" href="{{route('browse_jobs')}}">Browse Jobs</a>
-                                    @if(auth()->check())
-                                    <a class="link-item" href="{{route('post_a_job')}}">Post a Job</a>
-                                        @endif
-                                </div>
+                            <li class="nav-item ">
+{{--                                <a href="#" class="nav-link dropdown-toggle-no-caret" role="button" data-toggle="dropdown">Find Jobs</a>--}}
+{{--                                <div class="dropdown-menu pages-dropdown">--}}
+                                    <a class="nav-link" href="{{route('browse_jobs')}}">Browse Jobs</a>
+{{--                                    @if(auth()->check())--}}
+{{--                                    <a class="link-item" href="{{route('post_a_job')}}">Post a Job</a>--}}
+{{--                                        @endif--}}
+{{--                                </div>--}}
                             </li>
 
 
-                            <li class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle-no-caret" role="button" data-toggle="dropdown">Find Freelancers</a>
-                                <div class="dropdown-menu pages-dropdown">
-                                    <a class="link-item" href="{{route('browse_freelancers')}}">Browse Freelancers</a>
-                                </div>
+                            <li class="nav-item">
+{{--                                <a href="#" class="nav-link dropdown-toggle-no-caret" role="button" data-toggle="dropdown">Find Freelancers</a>--}}
+{{--                                <div class="dropdown-menu pages-dropdown">--}}
+                                    <a class="nav-link" href="{{route('browse_freelancers')}}">Browse Freelancers</a>
+{{--                                </div>--}}
                             </li>
-                            <li class="nav-item dropdown pages152">
-                                <a href="#" class="nav-link dropdown-toggle-no-caret" role="button" data-toggle="dropdown">
-                                    Pages <i class="fas fa-caret-down p-crt"></i>
-                                </a>
-                                <div class="dropdown-menu pages-dropdown">
-                                    @if(!auth()->check())
-                                    <a class="link-item" href="{{route('about.us')}}">About</a>
-                                    <a class="link-item" href="{{route('contact.us')}}">Contact</a>
-                                    <a class="link-item" href="{{route('signin')}}">Sign in</a>
-                                    <a class="link-item" href="{{route('signup')}}">Sign up</a>
-                                    @endif
+{{--                            <li class="nav-item dropdown pages152">--}}
+{{--                                <a href="#" class="nav-link dropdown-toggle-no-caret" role="button" data-toggle="dropdown">--}}
+{{--                                    Pages <i class="fas fa-caret-down p-crt"></i>--}}
+{{--                                </a>--}}
+{{--                                <div class="dropdown-menu pages-dropdown">--}}
+{{--                                    @if(!auth()->check())--}}
+{{--                                    <a class="link-item" href="{{route('about.us')}}">About</a>--}}
+{{--                                    <a class="link-item" href="{{route('contact.us')}}">Contact</a>--}}
+{{--                                    <a class="link-item" href="{{route('signin')}}">Sign in</a>--}}
+{{--                                    <a class="link-item" href="{{route('signup')}}">Sign up</a>--}}
+{{--                                    @endif--}}
 {{--                                    <a class="link-item" href="our_blog.html">Our Blog</a>--}}
 {{--                                    <a class="link-item" href="blog_single_view.html">Single Blog View</a>--}}
 {{--                                    <a class="link-item" href="pricing_plans.html">Pricing Plans</a>--}}
@@ -236,9 +237,10 @@ if(auth()->check()) {
 {{--                                    <a class="link-item" href="sign_up_freelancer_profile.html">Create Freelancer Profile</a>--}}
 {{--                                    <a class="link-item" href="sign_up_company_profile.html">Create Company Profile</a>--}}
 {{--                                    <a class="link-item" href="help_center.html">Help Center</a>--}}
-                                </div>
-                            </li>
+{{--                                </div>--}}
+{{--                            </li>--}}
                         </ul>
+
                         @if(auth()->check())
                         <a href="{{route('post_a_job')}}" class="add-post">Post a Job</a>
                         <a href="{{route('post_a_job')}}" class="add-task">Post a Task</a>
@@ -254,3 +256,14 @@ if(auth()->check()) {
         </div>
     </div>
 </div>
+@section('active_tab')
+    <script>
+        $(document).ready(function () {
+            var url = window.location.href;
+            if (url.slice(-1) === '/') {
+                url = url.slice(0, -1); // Remove the trailing slash
+            }
+            $('.nav-item a[href="' + url + '"]').addClass('active');
+        });
+    </script>
+@endsection

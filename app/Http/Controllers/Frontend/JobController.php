@@ -31,7 +31,7 @@ class JobController extends Controller
     public function createJob(Request $request)
     {
 
-        //        dd($request);
+//                dd($request);
         $validator = Validator::make($request->all(), [
 
             'title' => 'required',
@@ -51,12 +51,6 @@ class JobController extends Controller
                 ->withInput();
         }
 
-        //        if (!Auth::check()) {
-//            $request->session()->put('task_data', $request->all());
-//            return redirect()->route('signin')->with('success','Please Login to post job');
-//        }
-//        else {
-//            // if the user is logged in, create the task
         $task = new Job;
         $task->user_id = Auth::id();
         $task->title = $request->input('title');
@@ -66,18 +60,19 @@ class JobController extends Controller
         $task->location = $request->input('location');
         $task->description = $request->input('description');
         $task->budget = $request->input('budget');
-        $task->save();
+//        dd($task);
         $check = $task->save();
+//        $check = $task;
+
         if ($check) {
-            return redirect()->back()->with('alert', 'Job created successfully!');
+            return redirect()->back()->with('success', 'Job created successfully!');
 
         } else {
-            return redirect()->back()->with('alert', 'Job did not created successfully!');
+            return redirect()->back()->with('error', 'Job did not created successfully!');
 
         }
-        //        }
-
     }
+
     public function browse_jobs(Request $request)
     {
 

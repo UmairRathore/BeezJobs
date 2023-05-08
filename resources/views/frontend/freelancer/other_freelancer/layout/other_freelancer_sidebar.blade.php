@@ -16,8 +16,11 @@
 {{--                    <button class="hire_btn" type="button">Message</button>--}}
                     @if(auth()->check())
                     <a href="{{route('freelancer_texting',[$users->id])}}"><button class="hire_btn" type="button">Message</button> </a></li>
+
+                @else
+                    <a href="{{route('signin')}}"><button class="hire_btn" type="button">Message</button> </a></li>
                 @endif
-                <a href="{{route('signin')}}"><button class="hire_btn" type="button">Message</button> </a></li>
+
             </ul>
         </div>
         <?php

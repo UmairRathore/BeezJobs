@@ -106,7 +106,7 @@ class FreelancerDashboardController extends Controller
         $user = User::find($auth->id);
         $user->password = Hash::make($request->new_password);
         $user->save();
-        return back()->with('alert', "Password Changed Successfully");
+        return back()->with('success', "Password Changed Successfully");
 
 
     }

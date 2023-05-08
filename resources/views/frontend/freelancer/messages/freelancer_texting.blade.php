@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Chat;
 ?>
 @extends('layouts.frontend.master')
-@section('title', 'Home')
+@section('title', 'Messages')
 
 @section('content')
     <style>
@@ -266,7 +266,7 @@ use App\Models\Chat;
                                                                                 <li><div class="vw1254"><i class="far fa-money-bill-alt"></i>{{$message->budget}} - Fixed</div></li>
                                                                                 <li><div class="vw1254"><i class="far fa-clock"></i>{{\Carbon\Carbon::parse($message->created_at)->diffForHumans()}}</div></li>
                                                                             </ul>
-                                                                            <p style="background-color:#ffffff;margin-top: 100px; padding-top: 100px; max-height: 74px; width:80%; overflow-y: auto;">
+                                                                            <p style="background-color:#ffffff; margin-top: 100px;max-height: 74px; width:80%; overflow-y: auto;">
                                                                                 {{$message->description}}
                                                                             </p>
                                                                             <button class="btn btn-success" disabled>Accepted</button>
