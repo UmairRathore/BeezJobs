@@ -2,12 +2,9 @@
     <div class="account_dt_left">
         <div class="job-center-dt">
             @if($users->profile_image)
-
                 <img src="{{asset($users->profile_image)}}" alt="">
-
             @else
                 <img src="{{asset('images/homepage/latest-jobs/img-1.jpg')}}" alt="">
-
             @endif
             <div class="job-urs-dts">
                 <h4>{{$users->first_name.' '.$users->last_name}}</h4>
@@ -17,7 +14,10 @@
                 <li><button class="hire_btn" type="button">Hire Me</button></li>
                 <li>
 {{--                    <button class="hire_btn" type="button">Message</button>--}}
+                    @if(auth()->check())
                     <a href="{{route('freelancer_texting',[$users->id])}}"><button class="hire_btn" type="button">Message</button> </a></li>
+                @endif
+                <a href="{{route('signin')}}"><button class="hire_btn" type="button">Message</button> </a></li>
             </ul>
         </div>
         <?php

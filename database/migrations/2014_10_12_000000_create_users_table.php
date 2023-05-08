@@ -18,17 +18,33 @@ class CreateUsersTable extends Migration
             $table->string('first_name')->nullable();
             $table->string('last_name')->nullable();
             $table->string('email')->unique();
+            $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->unsignedBigInteger('role_id')->nullable();
+            $table->unsignedBigInteger('profession_id')->nullable();
             $table->string('birthday')->nullable();
             $table->string('tagline')->nullable();
             $table->string('location')->nullable();
-            $table->foreign('role_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('profession_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('pay_rate')->nullable();
             $table->string('websites')->nullable();
-            $table->timestamp('email_verified_at')->nullable();
+            $table->string('profile_image')->nullable();
+            $table->boolean('status')->nullable()->default(null);
+
+            $table->decimal('latitude', 10, 8)->nullable();
+            $table->decimal('longitude', 11, 8)->nullable();
+
+            $table->string('facebook_link')->nullable();
+            $table->string('google_link')->nullable();
+            $table->string('youtube_link')->nullable();
+            $table->string('linkedin_link')->nullable();
+            $table->string('instagram_link')->nullable();
+            $table->string('twitter_link')->nullable();
             $table->rememberToken();
             $table->timestamps();
+
+
+            $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade');
+            $table->foreign('profession_id')->references('id')->on('professions')->onDelete('cascade');
         });
     }
 

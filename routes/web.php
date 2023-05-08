@@ -37,10 +37,12 @@ use Illuminate\Support\Facades\Route;
 Route::get('/users/random', [UserController::class, 'createRandomUsers'])->name('add.random');
 Route::get('/jobs/random', [JobController::class, 'createRandomJobs'])->name('add.random.jobs');
 
-
+//Messages
 Route::post('storechat', [ChatController::class, 'store']);  //whenever use ajax don't use name function
-Route::post('makeOffer', [ChatController::class, 'makeOffer']);  //whenever use ajax don't use name function
+Route::post('makeAvailableJobOffer', [ChatController::class, 'makeAvailableJobOffer']);  //whenever use ajax don't use name function
+Route::post('makeCustomJobOffer', [ChatController::class, 'makeCustomJobOffer']);  //whenever use ajax don't use name function
 Route::post('rejectOffer', [ChatController::class, 'rejectOffer']);  //whenever use ajax don't use name function
+Route::post('acceptOffer', [ChatController::class, 'acceptOffer']);  //whenever use ajax don't use name function
 
 
 
@@ -78,23 +80,26 @@ Route::get('/selectprofile/{role_id}', [RegistrationController::class, 'postsele
 //freelancer
 Route::get('/my_freelancer_dashboard', [FreelancerDashboardController::class, 'my_freelancer_dashboard'])->name('my_freelancer_dashboard');
 Route::get('/my_freelancer_setting', [FreelancerDashboardController::class, 'my_freelancer_settings'])->name('my_freelancer_setting');
-Route::get('/my_freelancer_messages', [ChatController::class, 'my_freelancer_messages'])->name('my_freelancer_messages');
-Route::get('/freelancer_texting/{id}', [ChatController::class, 'texting'])->name('freelancer_texting');
 
+//freelancer Messages
+    Route::get('/my_freelancer_messages', [ChatController::class, 'my_freelancer_messages'])->name('my_freelancer_messages')->middleware('auth');;
+    Route::get('/freelancer_texting/{id}', [ChatController::class, 'texting'])->name('freelancer_texting')->middleware('auth');;
+    Route::get('/Offerjobs/{job_id}', [ChatController::class, 'Offerjobs']); //AJAX request doesn't have names
+    Route::get('/search-users',[ChatController::class,'searchUsers']); //AJAX request doesn't have names
 
 Route::get('/my_freelancer_jobs', [FreelancerDashboardController::class, 'my_freelancer_jobs'])->name('my_freelancer_jobs');
 
 
-Route::get('/my_freelancer_bids', [FreelancerDashboardController::class, 'my_freelancer_bids'])->name('my_freelancer_bids');
-Route::get('/my_freelancer_portfolio', [FreelancerDashboardController::class, 'my_freelancer_portfolio'])->name('my_freelancer_portfolio');
-Route::get('/my_freelancer_bookmarks', [FreelancerDashboardController::class, 'my_freelancer_bookmarks'])->name('my_freelancer_bookmarks');
-Route::get('/my_freelancer_payments', [FreelancerDashboardController::class, 'my_freelancer_payments'])->name('my_freelancer_payments');
-Route::get('/my_freelancer_profile', [FreelancerDashboardController::class, 'my_freelancer_profile'])->name('my_freelancer_profile');
-Route::get('/my_freelancer_notifications', [FreelancerDashboardController::class, 'my_freelancer_notifications'])->name('my_freelancer_notifications');
-Route::get('/my_freelancer_reviews', [FreelancerDashboardController::class, 'my_freelancer_reviews'])->name('my_freelancer_reviews');
+Route::get('/my_freelancer_bids', [FreelancerDashboardController::class, 'my_freelancer_bids'])->name('my_freelancer_bids')->middleware('auth');;
+Route::get('/my_freelancer_portfolio', [FreelancerDashboardController::class, 'my_freelancer_portfolio'])->name('my_freelancer_portfolio')->middleware('auth');;
+Route::get('/my_freelancer_bookmarks', [FreelancerDashboardController::class, 'my_freelancer_bookmarks'])->name('my_freelancer_bookmarks')->middleware('auth');;
+Route::get('/my_freelancer_payments', [FreelancerDashboardController::class, 'my_freelancer_payments'])->name('my_freelancer_payments')->middleware('auth');;
+Route::get('/my_freelancer_profile', [FreelancerDashboardController::class, 'my_freelancer_profile'])->name('my_freelancer_profile')->middleware('auth');;
+Route::get('/my_freelancer_notifications', [FreelancerDashboardController::class, 'my_freelancer_notifications'])->name('my_freelancer_notifications')->middleware('auth');;
+Route::get('/my_freelancer_reviews', [FreelancerDashboardController::class, 'my_freelancer_reviews'])->name('my_freelancer_reviews')->middleware('auth');;
 //setting
-Route::post('/update_freelancer_social_media_links', [FreelancerDashboardController::class, 'update_freelancer_social_media_links'])->name('update_freelancer_social_media_links');
-Route::post('/change_freelancer_password', [FreelancerDashboardController::class, 'change_freelancer_password'])->name('change_freelancer_password');
+Route::post('/update_freelancer_social_media_links', [FreelancerDashboardController::class, 'update_freelancer_social_media_links'])->name('update_freelancer_social_media_links')->middleware('auth');;
+Route::post('/change_freelancer_password', [FreelancerDashboardController::class, 'change_freelancer_password'])->name('change_freelancer_password')->middleware('auth');;
 Route::get('/browse_freelancers', [FreelancerDashboardController::class, 'browse_freelancers'])->name('browse_freelancers');
 
 
@@ -105,8 +110,8 @@ Route::get('/other_freelancer_portfolio/{id}', [FreelancerDashboardController::c
 Route::get('/other_freelancer_review/{id}', [FreelancerDashboardController::class, 'other_freelancer_review'])->name('other_freelancer_review');
 
 //portfolio
-Route::post('/add_freelancer_portfolio', [PortfolioController::class, 'add_freelancer_portfolio'])->name('add_freelancer_portfolio');
-Route::get('/delete_freelancer_portfolio/{id}', [PortfolioController::class, 'delete_freelancer_portfolio'])->name('delete_freelancer_portfolio');
+Route::post('/add_freelancer_portfolio', [PortfolioController::class, 'add_freelancer_portfolio'])->name('add_freelancer_portfolio')->middleware('auth');;
+Route::get('/delete_freelancer_portfolio/{id}', [PortfolioController::class, 'delete_freelancer_portfolio'])->name('delete_freelancer_portfolio')->middleware('auth');;
 
 
 

@@ -16,7 +16,6 @@ class CreateJobsTable extends Migration
         Schema::create('jobs', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('title');
             $table->date('date');
             $table->enum('time_of_day', ['morning', 'afternoon', 'evening', 'night']);
@@ -24,7 +23,13 @@ class CreateJobsTable extends Migration
             $table->string('location');
             $table->text('description');
             $table->float('budget');
+            $table->string('status');
+            $table->unsignedBigInteger('offer_id');
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('offer_id')->references('id')->on('offers')->onDelete('cascade');
+
         });
     }
 

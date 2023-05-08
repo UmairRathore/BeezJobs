@@ -55,15 +55,15 @@
                                         Time and Date
                                     </div>
                                 </div>
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label class="label15">Date*</label>
-                                        <div class="smm_input">
-                                            <input type="text" name="date" class="job-input datepicker-here" data-language="en" value="{{auth()->user()->birthday}}">
-                                            <div class="mix_max"><i class="fas fa-calendar-alt"></i></div>
-                                        </div>
-                                    </div> 
-                                </div>
+{{--                                <div class="col-lg-6">--}}
+{{--                                    <div class="form-group">--}}
+{{--                                        <label class="label15">Date*</label>--}}
+{{--                                        <div class="smm_input">--}}
+{{--                                            <input type="text" name="date" class="job-input datepicker-here" data-language="en" value="{{auth()->user()->birthday}}">--}}
+{{--                                            <div class="mix_max"><i class="fas fa-calendar-alt"></i></div>--}}
+{{--                                        </div>--}}
+{{--                                    </div> --}}
+{{--                                </div>--}}
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label class="label15">Time*</label>

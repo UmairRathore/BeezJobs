@@ -73,43 +73,42 @@ class RegistrationController extends Controller
 
     public function postfreelancesignup(Request $request)
     {
-        $id = auth()->user()->id;
-        $profile_image = auth()->user()->profile_image;
-        $image = '';
-        $date = date('d-m-Y');
-        if ($request->hasFile('file')) {
-            $image = $request->file;
-            $fileName = date('dmyhisa') . '-' . $image->getClientOriginalName();
-            $fileName = str_replace(" ", "-", $fileName);
-            $image->move('images/user_profile/' . $date . '/', $fileName);
-            $image = 'images/user_profile/' . $date . '/' . $fileName;
-        }
-        if ($image == '') {
-            $image = $profile_image;
-        }
+        if(\auth()->check()) {
+            $id = auth()->user()->id;
+            $profile_image = auth()->user()->profile_image;
+            $image = '';
+            $date = date('d-m-Y');
+            if ($request->hasFile('file')) {
+                $image = $request->file;
+                $fileName = date('dmyhisa') . '-' . $image->getClientOriginalName();
+                $fileName = str_replace(" ", "-", $fileName);
+                $image->move('images/user_profile/' . $date . '/', $fileName);
+                $image = 'images/user_profile/' . $date . '/' . $fileName;
+            }
+            if ($image == '') {
+                $image = $profile_image;
+            }
 
-        $this->data['user'] = $this->_model::find($id);
-        $this->data['user']->first_name = $request->input('first_name');
-        $this->data['user']->last_name = $request->input('last_name');
-        $this->data['user']->birthday = $request->input('birthday');
-        $this->data['user']->email = $request->input('email');
-        $this->data['user']->description = $request->input('description');
-        $this->data['user']->location = $request->input('location');
-        $this->data['user']->pay_rate = $request->input('pay_rate');
-        $this->data['user']->tagline = $request->input('tagline');
-        $this->data['user']->status = 1;
+            $this->data['user'] = $this->_model::find($id);
+            $this->data['user']->first_name = $request->input('first_name');
+            $this->data['user']->last_name = $request->input('last_name');
+            $this->data['user']->birthday = $request->input('birthday');
+            $this->data['user']->email = $request->input('email');
+            $this->data['user']->description = $request->input('description');
+            $this->data['user']->location = $request->input('location');
+            $this->data['user']->pay_rate = $request->input('pay_rate');
+            $this->data['user']->tagline = $request->input('tagline');
+            $this->data['user']->status = 1;
 
-        $this->data['user']->profile_image = $image;
-        $this->data['user']->save();
-        $check = $this->data['user']->save();
-
+            $this->data['user']->profile_image = $image;
+            $this->data['user']->save();
+            $check = $this->data['user']->save();
         if ($check) {
             return redirect()->back()->with('alert', 'Profile is updated successfully!');
         } else {
             return redirect()->back()->with('alert', 'Something is wrong!');
         }
-
-
+        }
     }
 
     public function dashboard()

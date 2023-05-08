@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Bid;
-use App\Models\Chat;
+use App\Models\Message;
 use App\Models\City;
 use App\Models\Job;
 
@@ -86,19 +86,9 @@ class JobController extends Controller
 
         $search = $request->search;
 
-//        dd($search);
-//        $this->data['jobs'] = Job::select('jobs.*','jobs.location','jobs.id as jid','users.*','professions.profession')
-//            ->join('users', 'users.id', '=', 'jobs.user_id')
-//            ->join('professions', 'professions.id', '=', 'users.professions_id')
-//            ->where('professions.profession','like','% '.$search.'%')
-//        ->get();
-
         $this->data['jobs'] = Job::select('jobs.*','jobs.id as jid', 'professions.profession')
             ->join('users', 'users.id', '=', 'jobs.user_id')
-            ->join('professions', 'professions.id', '=', 'users.professions_id');
-//            ->where('professions.profession', 'LIKE', "%{$search}%")
-//            ->get();
-//dd($this->data['jobs'] );
+            ->join('professions', 'professions.id', '=', 'users.profession_id');
         $category = $request->category;
         $pay_rate_range = $request->pay_rate_range;
         $location = $request->location;
@@ -116,13 +106,13 @@ class JobController extends Controller
                 $pay_rate_range = null;
             }
                 $this->data['jobs']->where('jobs.budget', '<=', $pay_rate_range);
+
         }
 
         if (!empty($location)) {
             $this->data['jobs']->where('jobs.location', 'like', "%{$location}%");
         }
 
-//dd( $this->data['jobs'] );
         $this->data['jobs'] = $this->data['jobs']->orderBy('jobs.created_at', 'desc')->paginate(10);
 
         return view('frontend.job.browse_jobs',$this->data);
@@ -149,10 +139,12 @@ class JobController extends Controller
             ->join('jobs', 'jobs.id', '=', 'bids.job_id')->get();
 
 
-        $this->data['job']= Job::where('jobs.id', $id)->select('jobs.*','users.first_name','users.last_name')
+        $this->data['job']= Job::where('jobs.id', $id)
+            ->select('jobs.*','users.first_name','users.last_name')
             ->join('users', 'users.id', '=', 'jobs.user_id')
-            ->join('professions', 'users.professions_id', '=', 'professions.id')
+//            ->join('professions', 'users.profession_id', '=', 'professions.id')
             ->first();
+//        dd($this->data['job']);
 
         return view('frontend.job.job_single_view', $this->data);
 

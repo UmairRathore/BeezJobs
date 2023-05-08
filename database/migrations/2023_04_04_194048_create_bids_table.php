@@ -15,14 +15,14 @@ class CreateBidsTable extends Migration
     {
         Schema::create('bids', function (Blueprint $table) {
             $table->id();
-//            $table->foreign('job_id')->references('id')->on('jobs')->onDelete('cascade');
-//            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-
-            $table->bigInteger('user_id');
-            $table->bigInteger('job_id');
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('job_id');
             $table->string('bid_budget');
             $table->string('bid_description');
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('job_id')->references('id')->on('jobs')->onDelete('cascade');
         });
     }
 

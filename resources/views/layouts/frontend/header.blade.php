@@ -1,3 +1,8 @@
+<?php
+namespace App\Http\Controllers\Admin;
+use App\Models\Message;
+use App\Models\User;
+?>
 <div class="top-header">
     <div class="container">
         <div class="row">
@@ -25,18 +30,18 @@
                     </div>
                     <?php
 if(auth()->check()) {
-    $messages1 = \App\Models\Chat::
+    $messages1 = Message::
     where('sender_id', Auth()->user()->id)
-        ->orWhere('receiver_id', Auth()->user()->id)
+        ->orWhere('receiver_id',Auth()->user()->id)
         ->orderby('id', 'desc')
         ->get()
         ->unique('sender_id')
         ->pluck('sender_id')
         ->toArray();
 
-    $messages2 = \App\Models\Chat::
+    $messages2 = Message::
     where('sender_id', Auth()->user()->id)
-        ->orWhere('receiver_id', Auth()->user()->id)
+        ->orWhere('receiver_id',Auth()->user()->id)
         ->orderby('id', 'desc')
         ->get()
         ->unique('receiver_id')
@@ -44,55 +49,63 @@ if(auth()->check()) {
         ->toArray();
     $result1 = array_merge($messages1, $messages2);
     $result = array_unique($result1);
-    $users = \App\Models\User::whereIn('id', $result)
-        ->where('id', '!=', Auth()->user()->id)
+    $latestMessage=  Message::where('sender_id', Auth()->user()->id)
+        ->orWhere('receiver_id',Auth()->user()->id)
+        ->orderby('id', 'desc')
+        ->pluck('message')
+        ->first();
+
+    $users = User::whereIn('id',$result)
+        ->where('id','!=',Auth()->user()->id)
         ->get();
 }
 
                     ?>
 {{--                                            {{dd($users)}}--}}
                     <div class="top-right-hd">
-                        <ul>
+{{--                        <ul>{{dd($users)}}--}}
+                                    @if(isset($users,Auth()->user()->id))
                             <li class="dropdown">
                                 <a href="#" class="icon14 dropdown-toggle-no-caret" role="button" data-toggle="dropdown">
                                     <i class="fas fa-envelope"></i><div class="circle-alrt"></div>
                                 </a>
                                 <div class="dropdown-menu message-dropdown dropdown-menu-right">
-@if(isset($users))
-                                            @foreach($users as $user)
+                                    @foreach($users as $user)
                                     <div class="user-request-list">
                                         <div class="request-users">
                                             <div class="user-request-dt">
                                                 <a href="{{route('freelancer_texting',[$user->id])}}">
-
+{{--                                                    @if($user->profile_image)--}}
+{{--                                                        <img src="{{asset($user->profile_image)}}" alt="">--}}
+{{--                                                    @else--}}
                                                     <img src="{{asset('images/user-dp-1.jpg')}}" alt="">
+{{--                                                    @endif--}}
                                                     <div class="user-title1">{{$user->first_name.' '.$user->last_name}} </div>
-                                                    @if(isset($latestMessage))
+{{--                                                 @if(isset($latestMessage))--}}
                                                     <?php
-                                                    $latestMessage=  \App\Models\Chat::
-                                                        where('sender_id', Auth()->user()->id)
-                                                        ->orWhere('receiver_id',$user->id)
-                                                        ->where('message','!=',Null)
+                                                    $latestMessage = Message::select('messages.created_at','messages.message')
+                                                        ->whereIn('sender_id', [$user->id,Auth()->user()->id])
+                                                        ->whereIn('receiver_id',[$user->id,Auth()->user()->id])
                                                         ->orderby('id', 'desc')
-                                                        ->pluck('message')
+                                                        ->where('message','!=',Null)
                                                         ->first();
-
-//                                                    dd($latestMessage);
                                                     ?>
-                                                    <span>{{$latestMessage}}</span>
-                                                        @endif
+                                                    <span>{{ $latestMessage->message }}</span>
+{{--                                                    <span style="color: black">{{\Carbon\Carbon::parse($latestMessage->created_at)->diffForHumans()}}</span>--}}
+{{--                                                        @endif--}}
                                                 </a>
                                             </div>
-{{--                                            <div class="time5">{{$latestMessage->created_at->diffForHumans()}}</div>--}}
+                                            <div class="time5">{{$latestMessage->created_at->diffForHumans()}}</div>
                                         </div>
-                                            @endforeach
-                                        @endif
                                     </div>
+                                            @endforeach
                                     <div class="user-request-list">
                                         <a href="{{route('my_freelancer_messages')}}" class="view-all">View All Messages</a>
                                     </div>
                                 </div>
                             </li>
+
+
                             <li class="dropdown">
                                 <a href="#" class="icon14 dropdown-toggle-no-caret" role="button" data-toggle="dropdown">
                                     <i class="fas fa-bell"></i><div class="circle-alrt"></div>
@@ -136,6 +149,7 @@ if(auth()->check()) {
                                     </div>
                                 </div>
                             </li>
+                            @endif
                             <li>
                                 <div class="account order-1 dropdown">
                                     @if(auth()->check())
@@ -189,7 +203,9 @@ if(auth()->check()) {
                                 <a href="#" class="nav-link dropdown-toggle-no-caret" role="button" data-toggle="dropdown">Find Jobs</a>
                                 <div class="dropdown-menu pages-dropdown">
                                     <a class="link-item" href="{{route('browse_jobs')}}">Browse Jobs</a>
+                                    @if(auth()->check())
                                     <a class="link-item" href="{{route('post_a_job')}}">Post a Job</a>
+                                        @endif
                                 </div>
                             </li>
 
@@ -205,26 +221,28 @@ if(auth()->check()) {
                                     Pages <i class="fas fa-caret-down p-crt"></i>
                                 </a>
                                 <div class="dropdown-menu pages-dropdown">
-                                    <a class="link-item" href="{{route('about.us')}}">About</a>
-                                    <a class="link-item" href="our_blog.html">Our Blog</a>
-                                    <a class="link-item" href="blog_single_view.html">Signle Blog View</a>
-                                    <a class="link-item" href="pricing_plans.html">Pricing Plans</a>
-                                    <a class="link-item" href="checkout.html">Checkout</a>
-                                    <a class="link-item" href="plan_invoice.html">Invoice Slip</a>
                                     @if(!auth()->check())
+                                    <a class="link-item" href="{{route('about.us')}}">About</a>
+                                    <a class="link-item" href="{{route('contact.us')}}">Contact</a>
                                     <a class="link-item" href="{{route('signin')}}">Sign in</a>
                                     <a class="link-item" href="{{route('signup')}}">Sign up</a>
                                     @endif
-                                    <a class="link-item" href="sign_up_select_profile.html">Sign up Select Profiles</a>
-                                    <a class="link-item" href="sign_up_freelancer_profile.html">Create Freelancer Profile</a>
-                                    <a class="link-item" href="sign_up_company_profile.html">Create Company Profile</a>
-                                    <a class="link-item" href="{{route('contact.us')}}">Contact</a>
-                                    <a class="link-item" href="help_center.html">Help Center</a>
+{{--                                    <a class="link-item" href="our_blog.html">Our Blog</a>--}}
+{{--                                    <a class="link-item" href="blog_single_view.html">Single Blog View</a>--}}
+{{--                                    <a class="link-item" href="pricing_plans.html">Pricing Plans</a>--}}
+{{--                                    <a class="link-item" href="checkout.html">Checkout</a>--}}
+{{--                                    <a class="link-item" href="plan_invoice.html">Invoice Slip</a>--}}
+{{--                                    <a class="link-item" href="sign_up_select_profile.html">Sign up Select Profiles</a>--}}
+{{--                                    <a class="link-item" href="sign_up_freelancer_profile.html">Create Freelancer Profile</a>--}}
+{{--                                    <a class="link-item" href="sign_up_company_profile.html">Create Company Profile</a>--}}
+{{--                                    <a class="link-item" href="help_center.html">Help Center</a>--}}
                                 </div>
                             </li>
                         </ul>
+                        @if(auth()->check())
                         <a href="{{route('post_a_job')}}" class="add-post">Post a Job</a>
                         <a href="{{route('post_a_job')}}" class="add-task">Post a Task</a>
+                        @endif
                     </div>
                     <div class="responsive-search order-1">
                         <input type="text" class="rsp-search" placeholder="Search...">

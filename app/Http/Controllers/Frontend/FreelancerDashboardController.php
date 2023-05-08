@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
-use App\Models\Chat;
+use App\Models\Message;
 use App\Models\Profession;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -113,10 +113,6 @@ class FreelancerDashboardController extends Controller
     public function browse_freelancers(Request $request)
     {
 
-//        $this->data['users']= User::select('users.*','p.profession as profession')
-//            ->join('professions as p', 'users.professions_id', '=', 'p.id')
-//            ->orderBy('created_at', 'desc')->get();
-
         $this->data['categories'] = Profession::get();
 
         $category = $request->input('category');
@@ -125,8 +121,7 @@ class FreelancerDashboardController extends Controller
         $search = $request->input('search');
 
         $this->data['users'] = User::select('users.*', 'professions.profession as profession_name')
-            ->join('professions', 'users.professions_id', '=', 'professions.id');
-
+            ->join('professions', 'users.profession_id', '=', 'professions.id');
 
         if (!empty($search)) {
             $this->data['users']->where('professions.id',$search)
@@ -149,9 +144,11 @@ class FreelancerDashboardController extends Controller
         }
 
         if (!empty($location)) {
-             $this->data['users']->where('users.location', 'like',"%{$location}%");
+             $this->data['users']->where('users.location', 'LIKE',"%{$location}%");
         }
+
         $this->data['users'] = $this->data['users']->orderBy('created_at', 'desc')->paginate(10);
+
 
         return view('frontend.freelancer.browse_freelancers', $this->data);
     }
@@ -161,7 +158,7 @@ class FreelancerDashboardController extends Controller
     {
              $this->data['users']= User::where('users.id',$id)
             ->select('users.*','users.profile_image','p.profession as profession')
-            ->join('professions as p', 'users.professions_id', '=', 'p.id')
+            ->join('professions as p', 'users.profession_id', '=', 'p.id')
             ->first();
 
         return view('frontend.freelancer.other_freelancer.other_freelancer_profile',$this->data);
@@ -171,7 +168,7 @@ class FreelancerDashboardController extends Controller
 
         $this->data['users']= User::where('users.id',$id)
             ->select('users.*','p.profession as profession')
-            ->join('professions as p', 'users.professions_id', '=', 'p.id')
+            ->join('professions as p', 'users.profession_id', '=', 'p.id')
             ->first();
 
                 $this->data['portfolios']= Portfolio::where('user_id',$id)
@@ -185,7 +182,7 @@ class FreelancerDashboardController extends Controller
     {
                 $this->data['users']= User::where('users.id',$id)
             ->select('users.*','p.profession as profession')
-            ->join('professions as p', 'users.professions_id', '=', 'p.id')
+            ->join('professions as p', 'users.profession_id', '=', 'p.id')
             ->first();
 
         return view('frontend.freelancer.other_freelancer.other_freelancer_review',$this->data);
@@ -194,12 +191,43 @@ class FreelancerDashboardController extends Controller
 
     public function my_freelancer_jobs()
     {
-//        $id=Auth()->check()->id;
-//        dd(Auth()->check()->id);
-        $this->data['SentOffers'] = Chat::where('sender_id',Auth()->user()->id)->where('message',Null)->get();
+        $this->data['SentOffers'] = Message::
+//        select('messages.*','jobs.*','offers.*')
+
+        where('sender_id',Auth()->user()->id)
+            ->leftjoin('offers as offer','offer.message_id','=','messages.id')
+            ->leftjoin('jobs as job','job.id','=','offer.job_id')
+            ->where('messages.message',Null)
+            ->get();
 //        dd($this->data['SentOffers']);
-        $this->data['RecievedOffers'] = Chat::where('receiver_id',Auth()->user()->id)->where('message',Null)->get();
-        $this->data['Orders'] = Chat::where('sender_id',Auth()->user()->id)->where('message',Null)->where('accept',1)->get();
+//        foreach( $this->data['Sent'] as  $this->data['SentOffer'])
+//        {
+//            $this->data['SentOffers'] = $this->data['SentOffer']->select('job.*')->leftjoin('jobs as job','job.id','=','offers.job_id')
+//            ->get();
+//dd($this->data['SentOffers'] );
+//        }
+        $this->data['RecievedOffers'] = Message:: where('receiver_id',Auth()->user()->id)
+            ->leftjoin('offers as offer','offer.message_id','=','messages.id')
+            ->leftjoin('jobs as job','job.id','=','offer.job_id')
+            ->where('messages.message',Null)
+            ->get();
+
+        $this->data['Orders'] = Message::select('job.location','job.title','offer.created_at','offer.negotiated_description','offer.negotiated_price','orders.status as Ostatus')
+            ->where('sender_id',Auth()->user()->id)
+            ->leftjoin('offers as offer','offer.message_id','=','messages.id')
+            ->leftjoin('jobs as job','job.id','=','offer.job_id')
+            ->leftjoin('orders','orders.offer_id','offer.id')
+            ->where('message',Null)
+            ->where('offer.accepted',1)
+            ->get();
+//        dd( $this->data['Orders']);
+
+
+
+
+
+//        $this->data['RecievedOffers'] = Message::where('receiver_id',Auth()->user()->id)->where('message',Null)->get();
+//        $this->data['Orders'] = Message::where('sender_id',Auth()->user()->id)->where('message',Null)->where('accept',1)->get();
         return view('frontend.freelancer.my_freelancer.my_freelancer_jobs', $this->data);
 
     }

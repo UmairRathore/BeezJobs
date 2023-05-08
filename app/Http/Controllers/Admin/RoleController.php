@@ -34,10 +34,10 @@ class RoleController extends Controller
         $check = $role->save();
 
         if ($check) {
-            return redirect()->back()->with('success', 'Job created successfully!');
+            return redirect()->back()->with('success', 'Role created successfully!');
 
         } else {
-            return redirect()->back()->with('success', 'Job did not created successfully!');
+            return redirect()->back()->with('success', 'Role did not created successfully!');
 
         }
 

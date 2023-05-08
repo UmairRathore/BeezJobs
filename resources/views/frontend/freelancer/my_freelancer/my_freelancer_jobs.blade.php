@@ -45,27 +45,27 @@ container">
 									<div class="jobs_tabs">
 										<ul class="nav job_nav nav-tabs" id="myTab" role="tablist">
 											<li class="nav-item">
-												<a class="nav-link active" href="#sent_jobs" id="manage-job-tab" data-toggle="tab">Sent Jobs</a>
+												<a class="nav-link active" href="#sent_jobs" id="manage-job-tab" data-toggle="tab">Sent Offers</a>
 											</li>
                                             <li class="nav-item">
-												<a class="nav-link" href="#received_jobs" id="manage-job-tab" data-toggle="tab">Received Jobs</a>
+												<a class="nav-link" href="#received_jobs" id="manage-job-tab" data-toggle="tab">Received Offers</a>
 											</li>
                                             <li class="nav-item">
 												<a class="nav-link" href="#orders" id="manage-job-tab" data-toggle="tab">Orders</a>
 											</li>
 
-                                            <li class="nav-item">
-												<a class="nav-link" href="#manage_jobs" id="manage-job-tab" data-toggle="tab">Manage Jobs</a>
-											</li>
-											<li class="nav-item job_nav_item">
-												<a class="nav-link" href="#applied_jobs" id="applied-job-tab" data-toggle="tab">Applied Jobs</a>
-											</li>
-											<li class="nav-item job_nav_item">
-												<a class="nav-link" href="#applied_candidates" id="applied-candidate-tab" data-toggle="tab">Applied Candidates</a>
-											</li>
-											<li class="nav-item job_nav_item">
-												<a class="nav-link" href="#post_job" id="post-job-tab" data-toggle="tab">Post a Job</a>
-											</li>
+{{--                                            <li class="nav-item">--}}
+{{--												<a class="nav-link" href="#manage_jobs" id="manage-job-tab" data-toggle="tab">Manage Jobs</a>--}}
+{{--											</li>--}}
+{{--											<li class="nav-item job_nav_item">--}}
+{{--												<a class="nav-link" href="#applied_jobs" id="applied-job-tab" data-toggle="tab">Applied Jobs</a>--}}
+{{--											</li>--}}
+{{--											<li class="nav-item job_nav_item">--}}
+{{--												<a class="nav-link" href="#applied_candidates" id="applied-candidate-tab" data-toggle="tab">Applied Candidates</a>--}}
+{{--											</li>--}}
+{{--											<li class="nav-item job_nav_item">--}}
+{{--												<a class="nav-link" href="#post_job" id="post-job-tab" data-toggle="tab">Post a Job</a>--}}
+{{--											</li>--}}
 										</ul>
 
 									</div>
@@ -82,21 +82,24 @@ container">
                                                         @foreach($SentOffers as $sentoffer)
                                                         <li>
                                                             <div class="applied_item">
-                                                                <a href="#">{{$sentoffer->description}}</a>
-                                                                @if($sentoffer->reject == Null and $sentoffer->accept == Null)
-                                                                <span class="badge_alrt">Pending Approval</span>
-                                                                    @elseif($sentoffer->reject == 1 and $sentoffer->accept == Null)
-                                                                    <span class="badge_alrt">Rejected</span>
-                                                                @elseif($sentoffer->reject == Null and $sentoffer->accept == 1)
-                                                                    <span class="badge_alrt">Accepted</span>
-                                                                @endif
+                                                                <a href="#">{{$sentoffer->title}}</a>
                                                                 <ul class="view_dt_job">
-{{--                                                                    <li><div class="vw1254"><i class="far fa-clock"></i>Posted on 3 August 2018</div></li>--}}
-{{--                                                                    <li><div class="vw1254"><i class="far fa-clock"></i>Expiring on 3 September 2018</div></li>--}}
+                                                                    <li><div class="vw1254"><i class="fas fa-map-marker-alt"></i>{{$sentoffer->location}}</div></li>
+                                                                    <li><div class="vw1254"><i class="fas fa-briefcase"></i>{{$sentoffer->online_or_in_person}}</div></li>
+                                                                    <li><div class="vw1254"><i class="far fa-money-bill-alt"></i>{{$sentoffer->negotiated_price}}</div></li>
+                                                                    <li><div class="vw1254"><i class="far fa-clock"></i>{{$sentoffer->created_at}}</div></li>
                                                                 </ul>
+                                                                <p style="color:black; padding-top: 60px;">
+                                                                    {{$sentoffer->negotiated_description}}
+                                                                </p>
                                                                 <div class="btn_link23">
-                                                                    <button class="apled_btn60"><span class="badge badge-light">0</span>APPLIED CANDIDATES</button>
-                                                                    <a href="#" class="delete_icon1"><i class="far fa-trash-alt"></i></a>
+                                                                    @if($sentoffer->rejected == Null and $sentoffer->accepted == Null)
+                                                                        <button class="apled_btn50" style="pointer-events: none;" disabled>Pending Approval</button>
+                                                                    @elseif($sentoffer->rejected == 1 and $sentoffer->accepted == Null)
+                                                                        <button class="apled_btn50" style="pointer-events: none;" disabled>Rejected</button>
+                                                                    @elseif($sentoffer->rejected == Null and $sentoffer->accepted == 1)
+                                                                        <button class="apled_btn50" style="pointer-events: none;" disabled>Accepted</button>
+                                                                    @endif
                                                                 </div>
                                                             </div>
                                                         </li>
@@ -108,34 +111,37 @@ container">
 										<div class="tab-pane fade show" id="received_jobs" role="tabpanel">
 											<div class="view_chart">
 												<div class="view_chart_header">
-													<h4>Received Jobs</h4>
+													<h4>Received Offers</h4>
 												</div>
-												<div class="job_bid_body">
-													<ul class="all_applied_jobs jobs_bookmarks">
-                                                        @foreach($RecievedOffers as $recievedoffer)
-														<li>
-															<div class="applied_item">
-																<a href="#">{{$recievedoffer->description}}</a><!--title-->
-                                                                @if($recievedoffer->reject == Null and $recievedoffer->accept == Null)
-                                                                    <span class="badge_alrt">Pending Approval</span>
-                                                                @elseif($recievedoffer->reject == 1 and $recievedoffer->accept == Null)
-                                                                    <span class="badge_alrt">Rejected</span>
-                                                                @elseif($recievedoffer->reject == Null and $recievedoffer->accept == 1)
-                                                                    <span class="badge_alrt">Accepted</span>
-                                                                @endif
-																<ul class="view_dt_job">
-{{--																	<li><div class="vw1254"><i class="far fa-clock"></i>Posted on 3 August 2018</div></li>--}}
-{{--																	<li><div class="vw1254"><i class="far fa-clock"></i>Expiring on 3 September 2018</div></li>--}}
-																</ul>
-																<div class="btn_link23">
-{{--																	<button class="apled_btn60"><span class="badge badge-light">0</span>APPLIED CANDIDATES</button>--}}
-{{--																	<a href="#" class="delete_icon1"><i class="far fa-trash-alt"></i></a>--}}
-																</div>
-															</div>
-														</li>
-                                                            @endforeach
-													</ul>
-												</div>
+                                                <div class="job_bid_body">
+                                                    <ul class="all_applied_jobs jobs_bookmarks">
+                                                        @foreach($RecievedOffers as $recievedOffer)
+                                                            <li>
+                                                                <div class="applied_item">
+                                                                    <a href="#">{{$recievedOffer->title}}</a>
+                                                                    <ul class="view_dt_job">
+                                                                        <li><div class="vw1254"><i class="fas fa-map-marker-alt"></i>{{$recievedOffer->location}}</div></li>
+                                                                        <li><div class="vw1254"><i class="fas fa-briefcase"></i>{{$recievedOffer->online_or_in_person}}</div></li>
+                                                                        <li><div class="vw1254"><i class="far fa-money-bill-alt"></i>{{$recievedOffer->negotiated_price}}</div></li>
+                                                                        <li><div class="vw1254"><i class="far fa-clock"></i>{{$recievedOffer->created_at}}</div></li>
+                                                                    </ul>
+                                                                    <p  style="color: black; padding-top:60px">
+                                                                        {{$recievedOffer->negotiated_description}}
+                                                                    </p>
+                                                                    <div class="btn_link23">
+                                                                        @if($recievedOffer->rejected == Null and $recievedOffer->accepted == Null)
+                                                                            <button class="apled_btn50" style="pointer-events: none;" disabled>Pending Approval</button>
+                                                                        @elseif($recievedOffer->rejected == 1 and $recievedOffer->accepted == Null)
+                                                                            <button class="apled_btn50" style="pointer-events: none;" disabled>Rejected</button>
+                                                                        @elseif($recievedOffer->rejected == Null and $recievedOffer->accepted == 1)
+                                                                            <button class="apled_btn50" style="pointer-events: none;" disabled>Accepted</button>
+                                                                        @endif
+                                                                    </div>
+                                                                </div>
+                                                            </li>
+                                                        @endforeach
+                                                    </ul>
+                                                </div>
 											</div>
 										</div>
 										<div class="tab-pane fade show" id="orders" role="tabpanel">
@@ -145,27 +151,30 @@ container">
 												</div>
 												<div class="job_bid_body">
 													<ul class="all_applied_jobs jobs_bookmarks">
-                                                        @foreach($Orders as $order)
-														<li>
-															<div class="applied_item">
-                                                                <a href="#">{{$order->description}}</a><!--title-->
-{{--                                                                @if($order->reject == Null and $order->accept == Null)--}}
-{{--                                                                    <span class="badge_alrt">Pending Approval</span>--}}
-{{--                                                                @elseif($order->reject == 1 and $order->accept == Null)--}}
-{{--                                                                    <span class="badge_alrt">Rejected</span>--}}
-{{--                                                                @elseif($order->reject == Null and $order->accept == 1)--}}
-{{--                                                                    <span class="badge_alrt">Accepted</span>--}}
-{{--                                                                @endif--}}
-																<ul class="view_dt_job">
-{{--																	<li><div class="vw1254"><i class="far fa-clock"></i>Posted on 3 August 2018</div></li>--}}
-{{--																	<li><div class="vw1254"><i class="far fa-clock"></i>Expiring on 3 September 2018</div></li>--}}
-																</ul>
-																<div class="btn_link23">
-{{--																	<button class="apled_btn60"><span class="badge badge-light">0</span>APPLIED CANDIDATES</button>--}}
-{{--																	<a href="#" class="delete_icon1"><i class="far fa-trash-alt"></i></a>--}}
-																</div>
-															</div>
-														</li>
+                                                        @foreach($Orders as $Order)
+                                                            <li>
+                                                                <div class="applied_item">
+                                                                    <a href="#">{{$Order->title}}</a>
+                                                                    <ul class="view_dt_job">
+                                                                        <li><div class="vw1254"><i class="fas fa-map-marker-alt"></i>{{$Order->location}}</div></li>
+                                                                        <li><div class="vw1254"><i class="fas fa-briefcase"></i>{{$Order->online_or_in_person}}</div></li>
+                                                                        <li><div class="vw1254"><i class="far fa-money-bill-alt"></i>{{$Order->negotiated_price}}</div></li>
+                                                                        <li><div class="vw1254"><i class="far fa-clock"></i>{{$Order->created_at}}</div></li>
+                                                                    </ul>
+                                                                    <p style="color: black; padding-top: 60px;">
+                                                                        {{$Order->negotiated_description}}
+                                                                    </p>
+                                                                    <div class="btn_link23">
+                                                                        @if($Order->Ostatus == 'active')
+                                                                            <button class="apled_btn50" style="pointer-events: none;" disabled>Active</button>
+                                                                        @elseif($Order->Ostatus == 'completed')
+                                                                            <button class="apled_btn50" style="pointer-events: none;" disabled>Completed</button>
+                                                                        @elseif($Order->Ostatus == 'late-completed')
+                                                                            <button class="apled_btn50" style="pointer-events: none;" disabled>OverDue Completion</button>
+                                                                        @endif
+                                                                    </div>
+                                                                </div>
+                                                            </li>
                                                         @endforeach
 													</ul>
 												</div>

@@ -26,7 +26,7 @@ class User extends Authenticatable
         'tagline',
         'location',
         'role_id',
-        'professions_id',
+        'profession_id',
         'pay_rate',
         'websites'
     ];
@@ -46,7 +46,7 @@ class User extends Authenticatable
             $user->tagline = $faker->sentence(10);
             $user->location = $faker->city();
             $user->role_id = $faker->numberBetween(1, 2);
-            $user->professions_id = $faker->numberBetween(3, 10);
+            $user->profession_id = $faker->numberBetween(3, 10);
             $user->pay_rate = $faker->randomFloat(2, 10, 50);
             $user->websites = $faker->url();
             $user->save();

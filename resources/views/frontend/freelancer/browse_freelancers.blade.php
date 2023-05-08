@@ -137,7 +137,7 @@
                                                     <img src="{{asset($user->profile_image)}}" alt="">
                                                     <div class="job-urs-dts">
                                                         <a href="{{route('other_freelancer_profile',[$user->id])}}"><h4>{{$user->first_name.' '.$user->last_name}}</h4></a>
-                                                        <span>{{$user->profession}}</span>
+                                                        <span>{{$user->profession->profession}}</span>
                                                         <div class="avialable">{{$user->time_of_day}}</div>
                                                     </div>
                                                 </div>

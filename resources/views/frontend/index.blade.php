@@ -107,9 +107,11 @@
                 <div class="col-lg-4 col-md-6 col-12">
                     <ul class="post-buttons">
                         <li>
+                            @if(auth()->check())
                             <a href="{{route('post_a_job')}}">
                                 <button class="add-job">Post a Job</button>
                             </a>
+                                @endif
                         </li>
                     </ul>
                 </div>
@@ -138,7 +140,7 @@
                                             <img src="{{$profession->p_image}}" alt="">
                                             <span>{{$profession->profession}}</span>
                                             <?php
-                                            $professioncount = \App\Models\User::where('professions_id', $profession->id)->count();
+                                            $professioncount = \App\Models\User::where('profession_id', $profession->id)->count();
                                             ?>
                                             <p>{{$professioncount}}</p>
                                         </a>
@@ -174,12 +176,9 @@
                                         <div class="job-top-dt">
                                             <div class="job-left-dt">
                                                 @if($job->profile_image)
-
                                                     <img src="{{asset($job->profile_image)}}" alt="">
-
                                                 @else
                                                     <img src="{{asset('images/homepage/latest-jobs/img-1.jpg')}}" alt="">
-
                                                 @endif
                                                 <div class="job-ut-dts">
                                                     <a href="{{route('other_freelancer_profile',[$job->user_id])}}"><h4>{{$job->first_name.' '.$job->last_name}}</h4></a>
@@ -288,12 +287,9 @@
                                         <div class="job-top-dt1 text-center">
                                             <div class="job-center-dt">
                                                 @if($user->profile_image)
-
                                                     <img src="{{asset($user->profile_image)}}" alt="">
-
                                                 @else
                                                     <img src="{{asset('images/homepage/latest-jobs/img-1.jpg')}}" alt="">
-
                                                 @endif
                                                 <div class="job-urs-dts">
                                                     <a href="{{route('other_freelancer_profile',[$user->id])}}"><h4>{{$user->first_name.' '.$user->last_name}}</h4></a>

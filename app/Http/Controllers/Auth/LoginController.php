@@ -50,8 +50,8 @@ class LoginController extends Controller
     function postsignin(Request $request)
     {
 
+//        dd([$request->email, $request->password]);
         $email = $request->email;
-        //dd($email);
         $password = $request->password;
 
 

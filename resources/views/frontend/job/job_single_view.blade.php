@@ -94,7 +94,7 @@
 								<h4>Description</h4>
 <div>
 
-								<p>{{$job->desc}}</p>
+								<p style="color: black">{{$job->description}}</p>
     <br>
 </div>
 							</div>
@@ -167,6 +167,7 @@
 
                             </div>
                         @endif
+                        @if(auth()->check())
                         <h4 class="bid_title">Bid Now This Job</h4>
                         <form method="POST" action="{{ route('backend.bid.store') }}">
                             @csrf
@@ -190,7 +191,7 @@
                         <div class="bookmark_rt">
                             <button class="bookmark1 mr-3" title="bookmark"><i class="fas fa-heart"></i></button>
                             BOOKMARK
-                        </div>
+                        </div>@endif
                         <ul class="social-links">
                             <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
                             <li><a href="#"><i class="fab fa-twitter"></i></a></li>
