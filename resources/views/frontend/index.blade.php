@@ -80,7 +80,7 @@
                                 {{--                                <form>--}}
                                 {{--                                <input type="hidden" name="location" value="$city->city">--}}
                                 <?php
-                                $citycount = \App\Models\User::where('location', 'like', '%' . $city->city . '%')->count();
+                                $citycount = \App\Models\User::where('status',1)->where('role_id',2)->where('location', 'like', '%'.$city->city.'%')->count();
                                 ?>
                                 <ins>{{$citycount}} Freelancers</ins>
                                 {{--                                </form>--}}

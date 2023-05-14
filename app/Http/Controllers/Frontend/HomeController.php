@@ -37,6 +37,8 @@ class HomeController extends Controller
         ->orderByRaw('RAND()')->take(6)->latest()->get();
 
         $this->data['users']= User::select('users.*','p.profession as profession')
+            ->where('status',1)
+            ->where('role_id',2)
             ->join('professions as p', 'users.profession_id', '=', 'p.id')
             ->orderByRaw('RAND()')->take(6)->get();
 

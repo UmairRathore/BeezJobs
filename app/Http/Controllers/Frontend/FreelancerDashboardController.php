@@ -121,6 +121,8 @@ class FreelancerDashboardController extends Controller
         $search = $request->input('search');
 
         $this->data['users'] = User::select('users.*', 'professions.profession as profession_name')
+            ->where('status',1)
+            ->where('role_id',2)
             ->join('professions', 'users.profession_id', '=', 'professions.id');
 
         if (!empty($search)) {
