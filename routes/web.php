@@ -88,6 +88,9 @@ Route::get('/my_freelancer_setting', [FreelancerDashboardController::class, 'my_
     Route::get('/search-users',[ChatController::class,'searchUsers']); //AJAX request doesn't have names
 
 Route::get('/my_freelancer_jobs', [FreelancerDashboardController::class, 'my_freelancer_jobs'])->name('my_freelancer_jobs');
+Route::get('/my_freelancer_order_details/{id}', [FreelancerDashboardController::class, 'my_freelancer_order_details'])->name('my_freelancer_order_details');
+Route::post('/post_order_attempt', [FreelancerDashboardController::class, 'postOrderAttempt'])->name('post_order_attempt');
+Route::post('/order_attempt_status', [FreelancerDashboardController::class, 'postOrderAttemptStatus'])->name('order_attempt_status');
 
 
 Route::get('/my_freelancer_bids', [FreelancerDashboardController::class, 'my_freelancer_bids'])->name('my_freelancer_bids')->middleware('auth');;

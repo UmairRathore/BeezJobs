@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Message;
+use App\Models\Order;
+use App\Models\OrderAttempt;
 use App\Models\Profession;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -13,6 +15,7 @@ use App\Models\User;
 use App\Models\Portfolio;
 
 use Illuminate\Support\Facades\Hash;
+use PhpParser\Node\Stmt\Return_;
 
 class FreelancerDashboardController extends Controller
 {
@@ -214,7 +217,7 @@ class FreelancerDashboardController extends Controller
             ->where('messages.message',Null)
             ->get();
 
-        $this->data['Orders'] = Message::select('job.location','job.title','offer.created_at','offer.negotiated_description','offer.negotiated_price','orders.status as Ostatus')
+        $this->data['Orders'] = Message::select('job.location','job.title','offer.created_at','offer.negotiated_description','offer.negotiated_price','orders.id as Order_id','orders.status as Ostatus')
             ->where('sender_id',Auth()->user()->id)
             ->leftjoin('offers as offer','offer.message_id','=','messages.id')
             ->leftjoin('jobs as job','job.id','=','offer.job_id')
@@ -224,13 +227,93 @@ class FreelancerDashboardController extends Controller
             ->get();
 //        dd( $this->data['Orders']);
 
-
-
-
-
-//        $this->data['RecievedOffers'] = Message::where('receiver_id',Auth()->user()->id)->where('message',Null)->get();
-//        $this->data['Orders'] = Message::where('sender_id',Auth()->user()->id)->where('message',Null)->where('accept',1)->get();
         return view('frontend.freelancer.my_freelancer.my_freelancer_jobs', $this->data);
+
+    }
+
+
+    public function my_freelancer_order_details($id)
+    {
+
+
+
+//        $this->data['Orders'] = Order::find($id)
+//            ->leftjoin('offers','offers.id','=','orders.offer_id')
+//            ->leftjoin('messages','messages.offer_id','=','offers.id')
+//            ->leftjoin('jobs','jobs.id','=','offers.job_id')
+//            ->leftjoin('users','users.id','=','messages.sender_id')
+//            ->leftjoin('users','users.id','=','messages.receiver_id')
+//            ->first();
+        $this->data['order'] = Order::find($id)
+            ->select('orders.id as order_id','orders.offer_id as order_offer_id','orders.status as order_status','orders.duration as order_duration',
+                'orders.payment_status as order_payment_status','orders.created_at as order_created_at','orders.updated_at as order_updated_at',
+
+                'offers.id as offer_id','offers.job_id as offer_job_id','offers.negotiated_duration as offer_negotiated_duration',
+                'offers.negotiated_description as offer_negotiated_description','offers.negotiated_price as offer_negotiated_price',
+                'offers.rejected as offer_rejected','offers.accepted as offer_accepted','offers.created_at as offer_created_at',
+                'offers.updated_at as offer_updated_at','offers.message_id as offer_message_id',
+
+//                'messages.id as message_id','messages.sender_id as message_sender_id','messages.receiver_id as message_receiver_id','messages.message','messages.status as message_status','messages.offer_id as message_offer_id',
+//                'messages.updated_at as message_updated_at','messages.created_at as message_created_at',
+
+                'jobs.id as job_id','jobs.user_id as job_user_id','jobs.title as job_title','jobs.date as job_date','jobs.time_of_day as job_time_of_day',
+                'jobs.online_or_in_person as job_online_or_in_person','jobs.location as job_location','jobs.description as job_description','jobs.budget as job_budget',
+                'sender.id as user_sender_id','sender.first_name as sender_first_name','sender.last_name as sender_last_name','sender.profile_image as sender_profile_image','sender.profession_id as sender_profession',
+                'receiver.id as user_receiver_id','receiver.first_name as receiver_first_name','receiver.last_name as receiver_last_name','receiver.profile_image as receiver_profile_image','receiver.profession_id as receiver_profession',
+
+                'OrderAttempt.id as OrderAttemptID','OrderAttempt.order_attempt_file','OrderAttempt.description as orderAttemptdescription','OrderAttempt.rejected as OrderAttemptRejected','OrderAttempt.accepted as OrderAttemptAccepted'
+
+            )
+            ->leftJoin('offers', 'offers.id', '=', 'orders.offer_id')
+            ->leftJoin('messages', 'messages.offer_id', '=', 'offers.id')
+            ->leftJoin('jobs', 'jobs.id', '=', 'offers.job_id')
+            ->leftJoin('users AS sender', 'sender.id', '=', 'messages.sender_id')
+            ->leftJoin('users AS receiver', 'receiver.id', '=', 'messages.receiver_id')
+            ->leftJoin('order_attempts as OrderAttempt','OrderAttempt.order_id','=','orders.id')
+            ->first();
+//        dd($this->data['order']);
+
+        return view('frontend.freelancer.my_freelancer.my_freelancer_order_details',$this->data);
+    }
+
+
+    public function  postOrderAttempt(Request $request)
+    {
+        $order = new OrderAttempt();
+        $order->order_id=$request->input('order_id');
+        $order->description = $request->input('description');
+        if ($request->hasFile('order_attempt_file')) {
+            $file = $request->file('order_attempt_file');
+            // Handle the file upload and save the file path to the order
+            // For example:
+            $filePath = $file->store('order_attempt_files');
+            $order->order_attempt_file = $filePath;
+        }
+        $order->save();
+
+        return back()->with('success','Order task has been uploaded');
+    }
+    public function postOrderAttemptStatus(Request $request)
+    {
+//        dd($request->id);
+
+//        $id = $request->input('order_id');
+            $status = OrderAttempt::find($request->id);
+        if($request->accepted)
+        {
+           $status->accepted = 1;
+            $status->rejected = 0;
+
+            $status->save();
+            return  back()->with('accepted','Order Task submission accepted Successfully');
+        }
+        if($request->rejected)
+        {
+            $status->accepted = 0;
+            $status->rejected = 1;
+        $status->save();
+            return  back()->with('rejected','Order Task submission rejected Successfully');
+        }
 
     }
 

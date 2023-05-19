@@ -7,8 +7,7 @@
 
 		<!-- Title Start -->
 		<div class="title-bar">
-			<div class="
-container">
+			<div class="container">
 				<div class="row">
 					<div class="col-lg-12">
 						<ol class="title-bar-text">
@@ -164,9 +163,11 @@ container">
                                                                     <p style="color: black; padding-top: 60px;">
                                                                         {{$Order->negotiated_description}}
                                                                     </p>
+{{--                                                                    {{dd($Order->id)}}--}}
                                                                     <div class="btn_link23">
                                                                         @if($Order->Ostatus == 'active')
                                                                             <button class="apled_btn50" style="pointer-events: none;" disabled>Active</button>
+                                                                            <a href="{{ route('my_freelancer_order_details', $Order->Order_id) }}" class="apled_btn50">Details</a>
                                                                         @elseif($Order->Ostatus == 'completed')
                                                                             <button class="apled_btn50" style="pointer-events: none;" disabled>Completed</button>
                                                                         @elseif($Order->Ostatus == 'late-completed')
