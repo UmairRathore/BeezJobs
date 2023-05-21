@@ -235,15 +235,6 @@ class FreelancerDashboardController extends Controller
     public function my_freelancer_order_details($id)
     {
 
-
-
-//        $this->data['Orders'] = Order::find($id)
-//            ->leftjoin('offers','offers.id','=','orders.offer_id')
-//            ->leftjoin('messages','messages.offer_id','=','offers.id')
-//            ->leftjoin('jobs','jobs.id','=','offers.job_id')
-//            ->leftjoin('users','users.id','=','messages.sender_id')
-//            ->leftjoin('users','users.id','=','messages.receiver_id')
-//            ->first();
         $this->data['order'] = Order::find($id)
             ->select('orders.id as order_id','orders.offer_id as order_offer_id','orders.status as order_status','orders.duration as order_duration',
                 'orders.payment_status as order_payment_status','orders.created_at as order_created_at','orders.updated_at as order_updated_at',
@@ -261,7 +252,7 @@ class FreelancerDashboardController extends Controller
                 'sender.id as user_sender_id','sender.first_name as sender_first_name','sender.last_name as sender_last_name','sender.profile_image as sender_profile_image','sender.profession_id as sender_profession',
                 'receiver.id as user_receiver_id','receiver.first_name as receiver_first_name','receiver.last_name as receiver_last_name','receiver.profile_image as receiver_profile_image','receiver.profession_id as receiver_profession',
 
-                'OrderAttempt.id as OrderAttemptID','OrderAttempt.order_attempt_file','OrderAttempt.description as orderAttemptdescription','OrderAttempt.rejected as OrderAttemptRejected','OrderAttempt.accepted as OrderAttemptAccepted'
+
 
             )
             ->leftJoin('offers', 'offers.id', '=', 'orders.offer_id')
@@ -269,9 +260,14 @@ class FreelancerDashboardController extends Controller
             ->leftJoin('jobs', 'jobs.id', '=', 'offers.job_id')
             ->leftJoin('users AS sender', 'sender.id', '=', 'messages.sender_id')
             ->leftJoin('users AS receiver', 'receiver.id', '=', 'messages.receiver_id')
-            ->leftJoin('order_attempts as OrderAttempt','OrderAttempt.order_id','=','orders.id')
+//            ->leftJoin('order_attempts as OrderAttempt','OrderAttempt.order_id','=','orders.id')
             ->first();
-//        dd($this->data['order']);
+
+//        dd($this->data['order']->order_id);
+        $this->data['accepted'] = OrderAttempt::where('order_id',$this->data['order']->order_id)->where('accepted',1)->latest()->first();
+
+//        dd( $this->data['accepted']);
+        $this->data['AttemptOrder'] = OrderAttempt::where('order_id',$this->data['order']->order_id)->get();
 
         return view('frontend.freelancer.my_freelancer.my_freelancer_order_details',$this->data);
     }
@@ -305,6 +301,11 @@ class FreelancerDashboardController extends Controller
             $status->rejected = 0;
 
             $status->save();
+
+            $completed = Order::find($request->id);
+            $completed->status = 'completed';
+            $completed->save();
+
             return  back()->with('accepted','Order Task submission accepted Successfully');
         }
         if($request->rejected)

@@ -8,7 +8,7 @@
 
         .timerclock {
             text-align: center;
-            font-size: 60px;
+            font-size: 40px;
             margin-top: 0px;
         }
 
@@ -82,21 +82,7 @@ container">
                     <div class="account_tabs">
                         @include('frontend.freelancer.my_freelancer.layout.my_freelancer_navbar')                        </div>
                     <div class="jobs_manage">
-                        <div class="row">
-                            <div class="col-lg-3">
-                                <div class="jobs_tabs">
-                                    <ul class="nav job_nav nav-tabs" id="myTab" role="tablist">
-
-                                        <li class="nav-item job_nav_item">
-                                            <a class="nav-link" href="#manage_bidders" id="manage-bidders-tab" data-toggle="tab">Manage Bidders</a>
-                                        </li>
-                                    </ul>
-
-                                </div>
-                            </div>
                             <div class="col-lg-12">
-                                <div class="tab-content" id="myTabContent">
-                                    <div class="tab-pane fade" id="manage_bidders">
                                         <div class="view_chart">
                                             <div class="view_chart_header">
                                                 <h4>Order Details</h4>
@@ -213,33 +199,80 @@ container">
                                                                 <h2> Countdown</h2>
                                                                 <div class="job_bid_body">
                                                                     <div id="countdown">
-
                                                                         <!-- Countdown 4-->
                                                                         <div class="rounded bg-gradient-4 text-black shadow p-5 text-center mb-5">
-                                                                            {{--                                                                            <p class="mb-0 font-weight-bold text-uppercase">Let's use some call to actions</p>--}}
+                                                                            {{-- <p class="mb-0 font-weight-bold text-uppercase">Let's use some call to actions</p> --}}
                                                                             <div id="clock-c" class="timerclock py-4"></div>
-
                                                                         </div>
                                                                     </div>
+
+
+                                                                        <script>
+                                                                            // Get the negotiated duration from PHP variable
+                                                                            var negotiatedDuration = {!! json_encode(strtotime($order->offer_negotiated_duration) - time()) !!};
+
+                                                                            // Convert the negotiated duration to milliseconds
+                                                                            var countdownTime = negotiatedDuration * 1000;
+
+
+                                                                            // Update the countdown clock every second
+                                                                            var countdownClock = setInterval(function () {
+                                                                                // Calculate the remaining time
+
+                                                                                // var remainingTime =   countdownTime - Date.now() ;
+                                                                                var remainingTime =  Date.now() - countdownTime;
+
+
+                                                                                // Check if the countdown has ended
+                                                                                if (remainingTime <= 0) {
+                                                                                    document.getElementById('clock-c').innerHTML = "Countdown Finished";
+                                                                                    // Perform any action when the countdown ends
+                                                                                    // For example, show a message or execute a function
+                                                                                    // You can customize this part as per your requirement
+                                                                                    console.log('Countdown ended!');
+                                                                                } else {
+                                                                                    // Calculate the remaining hours, minutes, and seconds
+                                                                                    var days = Math.floor(countdownTime / (1000 * 60 * 60 * 24));
+                                                                                    var hours = Math.floor((countdownTime / (1000 * 60 * 60)) % 24);
+                                                                                    var minutes = Math.floor((countdownTime / (1000 * 60)) % 60);
+
+                                                                                    // Format the time values
+                                                                                    var formattedTime = days + ' days ' +
+                                                                                        hours.toString().padStart(2, '0') + ' hrs ' +
+                                                                                        minutes.toString().padStart(2, '0') + ' mins';
+
+                                                                                    document.getElementById('clock-c').innerHTML = formattedTime;
+
+                                                                                    // Decrement the countdown time by 1 minute (60 seconds)
+                                                                                    countdownTime -= 60000;
+
+                                                                                    // Call the updateCountdownClock function recursively after 1 minute (60 seconds)
+                                                                                    setTimeout(function() {
+                                                                                        updateCountdownClock(countdownTime);
+                                                                                    }, 60000);
+                                                                                }
+                                                                            }, 1000);
+                                                                        </script>
                                                                 </div>
 
                                                                 @if($order->order_status == 'active')
                                                                     <button class="apled_btn50" style="pointer-events: none;" disabled>Active ORDER</button>
                                                                 @elseif($order->order_status == 'completed')
-                                                                    <button class="apled_btn50" style="pointer-events: none;" disabled>Rejected</button>
+                                                                    <button class="apled_btn50" style="pointer-events: none;" disabled>Completed</button>
                                                                 @elseif($order->order_status == 'late-completed')
                                                                     <button class="apled_btn50" style="pointer-events: none;" disabled>Accepted</button>
+                                                                @elseif($order->order_status == 'cancelled')
+                                                                    <button class="apled_btn50" style="pointer-events: none;" disabled>Cancelled</button>
                                                                 @endif
 
                                                             </div>
                                                         </div>
-
-
                                                     </li>
-                                                    @if(auth()->user()->id == $order->user_sender_id)
-                                                    <li>
-                                                        <h3> Submit Order Task </h3>
-                                                        <form action="{{route('post_order_attempt')}}" method="post" enctype="multipart/form-data">
+                                                    @if($order->order_status == 'active')
+                                                        @if(auth()->user()->id == $order->user_sender_id)
+                                                            <li>
+                                                                <h3> Submit Order Task </h3>
+                                                                <form action="{{route('post_order_attempt')}}" method="post" enctype="multipart/form-data">
                                                             @csrf
                                                             <input type="hidden" name="order_id" value="{{ $order->order_id }}">
                                                             <div class="row">
@@ -259,64 +292,74 @@ container">
                                                                     <button class="post_jp_btn" type="submit">Post Order</button>
                                                                 </div>
                                                             </div>
-                                                        </form>
-                                                    </li>
-                                                        @elseif(auth()->user()->id == $order->user_receiver_id)
+                                                                </form>
+                                                            </li>
+                                                        @endif
+                                                    @endif
+                                                    @foreach($AttemptOrder as $Aorder)
                                                         <li>
                                                             <div>
                                                                 <h4>Description:</h4>
-                                                                <p>{{ $order->orderAttemptdescription }}</p>
+                                                                <p>{{ $Aorder->description }}</p>
                                                             </div>
-
-                                                            @if ($order->order_attempt_file)
+                                                            @if ($Aorder->order_attempt_file)
                                                                 <div>
                                                                     <h4>Uploaded File:</h4>
                                                                     <a href="{{ Storage::url($order->order_attempt_file) }}" target="_blank">Download File</a>
                                                                 </div>
                                                             @endif
-
-                                                            @if($order->OrderAttemptRejected == 1)
+                                                            @if(auth()->user()->id == $order->user_receiver_id)
+                                                                @if($Aorder->accepted == 0 and $Aorder->rejected == 0)
+                                                                    <div class="row">
+                                                                        <form action="{{route('order_attempt_status')}}" method="post">
+                                                                            @csrf
+                                                                            <input type="hidden" name="id" value="{{$Aorder->id}}">
+                                                                            <input type="hidden" name="rejected" value="1">
+                                                                            <div class="col-lg-12" style="text-align: center;">
+                                                                                <button class="post_jp_btn" type="submit">Reject Submission</button>
+                                                                            </div>
+                                                                        </form>
+                                                                        <form action="{{route('order_attempt_status')}}" method="post">
+                                                                            @csrf
+                                                                            <input type="hidden" name="id" value="{{$Aorder->id}}">
+                                                                            <input type="hidden" name="accepted" value="1">
+                                                                            <div class="col-lg-12" style="text-align: center;">
+                                                                                <button class="post_jp_btn" type="submit">Accept Submission</button>
+                                                                            </div>
+                                                                        </form>
+                                                                    </div> <!--accept reject form-->
+                                                                @endif
+                                                            @endif
+                                                            @if($Aorder->rejected == 1)
                                                                 <div class="col-lg-12" style="text-align: center;">
-                                                                    <button class="post_jp_btn" type="submit">Submission Rejected </button>
+                                                                    <button class="post_jp_btn" type="submit">Submission Rejected</button>
                                                                 </div>
-                                                                @elseif($order->OrderAttemptAccepted == 1)
+                                                            @elseif($Aorder->accepted == 1)
                                                                 <div class="col-lg-12" style="text-align: center;">
-                                                                    <button class="post_jp_btn" type="submit" disabled>Submission Accepted </button>
+                                                                    <button class="post_jp_btn" type="submit" disabled>Submission Accepted</button>
                                                                 </div>
-                                                                @else
-                                                            <div class="row">
-                                                            <form action="{{route('order_attempt_status')}}" method="post">
-                                                                @csrf
-                                                                <input type="hidden" name="id" value="{{$order->OrderAttemptID}}">
-                                                                <input type="hidden" name="rejected" value="1">
-                                                                <div class="col-lg-12" style="text-align: center;">
-                                                                    <button class="post_jp_btn" type="submit">Reject Submission</button>
-                                                                </div>
-                                                            </form>
-                                                            <form action="{{route('order_attempt_status')}}" method="post">
-                                                                @csrf
-                                                                <input type="hidden" name="id" value="{{$order->OrderAttemptID}}">
-                                                                <input type="hidden" name="accepted" value="1">
-                                                                <div class="col-lg-12" style="text-align: center;">
-                                                                    <button class="post_jp_btn" type="submit">Accept Submission</button>
-                                                                </div>
-                                                            </form>
-                                                            </div>
+                                                            @endif
+                                                            @if(auth()->user()->id == $order->user_sender_id)
+                                                                @if($Aorder->accepted == 0 and $Aorder->rejected == 0)
+                                                                    <div class="col-lg-12" style="text-align: center;">
+                                                                        <button class="post_jp_btn" style="pointer-events: none;" disabled>Pending</button>
+                                                                    </div>
+                                                                @endif
+                                                            @endif
                                                         </li>
-                                                        @endif
-                                                        @endif
+
+                                                    @endforeach
+
 
                                                 </ul>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
                             </div>
-                        </div>
                     </div>
                 </div>
             </div>
         </div>
+
     </main>
 
 @endsection
@@ -327,25 +370,5 @@ container">
             // console.log(url);
             $('.nav-item a[href="' + url + '"]').addClass('active');
         });
-
-
-        function getDateCountdown() {
-            // Retrieve the countdown date from the input field
-            var countdownDateInput = document.getElementById('countdownDateInput').value;
-
-            // Calculate the countdown date by adding 15 days to the current date
-            var countdownDate = new Date(new Date(countdownDateInput).valueOf() + 15 * 24 * 60 * 60 * 1000);
-
-            return countdownDate;
-        }
-
-        $('#clock-c').countdown(getDateCountdown(), function (event) {
-            var $this = $(this).html(event.strftime(''
-                + '<span class="h1 font-weight-bold">%D</span> Day%!d'
-                + '<span class="h1 font-weight-bold">%H</span> Hr'
-                + '<span class="h1 font-weight-bold">%M</span> Min'
-                + '<span class="h1 font-weight-bold">%S</span> Sec'));
-        });
-
     </script>
 @endsection
