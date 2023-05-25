@@ -91,6 +91,10 @@ Route::get('/my_freelancer_jobs', [FreelancerDashboardController::class, 'my_fre
 Route::get('/my_freelancer_order_details/{id}', [FreelancerDashboardController::class, 'my_freelancer_order_details'])->name('my_freelancer_order_details');
 Route::post('/post_order_attempt', [FreelancerDashboardController::class, 'postOrderAttempt'])->name('post_order_attempt');
 Route::post('/order_attempt_status', [FreelancerDashboardController::class, 'postOrderAttemptStatus'])->name('order_attempt_status');
+Route::post('/review_submit', [FreelancerDashboardController::class, 'submitReview'])->name('review_submit');
+
+
+Route::get('/reviews', [FreelancerDashboardController::class, 'Reviews'])->name('review');
 
 
 Route::get('/my_freelancer_bids', [FreelancerDashboardController::class, 'my_freelancer_bids'])->name('my_freelancer_bids')->middleware('auth');;

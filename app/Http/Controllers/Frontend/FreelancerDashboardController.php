@@ -7,6 +7,7 @@ use App\Models\Message;
 use App\Models\Order;
 use App\Models\OrderAttempt;
 use App\Models\Profession;
+use App\Models\Review;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -64,7 +65,14 @@ class FreelancerDashboardController extends Controller
     }
     public function my_freelancer_reviews()
     {
-        return view('frontend.freelancer.my_freelancer.my_freelancer_reviews');
+        $this->data['Reviews'] = Review::where('sender_id',\auth()->user()->id)->
+        join('users','users.id','=','reviews.receiver_id')
+            ->join('professions','professions.id','=','users.profession_id')->get();
+//        dd($this->data['Reviews']);
+
+        return view('frontend.freelancer.my_freelancer.my_freelancer_reviews',$this->data);
+
+//        return view('frontend.freelancer.my_freelancer.my_freelancer_reviews');
     }
     public function update_freelancer_social_media_links(Request $request)
     {
@@ -267,8 +275,12 @@ class FreelancerDashboardController extends Controller
         $this->data['accepted'] = OrderAttempt::where('order_id',$this->data['order']->order_id)->where('accepted',1)->latest()->first();
 
 //        dd( $this->data['accepted']);
-        $this->data['AttemptOrder'] = OrderAttempt::where('order_id',$this->data['order']->order_id)->get();
-
+        $this->data['AttemptOrder'] = OrderAttempt::
+        where('order_id',$this->data['order']->order_id)
+            ->leftjoin('orders','orders.id','=','order_attempts.order_id')
+            ->where('orders.status','active')
+            ->get();
+//dd($this->data['AttemptOrder']);
         return view('frontend.freelancer.my_freelancer.my_freelancer_order_details',$this->data);
     }
 
@@ -318,4 +330,40 @@ class FreelancerDashboardController extends Controller
 
     }
 
+    public function submitReview(Request $request)
+    {
+        dd($request);
+        // Validate the form data
+//        $validatedData = $request->validate([
+//            'order_id' => 'required',
+//            'sender_id' => 'required',
+//            'receiver_id' => 'required',
+//            'rating' => 'required|numeric',
+//            'review' => 'required',
+//        ]);
+
+        // Create a new review instance
+        $review = new Review();
+        $review->order_id = $request->input('order_id');
+        $review->sender_id =  $request->input('sender_id');
+        $review->receiver_id =  $request->input('receiver_id');
+        $review->rating =  $request->input('rating');
+        $review->review =  $request->input('review');
+
+        // Save the review
+        $review->save();
+
+        // Redirect or return a response
+        return redirect()->back()->with('success', 'Review submitted successfully!');
+    }
+    public function Review()
+    {
+        $this->data['Review'] = Review::wherer('receiver_id',\auth()->user()->id)->
+            join('users','users.id','=','reviews.receiver_id')->get();
+        dd($this->data['Review']);
+
+            return view('frontend.my_freelancer.my_freelancer_reviews',$this->data);
+
+
+    }
 }

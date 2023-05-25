@@ -4,7 +4,24 @@
 
 
 @section('content')
+
+
     <style>
+        .accordion-item {
+            margin-bottom: 10px;
+        }
+
+        .accordion-heading {
+            background-color: #f5f5f5;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .accordion-content {
+            display: none;
+            padding: 10px;
+            background-color: #ffffff;
+        }
 
         .timerclock {
             text-align: center;
@@ -62,6 +79,7 @@ container">
             </div>
         </div>
     </div>
+{{--    {{dd($order)}}--}}
     <!-- Title Start -->
     <!-- Body Start -->
     <main class="browse-section">
@@ -267,88 +285,155 @@ container">
 
                                                             </div>
                                                         </div>
-                                                    </li>
-                                                    @if($order->order_status == 'active')
-                                                        @if(auth()->user()->id == $order->user_sender_id)
-                                                            <li>
-                                                                <h3> Submit Order Task </h3>
-                                                                <form action="{{route('post_order_attempt')}}" method="post" enctype="multipart/form-data">
-                                                            @csrf
-                                                            <input type="hidden" name="order_id" value="{{ $order->order_id }}">
-                                                            <div class="row">
-                                                                <div class="col-lg-12">
-                                                                    <div class="form-group">
-                                                                        <label class="label15">Job Description*</label>
-                                                                        <textarea name="description" class="textarea_input" placeholder="Type Description"></textarea>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-lg-12">
-                                                                    <div class="form-group">
-                                                                        <label class="label15">Order Attempt File*</label>
-                                                                        <input type="file" name="order_attempt_file">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-lg-12">
-                                                                    <button class="post_jp_btn" type="submit">Post Order</button>
-                                                                </div>
-                                                            </div>
-                                                                </form>
-                                                            </li>
-                                                        @endif
-                                                    @endif
-                                                    @foreach($AttemptOrder as $Aorder)
-                                                        <li>
-                                                            <div>
-                                                                <h4>Description:</h4>
-                                                                <p>{{ $Aorder->description }}</p>
-                                                            </div>
-                                                            @if ($Aorder->order_attempt_file)
-                                                                <div>
-                                                                    <h4>Uploaded File:</h4>
-                                                                    <a href="{{ Storage::url($order->order_attempt_file) }}" target="_blank">Download File</a>
-                                                                </div>
-                                                            @endif
-                                                            @if(auth()->user()->id == $order->user_receiver_id)
-                                                                @if($Aorder->accepted == 0 and $Aorder->rejected == 0)
-                                                                    <div class="row">
-                                                                        <form action="{{route('order_attempt_status')}}" method="post">
-                                                                            @csrf
-                                                                            <input type="hidden" name="id" value="{{$Aorder->id}}">
-                                                                            <input type="hidden" name="rejected" value="1">
-                                                                            <div class="col-lg-12" style="text-align: center;">
-                                                                                <button class="post_jp_btn" type="submit">Reject Submission</button>
-                                                                            </div>
-                                                                        </form>
-                                                                        <form action="{{route('order_attempt_status')}}" method="post">
-                                                                            @csrf
-                                                                            <input type="hidden" name="id" value="{{$Aorder->id}}">
-                                                                            <input type="hidden" name="accepted" value="1">
-                                                                            <div class="col-lg-12" style="text-align: center;">
-                                                                                <button class="post_jp_btn" type="submit">Accept Submission</button>
-                                                                            </div>
-                                                                        </form>
-                                                                    </div> <!--accept reject form-->
-                                                                @endif
-                                                            @endif
-                                                            @if($Aorder->rejected == 1)
-                                                                <div class="col-lg-12" style="text-align: center;">
-                                                                    <button class="post_jp_btn" type="submit">Submission Rejected</button>
-                                                                </div>
-                                                            @elseif($Aorder->accepted == 1)
-                                                                <div class="col-lg-12" style="text-align: center;">
-                                                                    <button class="post_jp_btn" type="submit" disabled>Submission Accepted</button>
-                                                                </div>
-                                                            @endif
-                                                            @if(auth()->user()->id == $order->user_sender_id)
-                                                                @if($Aorder->accepted == 0 and $Aorder->rejected == 0)
-                                                                    <div class="col-lg-12" style="text-align: center;">
-                                                                        <button class="post_jp_btn" style="pointer-events: none;" disabled>Pending</button>
-                                                                    </div>
-                                                                @endif
-                                                            @endif
-                                                        </li>
 
-                                                    @endforeach
+
+
+
+                                                    </li>
+                                                    <div class="accordion">
+                                                        @if($order->order_status == 'active')
+                                                            @if(auth()->user()->id == $order->user_sender_id)
+                                                                <div class="accordion-item">
+                                                                    <h3 class="accordion-heading">Submit Order Task</h3>
+                                                                    <div class="accordion-content">
+                                                                        <form action="{{route('post_order_attempt')}}" method="post" enctype="multipart/form-data">
+                                                                            @csrf
+                                                                            <input type="hidden" name="order_id" value="{{ $order->order_id }}">
+                                                                            <div class="row">
+                                                                                <div class="col-lg-12">
+                                                                                    <div class="form-group">
+                                                                                        <label class="label15">Job Description*</label>
+                                                                                        <textarea name="description" class="textarea_input" placeholder="Type Description"></textarea>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-lg-12">
+                                                                                    <div class="form-group">
+                                                                                        <label class="label15">Order Attempt File*</label>
+                                                                                        <input type="file" name="order_attempt_file">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-lg-12">
+                                                                                    <button class="post_jp_btn" type="submit">Post Order</button>
+                                                                                </div>
+                                                                            </div>
+                                                                        </form>
+                                                                    </div>
+                                                                </div>
+                                                            @endif
+                                                        @endif
+
+                                                        @foreach($AttemptOrder as $key => $Aorder)
+                                                            <div class="accordion-item">
+                                                                <h3 class="accordion-heading">Submissions {{$key+1}}</h3>
+                                                                <div class="accordion-content">
+                                                                    <div>
+                                                                        <h4>Description:</h4>
+                                                                        <p>{{ $Aorder->description }}</p>
+                                                                    </div>
+                                                                    @if ($Aorder->order_attempt_file)
+                                                                        <div>
+                                                                            <h4>Uploaded File:</h4>
+                                                                            <a href="{{ Storage::url($order->order_attempt_file) }}" target="_blank">Download File</a>
+                                                                        </div>
+                                                                    @endif
+                                                                    @if(auth()->user()->id == $order->user_receiver_id)
+                                                                        @if($Aorder->accepted == 0 and $Aorder->rejected == 0)
+                                                                            <div class="row">
+                                                                                <form action="{{route('order_attempt_status')}}" method="post">
+                                                                                    @csrf
+                                                                                    <input type="hidden" name="id" value="{{$Aorder->id}}">
+                                                                                    <input type="hidden" name="rejected" value="1">
+                                                                                    <div class="col-lg-12" style="text-align: center;">
+                                                                                        <button class="post_jp_btn" type="submit">Reject Submission</button>
+                                                                                    </div>
+                                                                                </form>
+                                                                                <form action="{{route('order_attempt_status')}}" method="post">
+                                                                                    @csrf
+                                                                                    <input type="hidden" name="id" value="{{$Aorder->id}}">
+                                                                                    <input type="hidden" name="accepted" value="1">
+                                                                                    <div class="col-lg-12" style="text-align: center;">
+                                                                                        <button class="post_jp_btn" type="submit">Accept Submission</button>
+                                                                                    </div>
+                                                                                </form>
+                                                                            </div>
+                                                                        @endif
+                                                                    @endif
+                                                                    @if($Aorder->rejected == 1)
+                                                                        <div class="col-lg-12" style="text-align: center;">
+                                                                            <button class="post_jp_btn" style="pointer-events: none;" disabled>Submission Rejected</button>
+                                                                        </div>
+                                                                    @elseif($Aorder->accepted == 1)
+                                                                        <div class="col-lg-12" style="text-align: center;">
+                                                                            <button class="post_jp_btn" style="pointer-events: none;" disabled>Submission Accepted</button>
+                                                                        </div>
+                                                                        <div>
+                                                                            <h3>Submit Review</h3>
+                                                                            <form action="{{ route('review_submit') }}" method="post" enctype="multipart/form-data">
+                                                                                @csrf
+                                                                                <input type="hidden" name="order_id" value="{{ $order->order_id }}">
+                                                                                <input type="hidden" name="sender_id" value="{{ $order->user_sender_id }}">
+                                                                                <input type="hidden" name="receiver_id" value="{{ auth()->user()->id }}">
+                                                                                <div class="row">
+                                                                                    <div class="star-rating">
+                                                                                        <input type="radio" id="rating5" name="rating" value="5">
+                                                                                        <label for="rating5"><i class="fas fa-star"></i></label>
+
+                                                                                        <input type="radio" id="rating4" name="rating" value="4">
+                                                                                        <label for="rating4"><i class="fas fa-star"></i></label>
+
+                                                                                        <input type="radio" id="rating3" name="rating" value="3">
+                                                                                        <label for="rating3"><i class="fas fa-star"></i></label>
+
+                                                                                        <input type="radio" id="rating2" name="rating" value="2">
+                                                                                        <label for="rating2"><i class="fas fa-star"></i></label>
+
+                                                                                        <input type="radio" id="rating1" name="rating" value="1">
+                                                                                        <label for="rating1"><i class="fas fa-star"></i></label>
+
+                                                                                        <span class="rating-value">4.9</span>
+                                                                                    </div>
+                                                                                    <div class="col-lg-12">
+                                                                                        <div class="form-group">
+                                                                                            <label class="label15">Review*</label>
+                                                                                            <textarea name="review" class="textarea_input" placeholder="Type your review"></textarea>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="col-lg-12">
+                                                                                        <button class="post_jp_btn" type="submit">Submit Review</button>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </form>
+                                                                            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+                                                                            <script src="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.js"></script>
+
+
+                                                                            <script>
+                                                                                $(function () {
+                                                                                    $("#star-rating").rateYo({
+                                                                                        rating: 0,
+                                                                                        halfStar: true,
+                                                                                        fullStar: true,
+                                                                                        starWidth: "20px",
+                                                                                        onChange: function (rating, rateYoInstance) {
+                                                                                            $("#rating-value").val(rating);
+                                                                                        }
+                                                                                    });
+                                                                                });
+                                                                            </script>
+
+                                                                        </div>
+                                                                    @endif
+                                                                    @if(auth()->user()->id == $order->user_sender_id)
+                                                                        @if($Aorder->accepted == 0 and $Aorder->rejected == 0)
+                                                                            <div class="col-lg-12" style="text-align: center;">
+                                                                                <button class="post_jp_btn" style="pointer-events: none;" disabled>Pending</button>
+                                                                            </div>
+                                                                        @endif
+                                                                    @endif
+                                                                </div>
+                                                            </div>
+                                                        @endforeach
+                                                    </div>
 
 
                                                 </ul>
@@ -369,6 +454,11 @@ container">
             var url = window.location.href;
             // console.log(url);
             $('.nav-item a[href="' + url + '"]').addClass('active');
+            $('.accordion-heading').click(function() {
+                $(this).toggleClass('active');
+                $(this).next('.accordion-content').slideToggle('fast');
+            });
         });
+
     </script>
 @endsection

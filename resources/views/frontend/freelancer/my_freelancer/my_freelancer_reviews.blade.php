@@ -47,94 +47,61 @@
 								<ul class="all_applied_jobs jobs_bookmarks">
 									<li>
 										<div class="applied_candidates_item">
+                                            @foreach($Reviews as $review)
 											<div class="row">
 												<div class="col-xl-7">
 													<div class="applied_candidates_dt">
+                                                        @if($review->profile_image)
+
 														<div class="candi_img">
-															<img src="images/homepage/candidates/img-2.jpg" alt="">
+															<img src="{{$review->profile_image}}" alt="">
 														</div>
+														@else
+                                                            <div class="candi_img">
+															<img src="{{asset('images/homepage/candidates/img-2.jpg')}}" alt="">
+														</div>
+
+														@endif
 														<div class="candi_dt">
-															<a href="#">Johnson Dua</a>
-															<div class="candi_cate">UX Designer</div>
+															<a href="#">{{$review->first_name.' '.$review->last_name}}</a>
+															<div class="candi_cate">{{$review->profession}}</div>
 															<div class="rating_candi">Rating
-																<div class="star">
-																	<i class="fas fa-star"></i>
-																	<i class="fas fa-star"></i>
-																	<i class="fas fa-star"></i>
-																	<i class="fas fa-star"></i>
-																	<i class="fas fa-star"></i>
-																	<span>4.9</span>
-																</div>
+                                                                <div class="star-rating">
+                                                                    @php
+                                                                        $rating = $review->rating ?? 0;
+                                                                    @endphp
+
+                                                                    @for ($i = 5; $i >= 1; $i--)
+                                                                        <input type="radio" id="rating{{ $i }}" name="rating" value="{{ $i }}" {{ $rating == $i ? 'checked' : '' }}>
+                                                                        <label for="rating{{ $i }}"><i class="fas fa-star {{ $rating >= $i ? 'checked' : '' }}"></i></label>
+                                                                    @endfor
+
+                                                                    <span class="rating-value">{{ $rating }}</span>
+                                                                </div>
+{{--																<div class="star">--}}
+{{--																	<i class="fas fa-star"></i>--}}
+{{--																	<i class="fas fa-star"></i>--}}
+{{--																	<i class="fas fa-star"></i>--}}
+{{--																	<i class="fas fa-star"></i>--}}
+{{--																	<i class="fas fa-star"></i>--}}
+{{--																	<span>4.9</span>--}}
+{{--																</div>--}}
 															</div>
 														</div>
 													</div>
 												</div>
 											</div>
 											<div class="btn_link24 review_user">
-												<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean elementum, nibh et aliquam pellentesque, risus libero aliquet dolor, quis hendrerit nisi augue et purus.</p>
+												<p>
+{{--                                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean elementum, nibh et al--}}
+{{--                                                    iquam pellentesque, risus libero aliquet dolor, quis hendrerit nisi augue et purus.--}}
+                                                {{$review->review}}
+                                                </p>
 											</div>
+                                                @endforeach
 										</div>
 									</li>
-									<li>
-										<div class="applied_candidates_item">
-											<div class="row">
-												<div class="col-xl-7">
-													<div class="applied_candidates_dt">
-														<div class="candi_img">
-															<img src="images/homepage/candidates/img-5.jpg" alt="">
-														</div>
-														<div class="candi_dt">
-															<a href="#">Jassica William</a>
-															<div class="candi_cate">Freelancer</div>
-															<div class="rating_candi">Rating
-																<div class="star">
-																	<i class="fas fa-star"></i>
-																	<i class="fas fa-star"></i>
-																	<i class="fas fa-star"></i>
-																	<i class="fas fa-star"></i>
-																	<i class="fas fa-star"></i>
-																	<span>5.0</span>
-																</div>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-											<div class="btn_link24 review_user">
-												<p>Awesome work, definitely will rehire. Poject was completed not only with the requirements, but on time, within our small budget.</p>
-											</div>
-										</div>
-									</li>
-									<li>
-										<div class="applied_candidates_item">
-											<div class="row">
-												<div class="col-xl-7">
-													<div class="applied_candidates_dt">
-														<div class="candi_img">
-															<img src="images/homepage/candidates/img-3.jpg" alt="">
-														</div>
-														<div class="candi_dt">
-															<a href="#">Joginder Singh</a>
-															<div class="candi_cate">Employer</div>
-															<div class="rating_candi">Rating
-																<div class="star">
-																	<i class="fas fa-star"></i>
-																	<i class="fas fa-star"></i>
-																	<i class="fas fa-star"></i>
-																	<i class="fas fa-star"></i>
-																	<i class="fas fa-star"></i>
-																	<span>4.5</span>
-																</div>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-											<div class="btn_link24 review_user">
-												<p>Fusce sodales consectetur lacus eu vestibulum. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean consequat velit aliquet tortor scelerisque</p>
-											</div>
-										</div>
-									</li>
+
 								</ul>
 							</div>
 						</div>
