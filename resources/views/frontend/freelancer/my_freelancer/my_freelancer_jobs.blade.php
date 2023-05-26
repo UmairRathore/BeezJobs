@@ -4,17 +4,43 @@
 
 
 @section('content')
+<style>
+    .arrow-link {
+        position: absolute;
+        top: 40%;
+        right: 20px;
+        transform: translateY(-50%);
+    }
 
-		<!-- Title Start -->
-		<div class="title-bar">
-			<div class="container">
-				<div class="row">
-					<div class="col-lg-12">
-						<ol class="title-bar-text">
-							<li class="breadcrumb-item"><a href="/">Home</a></li>
-							<li class="breadcrumb-item active" aria-current="page">My Account</li>
-						</ol>
-					</div>
+    .arrow-link a {
+        display: flex;
+        align-items: center;
+        color: black;
+        text-decoration: none;
+        font-size: 14px;
+        font-family: 'Roboto', sans-serif;
+        font-weight: 500;
+    }
+
+    .details-heading {
+        margin-right: 5px;
+        font-size: 14px;
+    }
+    .details-heading::after {
+        display: inline-block;
+        margin-left: 5px;
+    }
+</style>
+<!-- Title Start -->
+<div class="title-bar">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <ol class="title-bar-text">
+                    <li class="breadcrumb-item"><a href="/">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">My Account</li>
+                </ol>
+            </div>
 				</div>
 			</div>
 		</div>
@@ -143,46 +169,58 @@
                                                 </div>
 											</div>
 										</div>
-										<div class="tab-pane fade show" id="orders" role="tabpanel">
-											<div class="view_chart">
-												<div class="view_chart_header">
-													<h4>Orders</h4>
-												</div>
-												<div class="job_bid_body">
-													<ul class="all_applied_jobs jobs_bookmarks">
+                                        <div class="tab-pane fade show" id="orders" role="tabpanel">
+                                            <div class="view_chart">
+                                                <div class="view_chart_header">
+                                                    <h4>Orders</h4>
+                                                </div>
+                                                <div class="job_bid_body">
+                                                    <ul class="all_applied_jobs jobs_bookmarks">
                                                         @foreach($Orders as $Order)
                                                             <li>
                                                                 <div class="applied_item">
-                                                                    <a href="#">{{$Order->title}}</a>
-                                                                    <ul class="view_dt_job">
-                                                                        <li><div class="vw1254"><i class="fas fa-map-marker-alt"></i>{{$Order->location}}</div></li>
-                                                                        <li><div class="vw1254"><i class="fas fa-briefcase"></i>{{$Order->online_or_in_person}}</div></li>
-                                                                        <li><div class="vw1254"><i class="far fa-money-bill-alt"></i>{{$Order->negotiated_price}}</div></li>
-                                                                        <li><div class="vw1254"><i class="far fa-clock"></i>{{$Order->created_at}}</div></li>
-                                                                    </ul>
-                                                                    <p style="color: black; padding-top: 60px;">
-                                                                        {{$Order->negotiated_description}}
-                                                                    </p>
-{{--                                                                    {{dd($Order->id)}}--}}
+                                                                    <div class="card-content">
+                                                                        <a href="#">{{ $Order->title }}</a>
+                                                                        <ul class="view_dt_job">
+                                                                            <li>
+                                                                                <div class="vw1254"><i class="fas fa-map-marker-alt"></i>{{ $Order->location }}</div>
+                                                                            </li>
+                                                                            <li>
+                                                                                <div class="vw1254"><i class="fas fa-briefcase"></i>{{ $Order->online_or_in_person }}</div>
+                                                                            </li>
+                                                                            <li>
+                                                                                <div class="vw1254"><i class="far fa-money-bill-alt"></i>{{ $Order->negotiated_price }}</div>
+                                                                            </li>
+                                                                            <li>
+                                                                                <div class="vw1254"><i class="far fa-clock"></i>{{ $Order->created_at }}</div>
+                                                                            </li>
+                                                                        </ul>
+                                                                        <p style="color: black; padding-top: 60px;">{{ $Order->negotiated_description }}</p>
+                                                                    </div>
                                                                     <div class="btn_link23">
                                                                         @if($Order->Ostatus == 'active')
                                                                             <button class="apled_btn50" style="pointer-events: none;" disabled>Active</button>
-                                                                            <button  class="apled_btn50"> <a href="{{ route('my_freelancer_order_details', $Order->Order_id) }}"></a>Details</button>
                                                                         @elseif($Order->Ostatus == 'completed')
                                                                             <button class="apled_btn50" style="pointer-events: none;" disabled>Completed</button>
                                                                         @elseif($Order->Ostatus == 'late-completed')
-                                                                            <button class="apled_btn50" style="pointer-events: none;" disabled>OverDue Completion</button>
+                                                                            <button class="apled_btn50" style="pointer-events: none;" disabled>Overdue Completion</button>
                                                                         @endif
+                                                                    </div>
+                                                                    <div class="arrow-link">
+                                                                        <a href="{{ route('my_freelancer_order_details', $Order->Order_id) }}">
+                                                                            <span class="details-heading">Details</span>
+                                                                            <i class="fas fa-arrow-right"></i>
+                                                                        </a>
                                                                     </div>
                                                                 </div>
                                                             </li>
                                                         @endforeach
-													</ul>
-												</div>
-											</div>
-										</div>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
 
-									</div>
+                                    </div>
 								</div>
 							</div>
 						</div>
