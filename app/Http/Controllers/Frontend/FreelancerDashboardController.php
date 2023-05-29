@@ -252,9 +252,6 @@ class FreelancerDashboardController extends Controller
                 'offers.rejected as offer_rejected','offers.accepted as offer_accepted','offers.created_at as offer_created_at',
                 'offers.updated_at as offer_updated_at','offers.message_id as offer_message_id',
 
-//                'messages.id as message_id','messages.sender_id as message_sender_id','messages.receiver_id as message_receiver_id','messages.message','messages.status as message_status','messages.offer_id as message_offer_id',
-//                'messages.updated_at as message_updated_at','messages.created_at as message_created_at',
-
                 'jobs.id as job_id','jobs.user_id as job_user_id','jobs.title as job_title','jobs.date as job_date','jobs.time_of_day as job_time_of_day',
                 'jobs.online_or_in_person as job_online_or_in_person','jobs.location as job_location','jobs.description as job_description','jobs.budget as job_budget',
                 'sender.id as user_sender_id','sender.first_name as sender_first_name','sender.last_name as sender_last_name','sender.profile_image as sender_profile_image','sender.profession_id as sender_profession',
@@ -268,19 +265,21 @@ class FreelancerDashboardController extends Controller
             ->leftJoin('jobs', 'jobs.id', '=', 'offers.job_id')
             ->leftJoin('users AS sender', 'sender.id', '=', 'messages.sender_id')
             ->leftJoin('users AS receiver', 'receiver.id', '=', 'messages.receiver_id')
-//            ->leftJoin('order_attempts as OrderAttempt','OrderAttempt.order_id','=','orders.id')
             ->first();
 
-//        dd($this->data['order']->order_id);
         $this->data['accepted'] = OrderAttempt::where('order_id',$this->data['order']->order_id)->where('accepted',1)->latest()->first();
 
-//        dd( $this->data['accepted']);
         $this->data['AttemptOrder'] = OrderAttempt::
         where('order_id',$this->data['order']->order_id)
             ->leftjoin('orders','orders.id','=','order_attempts.order_id')
             ->where('orders.status','active')
             ->get();
-//dd($this->data['AttemptOrder']);
+
+        $this->data['Reviews'] = Review::
+        where('order_id',$this->data['order']->order_id)
+            ->first();
+
+
         return view('frontend.freelancer.my_freelancer.my_freelancer_order_details',$this->data);
     }
 

@@ -214,63 +214,59 @@ container">
 
                                                         <div class="row" style="margin-top: 100px">
                                                             <div class="col-xl-12" style="text-align: center;">
-                                                                <h2> Countdown</h2>
+                                                                <h2> Time Remaining</h2>
                                                                 <div class="job_bid_body">
-                                                                    <div id="countdown">
-                                                                        <!-- Countdown 4-->
-                                                                        <div class="rounded bg-gradient-4 text-black shadow p-5 text-center mb-5">
-                                                                            {{-- <p class="mb-0 font-weight-bold text-uppercase">Let's use some call to actions</p> --}}
-                                                                            <div id="clock-c" class="timerclock py-4"></div>
+                                                                    @if($order->order_status == 'active')
+                                                                        <div id="countdown">
+                                                                            <div class="rounded bg-gradient-4 text-black shadow p-5 text-center mb-5">
+                                                                                {{-- <p class="mb-0 font-weight-bold text-uppercase">Let's use some call to actions</p> --}}
+                                                                                <div id="clock-c" class="timerclock py-4">
+
+                                                                                </div>
+                                                                            </div>
                                                                         </div>
-                                                                    </div>
 
-
+                                                                        {{--{{dd($order->offer_negotiated_duration)}}--}}
                                                                         <script>
-                                                                            // Get the negotiated duration from PHP variable
-                                                                            var negotiatedDuration = {!! json_encode(strtotime($order->offer_negotiated_duration) - time()) !!};
-
-                                                                            // Convert the negotiated duration to milliseconds
-                                                                            var countdownTime = negotiatedDuration * 1000;
-
+                                                                            var countdownTime = {!! json_encode(strtotime($order->offer_negotiated_duration) * 1000) !!};
 
                                                                             // Update the countdown clock every second
                                                                             var countdownClock = setInterval(function () {
-                                                                                // Calculate the remaining time
-
-                                                                                // var remainingTime =   countdownTime - Date.now() ;
-                                                                                var remainingTime =  Date.now() - countdownTime;
-
+                                                                                var remainingTime = countdownTime - Date.now();
 
                                                                                 // Check if the countdown has ended
                                                                                 if (remainingTime <= 0) {
-                                                                                    document.getElementById('clock-c').innerHTML = "Countdown Finished";
-                                                                                    // Perform any action when the countdown ends
-                                                                                    // For example, show a message or execute a function
-                                                                                    // You can customize this part as per your requirement
+                                                                                    document.getElementById('clock-c').innerHTML = "Time Finished";
                                                                                     console.log('Countdown ended!');
+                                                                                    clearInterval(countdownClock);
                                                                                 } else {
-                                                                                    // Calculate the remaining hours, minutes, and seconds
-                                                                                    var days = Math.floor(countdownTime / (1000 * 60 * 60 * 24));
-                                                                                    var hours = Math.floor((countdownTime / (1000 * 60 * 60)) % 24);
-                                                                                    var minutes = Math.floor((countdownTime / (1000 * 60)) % 60);
+                                                                                    var days = Math.floor(remainingTime / (1000 * 60 * 60 * 24));
+                                                                                    var hours = Math.floor((remainingTime / (1000 * 60 * 60)) % 24);
+                                                                                    var minutes = Math.floor((remainingTime / (1000 * 60)) % 60);
+                                                                                    var seconds = Math.floor((remainingTime / 1000) % 60);
 
-                                                                                    // Format the time values
                                                                                     var formattedTime = days + ' days ' +
                                                                                         hours.toString().padStart(2, '0') + ' hrs ' +
-                                                                                        minutes.toString().padStart(2, '0') + ' mins';
+                                                                                        minutes.toString().padStart(2, '0') + ' mins ' +
+                                                                                        seconds.toString().padStart(2, '0') + ' secs';
 
                                                                                     document.getElementById('clock-c').innerHTML = formattedTime;
-
-                                                                                    // Decrement the countdown time by 1 minute (60 seconds)
-                                                                                    countdownTime -= 60000;
-
-                                                                                    // Call the updateCountdownClock function recursively after 1 minute (60 seconds)
-                                                                                    setTimeout(function() {
-                                                                                        updateCountdownClock(countdownTime);
-                                                                                    }, 60000);
                                                                                 }
                                                                             }, 1000);
                                                                         </script>
+                                                                    @elseif($order->order_status == 'completed')
+                                                                        <div class="rounded bg-gradient-4 text-black shadow p-5 text-center mb-5">
+                                                                            <h2>Completed Order</h2>
+                                                                        </div>
+                                                                    @elseif($order->order_status == 'late-completed')
+                                                                        <div class="rounded bg-gradient-4 text-black shadow p-5 text-center mb-5">
+                                                                            <h2>Completed Order</h2>
+                                                                        </div>
+                                                                    @elseif($order->order_status == 'cancelled')
+                                                                        <div class="rounded bg-gradient-4 text-black shadow p-5 text-center mb-5">
+                                                                            <h2>Cancelled Order</h2>
+                                                                        </div>
+                                                                    @endif
                                                                 </div>
 
                                                                 @if($order->order_status == 'active')
@@ -302,13 +298,13 @@ container">
                                                                             <div class="row">
                                                                                 <div class="col-lg-12">
                                                                                     <div class="form-group">
-                                                                                        <label class="label15">Job Description*</label>
+                                                                                        <label class="label15">Task Description*</label>
                                                                                         <textarea name="description" class="textarea_input" placeholder="Type Description"></textarea>
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class="col-lg-12">
                                                                                     <div class="form-group">
-                                                                                        <label class="label15">Order Attempt File*</label>
+                                                                                        <label class="label15">Task File*</label>
                                                                                         <input type="file" name="order_attempt_file">
                                                                                     </div>
                                                                                 </div>
@@ -330,7 +326,7 @@ container">
                                                                         <h4>Description:</h4>
                                                                         <p>{{ $Aorder->description }}</p>
                                                                     </div>
-                                                                    @if ($Aorder->order_attempt_file)
+                                                                    @if($Aorder->order_attempt_file)
                                                                         <div>
                                                                             <h4>Uploaded File:</h4>
                                                                             <a href="{{ Storage::url($order->order_attempt_file) }}" target="_blank">Download File</a>
@@ -366,6 +362,7 @@ container">
                                                                         <div class="col-lg-12" style="text-align: center;">
                                                                             <button class="post_jp_btn" style="pointer-events: none;" disabled>Submission Accepted</button>
                                                                         </div>
+                                                                    @if($Reviews==null)
                                                                         <div>
                                                                             <h3>Submit Review</h3>
                                                                             <form action="{{ route('review_submit') }}" method="post" enctype="multipart/form-data">
@@ -403,25 +400,12 @@ container">
                                                                                     </div>
                                                                                 </div>
                                                                             </form>
-                                                                            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-                                                                            <script src="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.js"></script>
-
-
-                                                                            <script>
-                                                                                $(function () {
-                                                                                    $("#star-rating").rateYo({
-                                                                                        rating: 0,
-                                                                                        halfStar: true,
-                                                                                        fullStar: true,
-                                                                                        starWidth: "20px",
-                                                                                        onChange: function (rating, rateYoInstance) {
-                                                                                            $("#rating-value").val(rating);
-                                                                                        }
-                                                                                    });
-                                                                                });
-                                                                            </script>
-
                                                                         </div>
+                                                                        @else
+                                                                            <div class="col-lg-12" style="text-align: center;">
+                                                                                <button class="post_jp_btn" style="pointer-events: none;" disabled>Review Submitted</button>
+                                                                            </div>
+                                                                        @endif
                                                                     @endif
                                                                     @if(auth()->user()->id == $order->user_sender_id)
                                                                         @if($Aorder->accepted == 0 and $Aorder->rejected == 0)
