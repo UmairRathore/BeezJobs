@@ -66,7 +66,7 @@ class FreelancerDashboardController extends Controller
     }
     public function my_freelancer_reviews()
     {
-        $this->data['SenderReviews'] = Review::where('sender_id',\auth()->user()->id)->
+        $this->data['Reviews'] = Review::where('receiver_id',\auth()->user()->id)->
         join('users','users.id','=','reviews.receiver_id')
             ->join('professions','professions.id','=','users.profession_id')->get();
 

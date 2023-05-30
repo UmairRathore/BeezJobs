@@ -126,17 +126,32 @@ container">
                                                                             <?php
 
                                                                             $profession = \App\Models\User::find($order->user_sender_id)->leftjoin('professions', 'professions.id', '=', 'users.profession_id')->first();
-                                                                            //                                                                            dd($profession);
+
                                                                             ?>
                                                                             <div class="candi_cate">{{$profession->profession}}</div>
+                                                                            <?php
+                                                                            $senderReviews = \App\Models\Review::where('receiver_id',auth()->user()->id)->get();
+                                                                            $ratingSum = $senderReviews->sum('rating');
+                                                                            $totalReviews = $senderReviews->count();
+
+                                                                            $averageRating = ($totalReviews > 0) ? $ratingSum / $totalReviews : 0;
+                                                                            $ratingOutOfFive = round($averageRating, 2); // Round the average rating to 2 decimal places
+
+                                                                            // Ensure the rating is within the range of 1 to 5
+                                                                            $ratingOutOfFive = max(1, min(5, $ratingOutOfFive));
+
+                                                                            //        dd($ratingOutOfFive);
+                                                                            ?>
                                                                             <div class="rating_candi">Rating
                                                                                 <div class="star">
-                                                                                    <i class="fas fa-star"></i>
-                                                                                    <i class="fas fa-star"></i>
-                                                                                    <i class="fas fa-star"></i>
-                                                                                    <i class="fas fa-star"></i>
-                                                                                    <i class="fas fa-star"></i>
-                                                                                    <span>4.9</span>
+                                                                                    @for ($i = 1; $i <= 5; $i++)
+                                                                                        @if ($i <= $ratingOutOfFive)
+                                                                                            <i class="fas fa-star"></i>
+                                                                                        @else
+                                                                                            <i class="far fa-star"></i>
+                                                                                        @endif
+                                                                                    @endfor
+                                                                                    <span>{{ $ratingOutOfFive }}</span>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -161,14 +176,30 @@ container">
                                                                             //                                                                            dd($profession);
                                                                             ?>
                                                                             <div class="candi_cate">{{$profession->profession}}</div>
+                                                                            <?php
+                                                                            $ReceiverReviews = \App\Models\Review::where('receiver_id',$order->user_receiver_id)->get();
+//                                                                           dd($ReceiverReviews);
+                                                                            $ratingSum = $ReceiverReviews->sum('rating');
+                                                                            $totalReviews = $ReceiverReviews->count();
+
+                                                                            $averageRating = ($totalReviews > 0) ? $ratingSum / $totalReviews : 0;
+                                                                            $ratingOutOfFive = round($averageRating, 2); // Round the average rating to 2 decimal places
+
+                                                                            // Ensure the rating is within the range of 1 to 5
+                                                                            $ratingOutOfFive = max(1, min(5, $ratingOutOfFive));
+
+                                                                            //        dd($ratingOutOfFive);
+                                                                            ?>
                                                                             <div class="rating_candi">Rating
                                                                                 <div class="star">
-                                                                                    <i class="fas fa-star"></i>
-                                                                                    <i class="fas fa-star"></i>
-                                                                                    <i class="fas fa-star"></i>
-                                                                                    <i class="fas fa-star"></i>
-                                                                                    <i class="fas fa-star"></i>
-                                                                                    <span>4.9</span>
+                                                                                    @for ($i = 1; $i <= 5; $i++)
+                                                                                        @if ($i <= $ratingOutOfFive)
+                                                                                            <i class="fas fa-star"></i>
+                                                                                        @else
+                                                                                            <i class="far fa-star"></i>
+                                                                                        @endif
+                                                                                    @endfor
+                                                                                    <span>{{ $ratingOutOfFive }}</span>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -371,7 +402,7 @@ container">
                                                                                 <input type="hidden" name="sender_id" value="{{ $order->user_sender_id }}">
                                                                                 <input type="hidden" name="receiver_id" value="{{ auth()->user()->id }}">
                                                                                 <div class="row">
-                                                                                    <div class="star-rating">
+                                                                                    <div class="star">
                                                                                         <input type="radio" id="rating5" name="rating" value="5">
                                                                                         <label for="rating5"><i class="fas fa-star"></i></label>
 

@@ -35,7 +35,7 @@
     $floatvalue = calculateProfileCompleteness($user);
     $completeness = intval($floatvalue);
     ?>
-   
+
     <div class="group_skills_bar">
         <h6>Profile Completeness</h6>
         <div class="group_bar1">
@@ -49,14 +49,29 @@
         <div class="rtl_left">
             <h6>Rating</h6>
         </div>
+        <?php
+        $senderReviews = \App\Models\Review::where('receiver_id',\auth()->user()->id)->get();
+        $ratingSum = $senderReviews->sum('rating');
+        $totalReviews = $senderReviews->count();
+
+        $averageRating = ($totalReviews > 0) ? $ratingSum / $totalReviews : 0;
+        $ratingOutOfFive = round($averageRating, 2); // Round the average rating to 2 decimal places
+
+        // Ensure the rating is within the range of 1 to 5
+        $ratingOutOfFive = max(1, min(5, $ratingOutOfFive));
+
+//        dd($ratingOutOfFive);
+        ?>
         <div class="rtl_right">
             <div class="star">
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-                <span>4.9</span>
+                @for ($i = 1; $i <= 5; $i++)
+                    @if ($i <= $ratingOutOfFive)
+                        <i class="fas fa-star"></i>
+                    @else
+                        <i class="far fa-star"></i>
+                    @endif
+                @endfor
+                <span>{{ $ratingOutOfFive }}</span>
             </div>
         </div>
     </div>
@@ -91,8 +106,23 @@
                 <div class="rtl_left2">
                     <h6>Job Done</h6>
                 </div>
+                <?php
+                $JobDone = \App\Models\User::find(auth()->user()->id)
+                ->join('messages','messages.receiver_id','=','users.id')
+                    ->join('offers','offers.id','messages.offer_id')
+                    ->join('orders','orders.offer_id','offers.id')
+                    ->where('orders.status','=','completed')
+                    ->orWhere('orders.status','=','late-completed')
+                    ->count();
+//                dd($JobDone);
+//                    ->join('')
+
+//                    reciever_id from messages
+//                    jahan offer is accepted
+//                jahan pa order status = completed
+                ?>
                 <div class="rtl_right2">
-                    <span>69</span>
+                    <span>{{$JobDone}}</span>
                 </div>
             </li>
         </ul>

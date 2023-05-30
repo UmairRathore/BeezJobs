@@ -66,26 +66,19 @@
 															<a href="#">{{$review->first_name.' '.$review->last_name}}</a>
 															<div class="candi_cate">{{$review->profession}}</div>
 															<div class="rating_candi">Rating
-                                                                <div class="star-rating">
-                                                                    @php
-                                                                        $rating = $review->rating ?? 0;
-                                                                    @endphp
-
-                                                                    @for ($i = 5; $i >= 1; $i--)
-                                                                        <input type="radio" id="rating{{ $i }}" name="rating" value="{{ $i }}" {{ $rating == $i ? 'checked' : '' }}>
-                                                                        <label for="rating{{ $i }}"><i class="fas fa-star {{ $rating >= $i ? 'checked' : '' }}"></i></label>
-                                                                    @endfor
-
-                                                                    <span class="rating-value">{{ $rating }}</span>
+                                                                <div class="rtl_right">
+                                                                    <div class="star">
+                                                                        @for ($i = 1; $i <= 5; $i++)
+                                                                            @if ($i <= $review->rating)
+                                                                                <i class="fas fa-star"></i>
+                                                                            @else
+                                                                                <i class="far fa-star"></i>
+                                                                            @endif
+                                                                        @endfor
+                                                                        <span>{{ $review->rating }}</span>
+                                                                    </div>
                                                                 </div>
-{{--																<div class="star">--}}
-{{--																	<i class="fas fa-star"></i>--}}
-{{--																	<i class="fas fa-star"></i>--}}
-{{--																	<i class="fas fa-star"></i>--}}
-{{--																	<i class="fas fa-star"></i>--}}
-{{--																	<i class="fas fa-star"></i>--}}
-{{--																	<span>4.9</span>--}}
-{{--																</div>--}}
+                                                            </div>
 															</div>
 														</div>
 													</div>
