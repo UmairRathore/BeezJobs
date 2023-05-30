@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use App\Models\User;
 use App\Models\Portfolio;
+use App\Service\NotificationService;
 
 use Illuminate\Support\Facades\Hash;
 use PhpParser\Node\Stmt\Return_;
@@ -65,10 +66,10 @@ class FreelancerDashboardController extends Controller
     }
     public function my_freelancer_reviews()
     {
-        $this->data['Reviews'] = Review::where('sender_id',\auth()->user()->id)->
+        $this->data['SenderReviews'] = Review::where('sender_id',\auth()->user()->id)->
         join('users','users.id','=','reviews.receiver_id')
             ->join('professions','professions.id','=','users.profession_id')->get();
-//        dd($this->data['Reviews']);
+
 
         return view('frontend.freelancer.my_freelancer.my_freelancer_reviews',$this->data);
 
@@ -331,7 +332,7 @@ class FreelancerDashboardController extends Controller
 
     public function submitReview(Request $request)
     {
-        dd($request);
+//        dd($request);
         // Validate the form data
 //        $validatedData = $request->validate([
 //            'order_id' => 'required',
@@ -344,16 +345,28 @@ class FreelancerDashboardController extends Controller
         // Create a new review instance
         $review = new Review();
         $review->order_id = $request->input('order_id');
-        $review->sender_id =  $request->input('sender_id');
-        $review->receiver_id =  $request->input('receiver_id');
-        $review->rating =  $request->input('rating');
-        $review->review =  $request->input('review');
+        $review->sender_id = $request->input('sender_id');
+        $review->receiver_id = $request->input('receiver_id');
+        $review->rating = $request->input('rating');
+        $review->review = $request->input('review');
 
         // Save the review
-        $review->save();
-
-        // Redirect or return a response
-        return redirect()->back()->with('success', 'Review submitted successfully!');
+        $check = $review->save();
+        if ($check) {
+            $user_id = $review->receiver_id;
+            $User_Name = User::find($review->receiver_id)->select('users.first_name', 'users.last_name')->first();
+            $job = Order::find($review->order_id)
+                ->join('offers', 'offers.id', '=', 'orders.offer_id')
+                ->join('jobs', 'jobs.id', '=', 'offers.job_id')
+                ->first();
+//            dd($job);
+            $message = $User_Name->first_name . '' . $User_Name->last_name . ' Submitted a Review to your job ' . $job->title;
+            $Notification = new NotificationService();
+            $Notification->sendNotification($message, $user_id);
+            return redirect()->back()->with('success', 'Review submitted successfully!');
+        } else {
+            return redirect()->back()->with('error', 'Review not submitted successfully!');
+        }
     }
     public function Review()
     {
