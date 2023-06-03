@@ -139,7 +139,7 @@ class JobController extends Controller
 //        dd($this->data['job']);
 
 //        $this->data['bids']
-        $this->data['bids'] = Bid::select('bids.*', 'jobs.user_id as jobUserId','u.location', 'u.first_name', 'u.last_name')
+        $this->data['bids'] = Bid::select('bids.*', 'jobs.user_id as jobUserId','u.location', 'u.first_name', 'u.last_name','u.rating')
             ->where('job_id', $id)
             ->join('users as u', 'u.id', '=', 'bids.user_id')
             ->join('jobs', 'jobs.id', '=', 'bids.job_id')->get();

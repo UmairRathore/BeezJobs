@@ -169,7 +169,11 @@
                                                                 <i class="far fa-star"></i>
                                                             @endif
                                                         @endfor
-                                                        <span>{{ $user->rating }}</span>
+                                                            @if($user->rating)
+                                                                <span>{{ $user->rating }}</span>
+                                                            @else
+                                                                <span>0</span>
+                                                            @endif
                                                     </div>
                                                 </div>
                                                 <div class="right-location">

@@ -120,12 +120,18 @@
                                                     <a href="{{route('other_freelancer_profile',[$bid->user_id])}}"><h4>{{$bid->first_name.' '.$bid->last_name}}</h4></a>
                                                     <span><i class="fas fa-map-marker-alt"></i> {{$bid->location}}</span>
                                                     <div class="star mt-2">
-                                                        <i class="fas fa-star"></i>
-                                                        <i class="fas fa-star"></i>
-                                                        <i class="fas fa-star"></i>
-                                                        <i class="fas fa-star"></i>
-                                                        <i class="fas fa-star"></i>
-                                                        <span>4.9</span>
+                                                            @for ($i = 1; $i <= 5; $i++)
+                                                                @if ($i <= $bid->rating)
+                                                                    <i class="fas fa-star"></i>
+                                                                @else
+                                                                    <i class="far fa-star"></i>
+                                                                @endif
+                                                            @endfor
+                                                                @if($bid->rating)
+                                                                    <span>{{ $bid->rating }}</span>
+                                                                @else
+                                                                    <span>0</span>
+                                                                @endif
 												</div>
                                                 <div>
                                                     <h4>Description</h4>

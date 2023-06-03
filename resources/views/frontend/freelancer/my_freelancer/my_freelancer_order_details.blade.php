@@ -151,7 +151,11 @@ container">
                                                                                             <i class="far fa-star"></i>
                                                                                         @endif
                                                                                     @endfor
-                                                                                    <span>{{ $ratingOutOfFive }}</span>
+                                                                                        @if($ratingOutOfFive)
+                                                                                            <span>{{ $ratingOutOfFive }}</span>
+                                                                                        @else
+                                                                                            <span>0</span>
+                                                                                        @endif
                                                                                 </div>
                                                                             </div>
                                                                         </div>
