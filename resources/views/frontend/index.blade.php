@@ -302,12 +302,18 @@
                                             <div class="left-rating">
                                                 <div class="rtitle">Rating</div>
                                                 <div class="star">
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <span>4.9</span>
+                                                    @for ($i = 1; $i <= 5; $i++)
+                                                        @if ($i <= $user->rating)
+                                                            <i class="fas fa-star"></i>
+                                                        @else
+                                                            <i class="far fa-star"></i>
+                                                        @endif
+                                                    @endfor
+                                                    @if($user->rating)
+                                                    <span>{{ $user->rating }}</span>
+                                                        @else
+                                                            <span>0</span>
+                                                        @endif
                                                 </div>
                                             </div>
                                             <div class="right-location">

@@ -28,7 +28,8 @@ class User extends Authenticatable
         'role_id',
         'profession_id',
         'pay_rate',
-        'websites'
+        'websites',
+        'rating'
     ];
 
 

@@ -125,6 +125,7 @@ class FreelancerDashboardController extends Controller
         $pay_rate_range = $request->input('pay_rate_range');
         $location = $request->input('location');
         $search = $request->input('search');
+        $rating = $request->input('rating');
 
         $this->data['users'] = User::select('users.*', 'professions.profession as profession_name')
             ->where('status',1)
@@ -138,6 +139,9 @@ class FreelancerDashboardController extends Controller
 
         if (!empty($category)) {
             $this->data['users']->where('professions.id', $category);
+        }
+        if (!empty($rating)) {
+            $this->data['users']->where('users.rating', '<>', $rating);
         }
 
         if (!empty($pay_rate_range)) {
@@ -347,7 +351,6 @@ class FreelancerDashboardController extends Controller
     public function submitReview(Request $request)
     {
 //        dd($request);
-        // Validate the form data
 //        $validatedData = $request->validate([
 //            'order_id' => 'required',
 //            'sender_id' => 'required',
@@ -356,17 +359,31 @@ class FreelancerDashboardController extends Controller
 //            'review' => 'required',
 //        ]);
 
-        // Create a new review instance
         $review = new Review();
         $review->order_id = $request->input('order_id');
         $review->sender_id = $request->input('sender_id');
         $review->receiver_id = $request->input('receiver_id');
         $review->rating = $request->input('rating');
         $review->review = $request->input('review');
-
-        // Save the review
         $check = $review->save();
         if ($check) {
+            $rating =  Review::where('receiver_id',$review->receiver_id)->pluck('rating');
+//            dd($rating);
+            $totalRatings = $rating->sum();
+            $ratingCount = $rating->count();
+//            dd($ratingCount);
+
+            if ($ratingCount > 0) {
+                $averageRating = $totalRatings / $ratingCount;
+                $averageRating = round($averageRating, 2);
+
+                $NewRating =  User::find($review->receiver_id);
+                $NewRating->rating=$averageRating;
+                $NewRating->save();
+            } else {
+                $averageRating = $rating;
+            }
+
             $user_id = $review->receiver_id;
             $User_Name = User::find($review->receiver_id)->select('users.first_name', 'users.last_name')->first();
             $job = Order::find($review->order_id)

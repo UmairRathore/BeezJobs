@@ -92,6 +92,21 @@
                             </div>
                             <input id="location" class="job-input" type="text" name="location" placeholder="Enter a location">
                         </div>
+                        <div class="fltr-group fltr-gend">
+                            <div class="fltr-items-heading">
+                                <div class="fltr-item-left">
+                                    <h6>Rating</h6>
+                                </div>
+                                <div class="fltr-item-right">
+                                    <a href="#">Clear</a>
+                                </div>
+                            </div>
+                            <input id="rating" class="job-input" type="text" name="rating" placeholder="Enter a Rating from 1-5">
+                            <div class="rg-limit">
+                                <h4>1</h4>
+                                <h4>5</h4>
+                            </div>
+                        </div>
                         <div class="filter-button">
                             <button type="submit" class="flr-btn">Search Now</button>
                         </div>
@@ -147,12 +162,14 @@
                                                 <div class="left-rating">
                                                     <div class="rtitle">Rating</div>
                                                     <div class="star">
-                                                        <i class="fas fa-star"></i>
-                                                        <i class="fas fa-star"></i>
-                                                        <i class="fas fa-star"></i>
-                                                        <i class="fas fa-star"></i>
-                                                        <i class="fas fa-star"></i>
-                                                        <span>4.9</span>
+                                                        @for ($i = 1; $i <= 5; $i++)
+                                                            @if ($i <= $user->rating)
+                                                                <i class="fas fa-star"></i>
+                                                            @else
+                                                                <i class="far fa-star"></i>
+                                                            @endif
+                                                        @endfor
+                                                        <span>{{ $user->rating }}</span>
                                                     </div>
                                                 </div>
                                                 <div class="right-location">
