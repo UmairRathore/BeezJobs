@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Message;
+use App\Models\Notification;
 use App\Models\Order;
 use App\Models\OrderAttempt;
 use App\Models\Profession;
@@ -30,14 +31,7 @@ class FreelancerDashboardController extends Controller
     {
         return view('frontend.freelancer.my_freelancer.my_freelancer_settings');
     }
-//    public function my_freelancer_messages()
-//    {
-//        return view('frontend.freelancer.my_freelancer_messages');
-//    }
-//    public function my_freelancer_jobs()
-//    {
-//        return view('frontend.freelancer.my_freelancer.my_freelancer_jobs');
-//    }
+
     public function my_freelancer_bids()
     {
         return view('frontend.freelancer.my_freelancer.my_freelancer_bids');
@@ -62,6 +56,7 @@ class FreelancerDashboardController extends Controller
     }
     public function my_freelancer_notifications()
     {
+        $Notification = Notification::where('user_id',\auth()->user()->id);
         return view('frontend.freelancer.my_freelancer.my_freelancer_notifications');
     }
     public function my_freelancer_reviews()
@@ -72,9 +67,8 @@ class FreelancerDashboardController extends Controller
 
 
         return view('frontend.freelancer.my_freelancer.my_freelancer_reviews',$this->data);
-
-//        return view('frontend.freelancer.my_freelancer.my_freelancer_reviews');
     }
+
     public function update_freelancer_social_media_links(Request $request)
     {
         $id = auth()->user()->id;
@@ -297,9 +291,29 @@ class FreelancerDashboardController extends Controller
             $filePath = $file->store('order_attempt_files');
             $order->order_attempt_file = $filePath;
         }
-        $order->save();
-
+        $check  = $order->save();
+        if($check){
+            $job = Order::find($order->order_id)
+                ->join('offers', 'offers.id', '=', 'orders.offer_id')
+                ->join('messages','messages.offer_id','=','offers.id')
+                ->join('users','users.id','=','messages.offer_id')
+                ->join('jobs', 'jobs.id', '=', 'offers.job_id')
+                ->first();
+            $user_id =\auth()->user()->id;
+            $User_Name = User::find($user_id)->select('users.first_name', 'users.last_name')->first();
+//            dd($job);
+            $receiver_id = $job->user_id;
+            $message = $User_Name->first_name . '' . $User_Name->last_name . ' Submitted a Task submission to your job ' . $job->title;
+            $Notification = new NotificationService();
+            $Notification->sendNotification($message, $user_id,$receiver_id);
         return back()->with('success','Order task has been uploaded');
+        }
+        else{
+
+        return back()->with('error','Order task has not been uploaded');
+        }
+
+
     }
     public function postOrderAttemptStatus(Request $request)
     {
@@ -360,22 +374,13 @@ class FreelancerDashboardController extends Controller
                 ->join('jobs', 'jobs.id', '=', 'offers.job_id')
                 ->first();
 //            dd($job);
+            $receiver_id= $job->user_id;
             $message = $User_Name->first_name . '' . $User_Name->last_name . ' Submitted a Review to your job ' . $job->title;
             $Notification = new NotificationService();
-            $Notification->sendNotification($message, $user_id);
+            $Notification->sendNotification($message, $user_id,$receiver_id);
             return redirect()->back()->with('success', 'Review submitted successfully!');
         } else {
             return redirect()->back()->with('error', 'Review not submitted successfully!');
         }
-    }
-    public function Review()
-    {
-        $this->data['Review'] = Review::wherer('receiver_id',\auth()->user()->id)->
-            join('users','users.id','=','reviews.receiver_id')->get();
-        dd($this->data['Review']);
-
-            return view('frontend.my_freelancer.my_freelancer_reviews',$this->data);
-
-
     }
 }
