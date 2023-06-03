@@ -10,6 +10,7 @@ use App\Models\Job;
 
 use App\Models\Profession;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -87,6 +88,9 @@ class JobController extends Controller
         $category = $request->category;
         $pay_rate_range = $request->pay_rate_range;
         $location = $request->location;
+        $start_date = $request->input('start_date');
+        $end_date = $request->input('end_date');
+
 
         if (!empty($search)) {
             $this->data['jobs']->where('professions.profession','LIKE',"%{$search}%");
@@ -95,6 +99,13 @@ class JobController extends Controller
             $this->data['jobs']->where('professions.id', $category);
         }
 
+        if (!empty($start_date) && !empty($end_date)) {
+            // Convert the start and end dates to Carbon instances for proper comparison
+            $startDate = Carbon::parse($start_date)->startOfDay();
+            $endDate = Carbon::parse($end_date)->endOfDay();
+
+            $this->data['jobs']->whereBetween('date', [$startDate, $endDate]);
+        }
         if (!empty($pay_rate_range)) {
             if ($pay_rate_range==0)
             {

@@ -94,6 +94,19 @@
                                     </div>
                                     <input id="location" class="job-input" type="text" name="location" placeholder="Enter a location">
                                 </div>
+                                <div class="fltr-group fltr-date">
+                                    <div class="fltr-items-heading">
+                                        <div class="fltr-item-left">
+                                            <h6>Date Range</h6>
+                                        </div>
+                                        <div class="fltr-item-right">
+                                            <a href="#">Clear</a>
+                                        </div>
+                                    </div>
+                                    <input id="start_date" class="job-input" type="date" name="start_date">
+                                    <input id="end_date" class="job-input" type="date" name="end_date">
+                                </div>
+
                                 <div class="filter-button">
                                     <button type="submit" class="flr-btn">Search Now</button>
                                 </div>
