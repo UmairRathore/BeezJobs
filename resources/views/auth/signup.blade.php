@@ -61,6 +61,17 @@
                         <input type="checkbox" tabindex="0" class="hidden">
                         <label style="color:#242424 !important;">I accept the Terms of Services</label>
                     </div>
+                        <div class="form-group">
+                            <hr>
+                            <p>Or sign up with:</p>
+                            <a href="{{ route('google.login') }}" class="btn btn-google btn-user btn-block">
+                                <i class="fab fa-google fa-fw"></i> Login with Google
+                            </a>
+                            <a href="{{ route('facebook.login') }}" class="btn btn-facebook btn-user btn-block">
+                                <i class="fab fa-facebook-f fa-fw"></i> Login with Facebook
+                            </a>
+                        </div>
+
                         <button type="submit" class="lr_btn"> Next</button>
                     </form>
                     <div class="done140">

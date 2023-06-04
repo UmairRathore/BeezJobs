@@ -29,6 +29,9 @@ class CreateUsersTable extends Migration
             $table->string('websites')->nullable();
             $table->string('profile_image')->nullable();
             $table->boolean('status')->nullable()->default(null);
+            $table->string('rating')->nullable()->default(0);
+            $table->string('google_id')->nullable();
+            $table->string('facebook_id')->nullable();
 
             $table->decimal('latitude', 10, 8)->nullable();
             $table->decimal('longitude', 11, 8)->nullable();

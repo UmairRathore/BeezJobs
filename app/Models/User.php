@@ -35,6 +35,8 @@ class User extends Authenticatable
 
     public static function createRandomUsers($count = 10)
     {
+
+        try {
         $faker = \Faker\Factory::create();
 
         for ($i = 0; $i < $count; $i++) {
@@ -43,14 +45,35 @@ class User extends Authenticatable
             $user->last_name = $faker->lastName();
             $user->email = $faker->unique()->safeEmail();
             $user->password = bcrypt('password');
-            $user->birthday = $faker->dateTimeBetween('-50 years', '-18 years')->format('Y-m-d');
+            $user->role_id = 2;
+            $user->profession_id = $faker->numberBetween(3, 10);
+            $user->birthday = $faker->date('Y-m-d', '-18 years');
             $user->tagline = $faker->sentence(10);
             $user->location = $faker->city();
-            $user->role_id = $faker->numberBetween(1, 2);
-            $user->profession_id = $faker->numberBetween(3, 10);
             $user->pay_rate = $faker->randomFloat(2, 10, 50);
             $user->websites = $faker->url();
+            $user->profile_image = $faker->imageUrl();
+            $user->status = $faker->boolean(50);
+            $user->rating = $faker->randomFloat(1, 0, 5);
+            $user->google_id = $faker->uuid();
+            $user->facebook_id = $faker->uuid();
+            $user->latitude = $faker->latitude();
+            $user->longitude = $faker->longitude();
+            $user->facebook_link = $faker->url();
+            $user->google_link = $faker->url();
+            $user->youtube_link = $faker->url();
+            $user->linkedin_link = $faker->url();
+            $user->instagram_link = $faker->url();
+            $user->twitter_link = $faker->url();
+//            $user->remember_token = Str::random(10);
             $user->save();
+        }
+
+            // Existing code to create random users
+            // ...
+        } catch (\Exception $e) {
+            // Log the exception for debugging
+            \Log::error('Exception while creating random users: ' . $e->getMessage());
         }
     }
 

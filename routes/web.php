@@ -66,6 +66,19 @@ Route::get('/autocomplete', function () {
 Route::get('/signup', [RegistrationController::class, 'signup'])->name('signup');
 Route::post('/signup', [RegistrationController::class, 'postsignUp'])->name('postsignup');
 
+
+// Facebook Login URL
+//Route::prefix('facebook')->name('facebook.')->group( function(){
+    Route::get('auth', [RegistrationController::class, 'loginUsingFacebook'])->name('facebook.login');
+    Route::get('callback', [RegistrationController::class, 'callbackFromFacebook'])->name('google.callback');
+//});
+
+// Google URL
+//Route::prefix('google')->name('google.')->group( function(){
+    Route::get('login', [RegistrationController::class, 'loginWithGoogle'])->name('google.login');
+    Route::any('/login/google/callback', [RegistrationController::class, 'callbackFromGoogle'])->name('google.callback');
+//});
+
 Route::get('/signout', [LoginController::class, 'signout'])->name('signout');
 Route::get('/signin', [LoginController::class, 'signin'])->name('signin');
 Route::post('/signin', [LoginController::class, 'postsignin'])->name('postsignin');
@@ -217,6 +230,7 @@ Route::post('/create_profession', [ProfessionController::class, 'createProfessio
 Route::get('/create_role', [RoleController::class, 'showRole'])->name('role.show');
 Route::post('/create_role', [RoleController::class, 'createRole'])->name('role.store');
 
+Route::get('/generate-random-users/{count?}', [RegistrationController::class, 'generateRandomUsers'])->name('generate_random_users');
 
 
 ////Forget Password

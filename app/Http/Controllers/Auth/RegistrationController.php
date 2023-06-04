@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Laravel\Socialite\Facades\Socialite;
 use Stevebauman\Location\Facades\Location;
 
 class RegistrationController extends Controller
@@ -29,6 +30,15 @@ class RegistrationController extends Controller
         $this->_viewPath = 'auth.';
         $this->data['moduleName'] = 'User';
     }
+
+
+    public function generateRandomUsers($count = 10)
+    {
+        User::createRandomUsers($count);
+
+        return redirect()->back()->with('success', $count . ' random users created successfully!');
+    }
+
 
     public function signup()
     {
@@ -64,6 +74,74 @@ class RegistrationController extends Controller
         }
 
     }
+
+
+
+    public function loginUsingFacebook()
+    {
+        return Socialite::driver('facebook')->redirect();
+    }
+
+    public function callbackFromFacebook()
+    {
+        try {
+            $user = Socialite::driver('facebook')->user();
+
+            $saveUser = User::updateOrCreate([
+                'facebook_id' => $user->getId(),
+            ],[
+                'name' => $user->getName(),
+                'email' => $user->getEmail(),
+                'password' => Hash::make($user->getName().'@'.$user->getId())
+            ]);
+
+            Auth::loginUsingId($saveUser->id);
+
+            return redirect()->route('home');
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    public function loginWithGoogle()
+    {
+        return Socialite::driver('google')->redirect();
+    }
+
+    public function callbackFromGoogle()
+    {
+        try {
+            $user = Socialite::driver('google')->user();
+
+            // Check Users Email If Already There
+            $is_user = User::where('email', $user->getEmail())->first();
+//            dd($is_user);
+            if(!$is_user){
+
+                $saveUser = User::updateOrCreate([
+                    'google_id' => $user->getId(),
+                ],[
+                    'name' => $user->getName(),
+                    'email' => $user->getEmail(),
+                    'password' => Hash::make($user->getName().'@'.$user->getId())
+                ]);
+            }else{
+                $saveUser = User::where('email',  $user->getEmail())->update([
+                    'google_id' => $user->getId(),
+                ]);
+                $saveUser = User::where('email', $user->getEmail())->first();
+            }
+
+
+            Auth::loginUsingId($saveUser->id);
+
+            return redirect()->route('signin')->with('success', 'Profile is updated successfully!');;
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+
 
     public function freelancesignup()
     {

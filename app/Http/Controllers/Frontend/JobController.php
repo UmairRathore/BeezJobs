@@ -32,6 +32,14 @@ class JobController extends Controller
     public function createJob(Request $request)
     {
 
+        if (!Auth::check()) {
+            // Store the job data in the session
+            session()->flash('job_data', $request->all());
+
+            // Redirect the user to the login page
+            return redirect()->route('signin');
+        }
+
 //                dd($request);
         $validator = Validator::make($request->all(), [
 
