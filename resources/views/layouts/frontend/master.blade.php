@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, shrink-to-fit=9">
     <meta name="description" content="Gambolthemes">
     <meta name="author" content="Gambolthemes">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <title>Jobby - @yield('title')</title>
 
     <!-- Favicon Icon -->

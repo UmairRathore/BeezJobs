@@ -274,6 +274,31 @@ container">
                                                                                     document.getElementById('clock-c').innerHTML = "Time Finished";
                                                                                     console.log('Countdown ended!');
                                                                                     clearInterval(countdownClock);
+
+                                                                                    // Make an AJAX request to update the order status
+                                                                                    $.ajax({
+                                                                                        url: '/update_order_status', // Replace with the actual URL to your server-side endpoint
+                                                                                        method: 'POST', // Use the appropriate HTTP method (POST/GET) for your endpoint
+                                                                                        headers: {
+                                                                                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                                                                        },
+                                                                                        data: {
+                                                                                            _token: $('meta[name="csrf-token"]').attr('content'),
+                                                                                            orderId: {!! json_encode($order->order_id) !!}
+                                                                                        },
+                                                                                        success: function(response) {
+                                                                                            if (response.status === 'success') {
+                                                                                                // Update the order status in the HTML
+                                                                                                var statusButtons = document.getElementsByClassName('apled_btn50');
+                                                                                                for (var i = 0; i < statusButtons.length; i++) {
+                                                                                                    statusButtons[i].innerHTML = "Pending";
+                                                                                                }
+                                                                                            }
+                                                                                        },
+                                                                                        error: function(xhr, status, error) {
+                                                                                            console.log(error);
+                                                                                        }
+                                                                                    });
                                                                                 } else {
                                                                                     var days = Math.floor(remainingTime / (1000 * 60 * 60 * 24));
                                                                                     var hours = Math.floor((remainingTime / (1000 * 60 * 60)) % 24);
@@ -309,7 +334,9 @@ container">
                                                                 @elseif($order->order_status == 'completed')
                                                                     <button class="apled_btn50" style="pointer-events: none;" disabled>Completed</button>
                                                                 @elseif($order->order_status == 'late-completed')
-                                                                    <button class="apled_btn50" style="pointer-events: none;" disabled>Accepted</button>
+                                                                    <button class="apled_btn50" style="pointer-events: none;" disabled>Late-Completed</button>
+                                                                @elseif($order->order_status == 'pending')
+                                                                    <button class="apled_btn50" style="pointer-events: none;" disabled>Late-Due</button>
                                                                 @elseif($order->order_status == 'cancelled')
                                                                     <button class="apled_btn50" style="pointer-events: none;" disabled>Cancelled</button>
                                                                 @endif

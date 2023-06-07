@@ -105,6 +105,7 @@ Route::get('/my_freelancer_order_details/{id}', [FreelancerDashboardController::
 Route::post('/post_order_attempt', [FreelancerDashboardController::class, 'postOrderAttempt'])->name('post_order_attempt');
 Route::post('/order_attempt_status', [FreelancerDashboardController::class, 'postOrderAttemptStatus'])->name('order_attempt_status');
 Route::post('/review_submit', [FreelancerDashboardController::class, 'submitReview'])->name('review_submit');
+Route::post('/update_order_status', [FreelancerDashboardController::class, 'updateOrderStatus'])->name('update_order_status');
 
 
 Route::get('/reviews', [FreelancerDashboardController::class, 'Reviews'])->name('review');

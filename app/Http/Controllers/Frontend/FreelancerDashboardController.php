@@ -253,7 +253,12 @@ class FreelancerDashboardController extends Controller
             ->select('users.*','p.profession as profession')
             ->join('professions as p', 'users.profession_id', '=', 'p.id')
             ->first();
+        $this->data['Reviews'] = Review::where('receiver_id',\auth()->user()->id)->
+        join('users','users.id','=','reviews.receiver_id')
+            ->join('professions','professions.id','=','users.profession_id')->get();
 
+
+//        return view('frontend.freelancer.my_freelancer.my_freelancer_reviews',$this->data);
         return view('frontend.freelancer.other_freelancer.other_freelancer_review',$this->data);
     }
 
@@ -339,7 +344,26 @@ class FreelancerDashboardController extends Controller
         return view('frontend.freelancer.my_freelancer.my_freelancer_order_details',$this->data);
     }
 
+    public function updateOrderStatus(Request $request)
+    {
+//dd($request);
+        $orderId = $request->orderId;
 
+        // Find the order by ID
+        $order = Order::find($orderId);
+
+        if ($order) {
+            // Update the order status to "Pending" or as desired
+            $order->status = 'pending'; // Update the status as per your requirements
+            $order->save();
+
+            // Return a JSON response indicating success
+            return response()->json(['status' => 'success']);
+        } else {
+            // Return a JSON response indicating failure
+            return response()->json(['status' => 'failure']);
+        }
+    }
     public function  postOrderAttempt(Request $request)
     {
         $order = new OrderAttempt();

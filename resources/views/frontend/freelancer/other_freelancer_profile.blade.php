@@ -7,7 +7,7 @@
 
 <!-- Header End -->
 		<!-- Title Start -->
-		<div class="title-bar">			
+		<div class="title-bar">
 			<div class="container">
 				<div class="row">
 					<div class="col-lg-12">
@@ -15,20 +15,20 @@
 							<li class="breadcrumb-item"><a href="index.html">Home</a></li>
 							<li class="breadcrumb-item active" aria-current="page">Other Freelancer Profile</li>
 						</ol>
-					</div>		
-				</div>		
-			</div>		
+					</div>
+				</div>
+			</div>
 		</div>
 		<!-- Title Start -->
-		<!-- Body Start -->	
-		<main class="browse-section">				
+		<!-- Body Start -->
+		<main class="browse-section">
 			<div class="container">
 				<div class="row">
 					<div class="col-lg-3 col-md-4">
 						<div class="account_dt_left">
 							<div class="job-center-dt">
 								<img src="images/homepage/candidates/img-3.jpg" alt="">
-								<div class="job-urs-dts">									
+								<div class="job-urs-dts">
 									<h4>Rock William</h4>
 									<span>UX Designer</span>
 								</div>
@@ -37,7 +37,7 @@
 									<li><button class="hire_btn" type="button">Message</button></li>
 								</ul>
 							</div>
-							
+
 							<div class="group_skills_bar">
 								<h6>Profile Completeness</h6>
 								<div class="group_bar1">
@@ -45,7 +45,7 @@
 									<div class="progress skill_process">
 										<div class="progress-bar progress_bar_skills" role="progressbar" style="width: 90%;" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
 									</div>
-								</div>								
+								</div>
 							</div>
 							<div class="rlt_section">
 								<div class="rtl_left">
@@ -57,8 +57,8 @@
 										<i class="fas fa-star"></i>
 										<i class="fas fa-star"></i>
 										<i class="fas fa-star"></i>
-										<i class="fas fa-star"></i>								
-										<span>4.9</span> 									
+										<i class="fas fa-star"></i>
+										<span>4.9</span>
 									</div>
 								</div>
 							</div>
@@ -135,19 +135,19 @@
 									<a class="nav-link" href="other_freelancer_reviews.html">Reviews</a>
 								</li>
 							</ul>
-						</div>						
+						</div>
 						<div class="view_chart">
 							<div class="view_chart_header">
-								<h4>About</h4>								
+								<h4>About</h4>
 							</div>
 							<div class="view_chart_body">
 								<p class="user_about_des">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quis accumsan mi. Nam nulla lorem, consectetur eu augue nec, laoreet viverra augue. Curabitur quis nisi nec enim tempor tincidunt sit amet eu elit. Aliquam metus massa, vehicula vel nisi quis, eleifend hendrerit velit. Maecenas nunc nunc, ultricies non accumsan sit amet, varius non dui. Pellentesque ipsum justo, mollis et posuere at, viverra porta nisl. Cras accumsan cursus tellus luctus congue. Maecenas sed feugiat dolor. In ipsum sapien, congue vitae congue ac, cursus nec mauris. Integer fringilla mi urna, id efficitur ligula interdum quis. Ut vehicula imperdiet elit, quis condimentum est aliquam ac. Nunc tortor elit, imperdiet ac tellus ut, accumsan interdum dui. Duis fermentum tincidunt massa, sodales tempus sapien euismod quis. Vestibulum suscipit ex ex, nec euismod leo eleifend eget. Interdum et malesuada fames ac ante ipsum primis in faucibus. Integer tincidunt sodales augue, ut consequat libero blandit non. Suspendisse id dolor vel lorem bibendum luctus sit amet a odio. Vestibulum varius viverra ipsum quis rhoncus. Praesent bibendum dictum ex. Quisque eu laoreet leo.</p>
 							</div>
 						</div>
-						
-											
-					</div>																																						
+
+
+					</div>
 				</div>
-			</div>					
+			</div>
 		</main>
 @endsection
