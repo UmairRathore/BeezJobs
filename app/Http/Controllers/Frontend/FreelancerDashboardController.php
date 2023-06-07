@@ -143,6 +143,10 @@ class FreelancerDashboardController extends Controller
         $lng = $request->lng;
         $this->data['categories'] = Profession::get();
 
+        $this->data['users'] = User::select('users.*', 'professions.profession as profession_name')
+            ->where('status', 1)
+            ->where('role_id', 2)
+            ->join('professions', 'users.profession_id', '=', 'professions.id');
         if ($lat && $lng) {
             $users = User::select('users.*', 'professions.profession as profession_name')
                 ->where('status', 1)
@@ -165,23 +169,24 @@ class FreelancerDashboardController extends Controller
             $this->data['users'] = $nearbyUsers;
 //            dd($this->data['users']);
             $userIds = collect($this->data['users'])->pluck('id');
-            $this->data['users'] = User::whereIn('id', $userIds)
+            $user = User::whereIn('id', $userIds)
                 ->paginate(10);
+
+
+//            dd($jobs);
+            if ($user->isEmpty()) {
+                $this->data['users'] = $this->data['users']->orderBy('jobs.created_at', 'desc')->paginate(10);
+            } else {
+                $this->data['users'] = $user;
+            }
+
         }
         else {
-
-
             $category = $request->input('category');
             $pay_rate_range = $request->input('pay_rate_range');
             $location = $request->input('location');
             $search = $request->input('search');
             $rating = $request->input('rating');
-
-            $this->data['users'] = User::select('users.*', 'professions.profession as profession_name')
-                ->where('status', 1)
-                ->where('role_id', 2)
-                ->join('professions', 'users.profession_id', '=', 'professions.id');
-
             if (!empty($search)) {
                 $this->data['users']->where('professions.id', $search)
                     ->orwhere('users.location', 'like', '%' . $search . '%')->first();

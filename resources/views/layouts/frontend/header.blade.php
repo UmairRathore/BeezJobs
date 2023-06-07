@@ -203,8 +203,10 @@ if(auth()->check()) {
                             <li class="nav-item ">
 {{--                                <a href="#" class="nav-link dropdown-toggle-no-caret" role="button" data-toggle="dropdown">Find Jobs</a>--}}
 {{--                                <div class="dropdown-menu pages-dropdown">--}}
-                                    <a class="nav-link" href="{{route('browse_jobs')}}">Browse Jobs</a>
-{{--                                    @if(auth()->check())--}}
+{{--                                    <a class="nav-link" href="{{route('browse_jobs')}}">Browse Jobs</a>--}}
+                                <a class="nav-link" href="{{ auth()->check() ? route('browse_jobs', ['lat' => auth()->user()->latitude, 'lng' => auth()->user()->longitude]) : route('browse_jobs') }}">Browse Jobs</a>
+
+                                {{--                                    @if(auth()->check())--}}
 {{--                                    <a class="link-item" href="{{route('post_a_job')}}">Post a Job</a>--}}
 {{--                                        @endif--}}
 {{--                                </div>--}}
