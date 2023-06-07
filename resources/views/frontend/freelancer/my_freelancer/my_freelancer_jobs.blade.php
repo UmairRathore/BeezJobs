@@ -5,9 +5,19 @@
 
 @section('content')
 <style>
+    .card-content {
+        position: relative;
+    }
+
     .arrow-link {
         position: absolute;
-        top: 40%;
+        top: 50%;
+        right: 20px;
+        transform: translateY(-50%);
+    }
+    .arrow-link {
+        position: absolute;
+        top: 50%;
         right: 20px;
         transform: translateY(-50%);
     }
@@ -196,6 +206,12 @@
                                                                             </li>
                                                                         </ul>
                                                                         <p style="color: black; padding-top: 60px;">{{ $Order->negotiated_description }}</p>
+                                                                        <div class="arrow-link">
+                                                                            <a href="{{ route('my_freelancer_order_details', $Order->Order_id) }}">
+                                                                                <span class="details-heading">Details</span>
+                                                                                <i class="fas fa-arrow-right"></i>
+                                                                            </a>
+                                                                        </div>
                                                                     </div>
                                                                     <div class="btn_link23">
                                                                         @if($Order->Ostatus == 'active')
@@ -205,12 +221,6 @@
                                                                         @elseif($Order->Ostatus == 'late-completed')
                                                                             <button class="apled_btn50" style="pointer-events: none;" disabled>Overdue Completion</button>
                                                                         @endif
-                                                                    </div>
-                                                                    <div class="arrow-link">
-                                                                        <a href="{{ route('my_freelancer_order_details', $Order->Order_id) }}">
-                                                                            <span class="details-heading">Details</span>
-                                                                            <i class="fas fa-arrow-right"></i>
-                                                                        </a>
                                                                     </div>
                                                                 </div>
                                                             </li>
