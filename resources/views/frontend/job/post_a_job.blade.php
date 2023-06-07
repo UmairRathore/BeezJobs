@@ -64,7 +64,11 @@
                                     <div class="form-group">
                                         <label class="label15">Date*</label>
                                         <div class="smm_input">
-                                            <input type="date" name="date" class="job-input" data-language="en" value="{{auth()->user()->birthday}}">
+{{--                                            @if(auth()->check())--}}
+{{--                                            <input type="date" name="date" class="job-input" data-language="en" value="{{auth()->user()->birthday}}">--}}
+{{--                                            @else--}}
+                                            <input type="date" name="date" class="job-input" data-language="en" >
+{{--                                            @endif--}}
                                             <div class="mix_max"><i class="fas fa-calendar-alt"></i></div>
                                         </div>
                                     </div>

@@ -35,10 +35,9 @@ class JobController extends Controller
 
         if (!Auth::check()) {
             // Store the job data in the session
-            session()->flash('job_data', $request->all());
-
-            // Redirect the user to the login page
-            return redirect()->route('signin');
+            $jobData = $request->all();
+//            dd($jobData);
+            return redirect()->route('signin')->cookie('job_data', json_encode($jobData));
         }
 
 

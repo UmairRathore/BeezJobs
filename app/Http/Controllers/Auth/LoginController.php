@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
@@ -32,6 +33,9 @@ class LoginController extends Controller
 
     public function signin()
     {
+//        $newEventData = session()->pull('job_data');
+//        dd($newEventData);
+
         $data['active'] = '';
         if (Auth::guard('user')->check() && auth('user')->user()->role_id == 1) {
             return redirect('/');
@@ -50,6 +54,7 @@ class LoginController extends Controller
     function postsignin(Request $request)
     {
 
+//        dd(session()->flash('job_data', $request->all()));
 //        dd([$request->email, $request->password]);
         $email = $request->email;
         $password = $request->password;
@@ -67,15 +72,13 @@ class LoginController extends Controller
 
         } elseif (Auth::guard('user')->attempt(['email' => $email, 'password' => $password], true) && auth('user')->user()->status == 1 && auth('user')->user()->role_id == 2) {
 
-            return redirect('/');
+//            $newEventData = session()->pull('job_data');
+            $newEventData = json_decode($request->cookie('job_data'), true);
+//            dd($newEventData);
 
-        } elseif (Auth::guard('user')->attempt(['email' => $email, 'password' => $password], true) && auth('user')->user()->status == 0 && auth('user')->user()->role_id == 2) {
-
-            $newEventData = Session::pull('task_data');
             if ($newEventData) {
-                // Create new event using stored data
                 $task = new Job;
-                $task->user_id = $newEventData['user_id'];
+                $task->user_id = auth('user')->user()->id;
                 $task->title = $newEventData['title'];
                 $task->date = $newEventData['date'];
                 $task->time_of_day = $newEventData['time_of_day'];
@@ -83,17 +86,46 @@ class LoginController extends Controller
                 $task->location = $newEventData['location'];
                 $task->description = $newEventData['description'];
                 $task->budget = $newEventData['budget'];
+//                dd($task);
                 $task->save();
                 $check = $task->save();
                 if ($check) {
-                    return redirect()->route('showjob')->with('success', 'Job created successfully!');
-
+                    return redirect()->route('job_single_view',['id' => $task->id])->withCookie(Cookie::forget('job_data'))->with('success', 'Job created successfully!');
                 } else {
-                    return redirect()->route('showjob')->with('error', 'Job did not created successfully!');
+                    return redirect()->route('job_single_view',['id' => $task->id])->with('error', 'Job did not created successfully!');
                 }
+            }
+                else{
+                    return redirect('/');
                 }
-                else{return redirect('/freelancesignup');}
 
+
+        } elseif (Auth::guard('user')->attempt(['email' => $email, 'password' => $password], true) && auth('user')->user()->status == 0 && auth('user')->user()->role_id == 2) {
+
+            $newEventData = json_decode($request->cookie('job_data'), true);
+//            dd($newEventData);
+
+            if ($newEventData) {
+                $task = new Job;
+                $task->user_id = auth('user')->user()->id;
+                $task->title = $newEventData['title'];
+                $task->date = $newEventData['date'];
+                $task->time_of_day = $newEventData['time_of_day'];
+                $task->online_or_in_person = $newEventData['online_or_in_person'];
+                $task->location = $newEventData['location'];
+                $task->description = $newEventData['description'];
+                $task->budget = $newEventData['budget'];
+//                dd($task);
+                $task->save();
+                $check = $task->save();
+                if ($check) {
+                    return redirect()->route('job_single_view',['id' => $task->id])->withCookie(Cookie::forget('job_data'))->with('success', 'Job created successfully!');
+                } else {
+                    return redirect()->route('job_single_view',['id' => $task->id])->with('error', 'Job did not created successfully!');
+                }
+            } else {
+                return redirect('/freelancesignup');
+            }
 
 
 
