@@ -57,8 +57,13 @@ class FreelancerDashboardController extends Controller
     }
     public function my_freelancer_notifications()
     {
-        $Notification = Notification::where('user_id',\auth()->user()->id);
-        return view('frontend.freelancer.my_freelancer.my_freelancer_notifications');
+
+        $this->data['Notification'] = Notification::where('receiver_id', auth()->user()->id)
+            ->join('users', 'users.id', '=', 'notifications.user_id')
+            ->join('professions', 'professions.id', '=', 'users.profession_id')
+            ->get();
+//             dd($this->data['Notification']);
+        return view('frontend.freelancer.my_freelancer.my_freelancer_notifications',$this->data);
     }
     public function my_freelancer_reviews()
     {

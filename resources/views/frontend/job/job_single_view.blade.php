@@ -197,7 +197,12 @@
                         <div class="bookmark_rt">
                             <button class="bookmark1 mr-3" title="bookmark"><i class="fas fa-heart"></i></button>
                             BOOKMARK
-                        </div>@endif
+                        </div>
+                        @else
+                            <div class="done140">
+                               Login <a href="{{route('signin')}}">To bid for the job<i class="fas fa-angle-double-right"></i></a>
+                            </div>
+                        @endif
                         <ul class="social-links">
                             <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
                             <li><a href="#"><i class="fab fa-twitter"></i></a></li>

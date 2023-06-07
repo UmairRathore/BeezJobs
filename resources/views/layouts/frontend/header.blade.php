@@ -2,6 +2,7 @@
 namespace App\Http\Controllers\Admin;
 use App\Models\Message;
 use App\Models\User;
+use App\Models\Notification;
 ?>
 <div class="top-header">
     <div class="container">
@@ -110,40 +111,29 @@ if(auth()->check()) {
                                 <a href="#" class="icon14 dropdown-toggle-no-caret" role="button" data-toggle="dropdown">
                                     <i class="fas fa-bell"></i><div class="circle-alrt"></div>
                                 </a>
+                                <?php
+
+                                $Notification = Notification::where('receiver_id', auth()->user()->id)
+                                    ->join('users', 'users.id', '=', 'notifications.user_id')
+                                    ->join('professions', 'professions.id', '=', 'users.profession_id')
+                                    ->get();
+                                ?>
                                 <div class="dropdown-menu message-dropdown dropdown-menu-right">
                                     <div class="user-request-list">
                                         <div class="request-users">
-                                            <div class="user-request-dt">
-                                                <a href="#">
-                                                    <div class="noti-icon"><i class="fas fa-users"></i></div>
-                                                    <div class="user-title1">Rock William </div>
-                                                    <span>applied for a <ins class="noti-p-link">Php Developer</ins>.</span>
-                                                </a>
-                                            </div>
+                                            @foreach($Notification as $notifications)
+                                                <div class="user-request-dt">
+                                                    <a href="{{route('my_freelancer_notifications')}}">
+                                                        <div class="noti-icon"><i class="fas fa-users"></i></div>
+                                                        <div class="user-title1">{{$notifications->first_name}} </div>
+                                                        <span>{{$notifications->message}} <ins class="noti-p-link">{{$notifications->profession}}</ins>.</span>
+                                                    </a>
+                                                </div>
+                                            @endforeach
                                         </div>
                                     </div>
-                                    <div class="user-request-list">
-                                        <div class="request-users">
-                                            <div class="user-request-dt">
-                                                <a href="#">
-                                                    <div class="noti-icon"><i class="fas fa-bullseye"></i></div>
-                                                    <div class="user-title1">Johnson Smith</div>
-                                                    <span>placed a bid on your <ins class="noti-p-link">I Need a ...</ins></span>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="user-request-list">
-                                        <div class="request-users">
-                                            <div class="user-request-dt">
-                                                <a href="#">
-                                                    <div class="noti-icon"><i class="fas fa-exclamation"></i></div>
 
-                                                    <span class="pt-2">Your job listing <ins class="noti-p-link">Wordpress Developer</ins> is expiring.</span>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
+
                                     <div class="user-request-list">
                                         <a href="{{route('my_freelancer_notifications')}}" class="view-all">View All Notifications</a>
                                     </div>

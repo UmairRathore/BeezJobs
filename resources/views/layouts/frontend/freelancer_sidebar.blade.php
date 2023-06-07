@@ -35,7 +35,7 @@
     $floatvalue = calculateProfileCompleteness($user);
     $completeness = intval($floatvalue);
     ?>
-
+@if(auth()->check())
     <div class="group_skills_bar">
         <h6>Profile Completeness</h6>
         <div class="group_bar1">
@@ -45,6 +45,7 @@
             </div>
         </div>
     </div>
+    @endif
     <div class="rlt_section">
         <div class="rtl_left">
             <h6>Rating</h6>

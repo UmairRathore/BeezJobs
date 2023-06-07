@@ -77,6 +77,44 @@
                     <div class="done140">
                         Already have an account?<a href="{{route('signin')}}">Sign in Now<i class="fas fa-angle-double-right"></i></a>
                     </div>
+                    <button type="button" class="btn btn-link" data-toggle="modal" data-target="#signinModal">
+                        Registeration, Terms and Policy
+                    </button>
+                </div>
+                <!-- Add this modal markup at the end of your HTML file -->
+                <div class="modal fade" id="signinModal" tabindex="-1" role="dialog" aria-labelledby="signinModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="signinModalLabel">Sign-in Procedure and Terms</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <h3>Welcome to Jobby</h3>
+                                <p>A platform designed to connect job seekers with potential employers and freelancers with clients.</p>
+
+                                <h3>Procedure:</h3>
+                                <ul>
+                                    <li>To provide you with a well-optimized experience, we need to gather your location information. This helps us tailor the job and freelancer suggestions to your specific area, ensuring effective communication and professional work.</li>
+                                    <li>Once you have registered, you can sign in to access your account and explore the platform's features.</li>
+                                    <li>As a registered user, you will be able to:</li>
+                                    <ul>
+                                        <li>Search for jobs and freelancers in your area based on your preferences.</li>
+                                        <li>Post job listings or freelance services to attract potential candidates or clients.</li>
+                                        <li>Communicate with job seekers or employers through our messaging system for effective communication.</li>
+                                    </ul>
+                                    <li>We value your privacy and assure you that your location information will only be used to optimize your browsing experience on our platform. Your personal information will be handled according to our privacy policy.</li>
+                                </ul>
+
+                                <p>Join Jobby today and unlock exciting opportunities!</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
