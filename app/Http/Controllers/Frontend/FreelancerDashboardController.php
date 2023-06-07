@@ -19,6 +19,7 @@ use App\Service\NotificationService;
 
 use Illuminate\Support\Facades\Hash;
 use PhpParser\Node\Stmt\Return_;
+use GuzzleHttp\Client;
 
 class FreelancerDashboardController extends Controller
 {
@@ -116,50 +117,96 @@ class FreelancerDashboardController extends Controller
 
 
     }
-    public function browse_freelancers(Request $request)
-    {
 
+    private function calculateDistance($lat1, $lng1, $lat2, $lng2)
+    {
+        // Implementation of the Haversine formula to calculate distance between two points
+
+        $earthRadius = 6371; // Radius of the earth in kilometers
+
+        $latDiff = deg2rad($lat2 - $lat1);
+        $lngDiff = deg2rad($lng2 - $lng1);
+
+        $a = sin($latDiff / 2) * sin($latDiff / 2) + cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * sin($lngDiff / 2) * sin($lngDiff / 2);
+        $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
+
+        $distance = $earthRadius * $c; // Distance in kilometers
+
+        return $distance;
+    }
+
+    public function browse_freelancers(Request $request, $lat = null, $lng = null)
+    {
+//        dd($request->lat);
+//        dd(User::all());
+        $lat = $request->lat;
+        $lng = $request->lng;
         $this->data['categories'] = Profession::get();
 
-        $category = $request->input('category');
-        $pay_rate_range = $request->input('pay_rate_range');
-        $location = $request->input('location');
-        $search = $request->input('search');
-        $rating = $request->input('rating');
+        if ($lat && $lng) {
+            $users = User::select('users.*', 'professions.profession as profession_name')
+                ->where('status', 1)
+                ->where('role_id', 2)
+                ->join('professions', 'users.profession_id', '=', 'professions.id')
+                ->whereNotNull('latitude')
+                ->whereNotNull('longitude')
+                ->get();
 
-        $this->data['users'] = User::select('users.*', 'professions.profession as profession_name')
-            ->where('status',1)
-            ->where('role_id',2)
-            ->join('professions', 'users.profession_id', '=', 'professions.id');
+            $nearbyUsers = [];
 
-        if (!empty($search)) {
-            $this->data['users']->where('professions.id',$search)
-                ->orwhere('users.location', 'like', '%'.$search.'%')->first();
-        }
-
-        if (!empty($category)) {
-            $this->data['users']->where('professions.id', $category);
-        }
-        if (!empty($rating)) {
-            $this->data['users']->where('users.rating', '<>', $rating);
-        }
-
-        if (!empty($pay_rate_range)) {
-            if($pay_rate_range==0)
-            {
-                $pay_rate_range=null;
+            foreach ($users as $user) {
+                $distance = $this->calculateDistance($lat, $lng, $user->latitude, $user->longitude);
+                if ($distance <= 100) { // Modify the distance threshold as needed
+                    $nearbyUsers[] = $user;
+                }
             }
-            else
-            {
-                $this->data['users']->where('users.pay_rate', '<=', $pay_rate_range);
+//            dd($distance);
+
+            $this->data['users'] = $nearbyUsers;
+//            dd($this->data['users']);
+            $userIds = collect($this->data['users'])->pluck('id');
+            $this->data['users'] = User::whereIn('id', $userIds)
+                ->paginate(10);
+        }
+        else {
+
+
+            $category = $request->input('category');
+            $pay_rate_range = $request->input('pay_rate_range');
+            $location = $request->input('location');
+            $search = $request->input('search');
+            $rating = $request->input('rating');
+
+            $this->data['users'] = User::select('users.*', 'professions.profession as profession_name')
+                ->where('status', 1)
+                ->where('role_id', 2)
+                ->join('professions', 'users.profession_id', '=', 'professions.id');
+
+            if (!empty($search)) {
+                $this->data['users']->where('professions.id', $search)
+                    ->orwhere('users.location', 'like', '%' . $search . '%')->first();
             }
-        }
 
-        if (!empty($location)) {
-             $this->data['users']->where('users.location', 'LIKE',"%{$location}%");
-        }
+            if (!empty($category)) {
+                $this->data['users']->where('professions.id', $category);
+            }
+            if (!empty($rating)) {
+                $this->data['users']->where('users.rating', '<>', $rating);
+            }
 
-        $this->data['users'] = $this->data['users']->orderBy('created_at', 'desc')->paginate(10);
+            if (!empty($pay_rate_range)) {
+                if ($pay_rate_range == 0) {
+                    $pay_rate_range = null;
+                } else {
+                    $this->data['users']->where('users.pay_rate', '<=', $pay_rate_range);
+                }
+            }
+
+            if (!empty($location)) {
+                $this->data['users']->where('users.location', 'LIKE', "%{$location}%");
+            }
+            $this->data['users'] = $this->data['users']->orderBy('created_at', 'desc')->paginate(10);
+        }
 
 
         return view('frontend.freelancer.browse_freelancers', $this->data);

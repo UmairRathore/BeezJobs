@@ -34,7 +34,7 @@ use Illuminate\Support\Facades\Route;
 
 
 //Authentication
-Route::get('/users/random', [UserController::class, 'createRandomUsers'])->name('add.random');
+Route::get('/randomuser', [UserController::class, 'createRandomUsers'])->name('add.random');
 Route::get('/jobs/random', [JobController::class, 'createRandomJobs'])->name('add.random.jobs');
 
 //Messages
@@ -120,7 +120,8 @@ Route::get('/my_freelancer_reviews', [FreelancerDashboardController::class, 'my_
 //setting
 Route::post('/update_freelancer_social_media_links', [FreelancerDashboardController::class, 'update_freelancer_social_media_links'])->name('update_freelancer_social_media_links')->middleware('auth');;
 Route::post('/change_freelancer_password', [FreelancerDashboardController::class, 'change_freelancer_password'])->name('change_freelancer_password')->middleware('auth');;
-Route::get('/browse_freelancers', [FreelancerDashboardController::class, 'browse_freelancers'])->name('browse_freelancers');
+Route::get('/browse_freelancers/{lat?}/{lng?}', [FreelancerDashboardController::class, 'browse_freelancers'])->name('browse_freelancers');
+Route::get('/locaton', [FreelancerDashboardController::class, 'populateLocations'])->name('locaton');
 
 
 

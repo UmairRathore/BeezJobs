@@ -40,7 +40,7 @@ return [
         'client_id' => env('GOOGLE_CLIENT_ID'), //USE FROM Google DEVELOPER ACCOUNT
         'client_secret' =>  env('GOOGLE_CLIENT_SECRET'), //USE FROM Google DEVELOPER ACCOUNT
         'redirect' => 'http://127.0.0.1:8000/login/google/callback/',
-        'cert_path' => storage_path('app/certificates/cacert.pem'),
+        'cert_path' => storage_path('certificates/cacert.pem'),
     ],
 
 ];

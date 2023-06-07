@@ -212,33 +212,11 @@ if(auth()->check()) {
 
 
                             <li class="nav-item">
-{{--                                <a href="#" class="nav-link dropdown-toggle-no-caret" role="button" data-toggle="dropdown">Find Freelancers</a>--}}
-{{--                                <div class="dropdown-menu pages-dropdown">--}}
-                                    <a class="nav-link" href="{{route('browse_freelancers')}}">Browse Freelancers</a>
-{{--                                </div>--}}
+{{--                                    <a class="nav-link" href="{{route('browse_freelancers', ['lat' => auth()->user()->latitude, 'lng' => auth()->user()->longitude])}}">Browse Freelancers</a>--}}
+                                <a class="nav-link" href="{{ auth()->check() ? route('browse_freelancers', ['lat' => auth()->user()->latitude, 'lng' => auth()->user()->longitude]) : route('browse_freelancers') }}">Browse Freelancers</a>
+
                             </li>
-{{--                            <li class="nav-item dropdown pages152">--}}
-{{--                                <a href="#" class="nav-link dropdown-toggle-no-caret" role="button" data-toggle="dropdown">--}}
-{{--                                    Pages <i class="fas fa-caret-down p-crt"></i>--}}
-{{--                                </a>--}}
-{{--                                <div class="dropdown-menu pages-dropdown">--}}
-{{--                                    @if(!auth()->check())--}}
-{{--                                    <a class="link-item" href="{{route('about.us')}}">About</a>--}}
-{{--                                    <a class="link-item" href="{{route('contact.us')}}">Contact</a>--}}
-{{--                                    <a class="link-item" href="{{route('signin')}}">Sign in</a>--}}
-{{--                                    <a class="link-item" href="{{route('signup')}}">Sign up</a>--}}
-{{--                                    @endif--}}
-{{--                                    <a class="link-item" href="our_blog.html">Our Blog</a>--}}
-{{--                                    <a class="link-item" href="blog_single_view.html">Single Blog View</a>--}}
-{{--                                    <a class="link-item" href="pricing_plans.html">Pricing Plans</a>--}}
-{{--                                    <a class="link-item" href="checkout.html">Checkout</a>--}}
-{{--                                    <a class="link-item" href="plan_invoice.html">Invoice Slip</a>--}}
-{{--                                    <a class="link-item" href="sign_up_select_profile.html">Sign up Select Profiles</a>--}}
-{{--                                    <a class="link-item" href="sign_up_freelancer_profile.html">Create Freelancer Profile</a>--}}
-{{--                                    <a class="link-item" href="sign_up_company_profile.html">Create Company Profile</a>--}}
-{{--                                    <a class="link-item" href="help_center.html">Help Center</a>--}}
-{{--                                </div>--}}
-{{--                            </li>--}}
+
                         </ul>
 
                         @if(auth()->check())

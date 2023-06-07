@@ -24,7 +24,7 @@ class CreateUsersTable extends Migration
             $table->unsignedBigInteger('profession_id')->nullable();
             $table->string('birthday')->nullable();
             $table->string('tagline')->nullable();
-            $table->string('location')->nullable();
+            $table->point('location')->nullable();
             $table->string('pay_rate')->nullable();
             $table->string('websites')->nullable();
             $table->string('profile_image')->nullable();
