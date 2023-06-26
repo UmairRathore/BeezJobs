@@ -11,6 +11,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Stripe\PaymentIntent;
+use Stripe\Stripe;
 
 class ChatController extends Controller
 {
@@ -259,18 +261,46 @@ class ChatController extends Controller
 
     public function acceptOffer(Request $request)
     {
-
-//        dd($request);
         $offerId = $request->input('offer_id');
-        $this->data['messages'] = Offer::find($offerId);
-        $this->data['messages']->accepted = '1';
-        $this->data['messages']->save();
+        $offerJobID =Offer::find($offerId)->first();
 
-        $this->data['order'] = new Order();
-        $this->data['order']->status = 'active';
-        $this->data['order']->offer_id = $offerId;
-        $this->data['order']->save();
-        return 1;
+//        dd($offerJobID->negotiated_price);
+        $offer = Offer::find($offerId);
+
+        if (!$offer) {
+            // Handle the case when the offer is not found
+            return response()->json(['error' => 'Offer not found'], 404);
+        }
+
+        // Perform any necessary validation and authorization checks here
+
+        // Create a hold on payment using Stripe
+        Stripe::setApiKey('sk_test_51N2idRBKx4V0XOuhKr3M6HX0oIuewI4MgWBzAjEOTErra8eEK6beRyumfsGmbD2J4Waq3DB4wxD0OpZLriHBRXgi00HvChlG3J');
+
+        $paymentIntent = PaymentIntent::create([
+            'amount' => $offerJobID->negotiated_price * 100, // Replace with the actual amount
+            'currency' => 'usd', // Replace with the appropriate currency
+            'payment_method_types' => ['card'], // Replace with the actual payment method ID
+            'capture_method' => 'manual',
+        ]);
+
+        $paymentIntentId = $paymentIntent->id;
+
+//        dd($paymentIntentId);
+        // Store the paymentIntentId in your order or database for future reference
+
+        // Update the offer status to accepted
+        $offer->accepted = true;
+        $offer->save();
+
+        // Create a new order and associate the offer ID and payment intent ID
+        $order = new Order();
+        $order->status = 'active';
+        $order->offer_id = $offerId;
+        $order->payment_intent_id = $paymentIntentId;
+        $order->save();
+
+        return response()->json(['success' => true]);
     }
 
     public function searchUsers(Request $request) {
