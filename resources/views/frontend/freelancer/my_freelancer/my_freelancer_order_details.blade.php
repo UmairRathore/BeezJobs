@@ -221,13 +221,13 @@ container">
                                                                     <ul class="all_applied_jobs jobs_bookmarks">
                                                                         <li>
                                                                             <div class="applied_item">
-                                                                                <a href="#">{{$order->job_title}}</a>
+                                                                                <a href="#">{{$order->offers->job_title}}</a>
                                                                                 <ul class="view_dt_job">
                                                                                     <li>
-                                                                                        <div class="vw1254"><i class="fas fa-map-marker-alt"></i>{{$order->job_location}}</div>
+                                                                                        <div class="vw1254"><i class="fas fa-map-marker-alt"></i>{{$order->offers->job_location}}</div>
                                                                                     </li>
                                                                                     <li>
-                                                                                        <div class="vw1254"><i class="fas fa-briefcase"></i>{{$order->job_online_or_in_person}}</div>
+                                                                                        <div class="vw1254"><i class="fas fa-briefcase"></i>{{$order->offers->job_online_or_in_person}}</div>
                                                                                     </li>
                                                                                     <li>
                                                                                         <div class="vw1254"><i class="far fa-money-bill-alt"></i>{{$order->offer_negotiated_price}}</div>

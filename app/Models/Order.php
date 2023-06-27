@@ -14,7 +14,8 @@ class Order extends Model
         [
             'offer_id',
             'status',
-'duration',
-    'payment',
+            'duration',
+            'payment',
+            'payment_intent_id'
         ];
 }

@@ -18,6 +18,7 @@ use App\Http\Controllers\Frontend\FreelancerDashboardController;
 use App\Http\Controllers\Frontend\JobController;
 use App\Http\Controllers\Frontend\PortfolioController;
 
+use App\Http\Controllers\PaymentController;
 use App\Models\Job;
 use Illuminate\Support\Facades\Route;
 
@@ -31,6 +32,8 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+//Route::post('/process-order/{orderId}', [PaymentController::class, 'processOrder'])->name('process-order');
 
 
 //Authentication
@@ -93,6 +96,7 @@ Route::get('/selectprofile/{role_id}', [RegistrationController::class, 'postsele
 //freelancer
 Route::get('/my_freelancer_dashboard', [FreelancerDashboardController::class, 'my_freelancer_dashboard'])->name('my_freelancer_dashboard');
 Route::get('/my_freelancer_setting', [FreelancerDashboardController::class, 'my_freelancer_settings'])->name('my_freelancer_setting');
+Route::post('/my_freelancer_setting', [PaymentController::class, 'storeOrUpdate'])->name('cards.storeOrUpdate');
 
 //freelancer Messages
     Route::get('/my_freelancer_messages', [ChatController::class, 'my_freelancer_messages'])->name('my_freelancer_messages')->middleware('auth');;
@@ -115,6 +119,7 @@ Route::get('/my_freelancer_bids', [FreelancerDashboardController::class, 'my_fre
 Route::get('/my_freelancer_portfolio', [FreelancerDashboardController::class, 'my_freelancer_portfolio'])->name('my_freelancer_portfolio')->middleware('auth');;
 Route::get('/my_freelancer_bookmarks', [FreelancerDashboardController::class, 'my_freelancer_bookmarks'])->name('my_freelancer_bookmarks')->middleware('auth');;
 Route::get('/my_freelancer_payments', [FreelancerDashboardController::class, 'my_freelancer_payments'])->name('my_freelancer_payments')->middleware('auth');;
+
 Route::get('/my_freelancer_profile', [FreelancerDashboardController::class, 'my_freelancer_profile'])->name('my_freelancer_profile')->middleware('auth');;
 Route::get('/my_freelancer_notifications', [FreelancerDashboardController::class, 'my_freelancer_notifications'])->name('my_freelancer_notifications')->middleware('auth');;
 Route::get('/my_freelancer_reviews', [FreelancerDashboardController::class, 'my_freelancer_reviews'])->name('my_freelancer_reviews')->middleware('auth');;

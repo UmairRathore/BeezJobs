@@ -95,47 +95,6 @@ itle-bar">
 																<div class="protection">
 																	<i class="fas fa-shield-alt"></i>With Jobby payment protection, only pay for work delivered.
 																</div>
-																<div class="post_job_body">
-																	<div class="ui radio checkbox apply_check">
-																		<input type="radio" name="example1" checked>
-																		<label style="color:#242424 !important;">Credit or Debit Cards</label>
-																	</div>
-																	<div class="form-group">
-																		<label class="label15">Card Number*</label>
-																		<input type="text" class="job-input" placeholder="Enter Card Number">
-																	</div>
-																	<div class="form-group">
-																		<label class="label15">Full Name*</label>
-																		<input type="text" class="job-input" placeholder="Enter Full Name">
-																	</div>
-																	<div class="fdsf452">
-																		<div class="row">
-																			<div class="col-lg-6">
-																				<div class="form-group">
-																					<label class="label15">Expiring*</label>
-																					<input type="text" class="job-input datepicker-here" data-language="en" data-min-view="months" data-view="months" data-date-format="MM yyyy" placeholder="Expiring">
-																				</div>
-																			</div>
-																			<div class="col-lg-6">
-																				<div class="form-group">
-																					<label class="label15">Cvv*</label>
-																					<input type="text" class="job-input" placeholder="Enter Cvv">
-																				</div>
-																			</div>
-																		</div>
-																	</div>
-																</div>
-																<div class="post_job_body lineppyl">
-																	<div class="ui radio checkbox apply_check">
-																		<input type="radio" name="example1">
-																		<label style="color:#242424 !important;">Paypal</label>
-																	</div>
-																	<div class="form-group">
-																		<label class="label15">Email Address*</label>
-																		<input type="email" class="job-input" placeholder="Enter Email Address">
-																	</div>
-																	<button class="withdraw_btn">CONTINUE</button>
-																</div>
 															</div>
 														</div>
 													</div>

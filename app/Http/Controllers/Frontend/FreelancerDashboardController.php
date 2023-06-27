@@ -5,10 +5,12 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Models\Message;
 use App\Models\Notification;
+use App\Models\Offer;
 use App\Models\Order;
 use App\Models\OrderAttempt;
 use App\Models\Profession;
 use App\Models\Review;
+use App\Models\UserCards;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -20,6 +22,12 @@ use App\Service\NotificationService;
 use Illuminate\Support\Facades\Hash;
 use PhpParser\Node\Stmt\Return_;
 use GuzzleHttp\Client;
+use Stripe\Stripe;
+use Stripe\PaymentIntent;
+use Stripe\Transfer;
+use Stripe\Account;
+use Stripe\AccountLink;
+
 
 class FreelancerDashboardController extends Controller
 {
@@ -30,7 +38,23 @@ class FreelancerDashboardController extends Controller
     }
     public function my_freelancer_settings()
     {
-        return view('frontend.freelancer.my_freelancer.my_freelancer_settings');
+        $this->data['card'] = UserCards::where('user_id', \auth()->user()->id)->first();
+        if ($this->data['card']) {
+            // Decrypt the card information
+            $decryptedCardNumber = decrypt($this->data['card']->card_number);
+            $decryptedExpiring = decrypt($this->data['card']->expiring);
+            $decryptedCvv = decrypt($this->data['card']->cvv);
+
+            // Update the card information with the decrypted values
+            $this->data['card']->card_number = $decryptedCardNumber;
+            $this->data['card']->expiring = $decryptedExpiring;
+            $this->data['card']->cvv = $decryptedCvv;
+        } else {
+            // Card not found
+            $this->data['card'] = null;
+        }
+//        dd($this->data['card']);
+        return view('frontend.freelancer.my_freelancer.my_freelancer_settings',$this->data);
     }
 
     public function my_freelancer_bids()
@@ -253,8 +277,8 @@ class FreelancerDashboardController extends Controller
             ->select('users.*','p.profession as profession')
             ->join('professions as p', 'users.profession_id', '=', 'p.id')
             ->first();
-        $this->data['Reviews'] = Review::where('receiver_id',\auth()->user()->id)->
-        join('users','users.id','=','reviews.receiver_id')
+        $this->data['Reviews'] = Review::where('receiver_id',$id)
+            ->join('users','users.id','=','reviews.receiver_id')
             ->join('professions','professions.id','=','users.profession_id')->get();
 
 
@@ -304,7 +328,7 @@ class FreelancerDashboardController extends Controller
     public function my_freelancer_order_details($id)
     {
 
-        $this->data['order'] = Order::find($id)
+        $this->data['order'] = Order::where('orders.id',$id)
             ->select('orders.id as order_id','orders.offer_id as order_offer_id','orders.status as order_status','orders.duration as order_duration',
                 'orders.payment_status as order_payment_status','orders.created_at as order_created_at','orders.updated_at as order_updated_at',
 
@@ -313,8 +337,8 @@ class FreelancerDashboardController extends Controller
                 'offers.rejected as offer_rejected','offers.accepted as offer_accepted','offers.created_at as offer_created_at',
                 'offers.updated_at as offer_updated_at','offers.message_id as offer_message_id',
 
-                'jobs.id as job_id','jobs.user_id as job_user_id','jobs.title as job_title','jobs.date as job_date','jobs.time_of_day as job_time_of_day',
-                'jobs.online_or_in_person as job_online_or_in_person','jobs.location as job_location','jobs.description as job_description','jobs.budget as job_budget',
+//                'jobs.id as job_id','jobs.user_id as job_user_id','jobs.title as job_title','jobs.date as job_date','jobs.time_of_day as job_time_of_day',
+//                'jobs.online_or_in_person as job_online_or_in_person','jobs.location as job_location','jobs.description as job_description','jobs.budget as job_budget',
                 'sender.id as user_sender_id','sender.first_name as sender_first_name','sender.last_name as sender_last_name','sender.profile_image as sender_profile_image','sender.profession_id as sender_profession',
                 'receiver.id as user_receiver_id','receiver.first_name as receiver_first_name','receiver.last_name as receiver_last_name','receiver.profile_image as receiver_profile_image','receiver.profession_id as receiver_profession',
 
@@ -323,10 +347,20 @@ class FreelancerDashboardController extends Controller
             )
             ->leftJoin('offers', 'offers.id', '=', 'orders.offer_id')
             ->leftJoin('messages', 'messages.offer_id', '=', 'offers.id')
-            ->leftJoin('jobs', 'jobs.id', '=', 'offers.job_id')
+//            ->leftJoin('jobs', 'jobs.id', '=', 'offers.job_id')
             ->leftJoin('users AS sender', 'sender.id', '=', 'messages.sender_id')
             ->leftJoin('users AS receiver', 'receiver.id', '=', 'messages.receiver_id')
+            ->where('messages.message',Null)
             ->first();
+        $offers= Offer::select('offers.*','jobs.id as job_id', 'jobs.user_id as job_user_id', 'jobs.title as job_title', 'jobs.date as job_date', 'jobs.time_of_day as job_time_of_day',
+            'jobs.online_or_in_person as job_online_or_in_person', 'jobs.location as job_location', 'jobs.description as job_description', 'jobs.budget as job_budget')
+        ->where('offers.id',$this->data['order']->offer_id)
+            ->join('jobs','jobs.id','=','offers.job_id')
+        ->first();
+
+        $this->data['order']['offers'] = $offers;
+//        dd($this->data['order']);
+
 
         $this->data['accepted'] = OrderAttempt::where('order_id',$this->data['order']->order_id)->where('accepted',1)->latest()->first();
 
@@ -349,18 +383,14 @@ class FreelancerDashboardController extends Controller
 //dd($request);
         $orderId = $request->orderId;
 
-        // Find the order by ID
         $order = Order::find($orderId);
 
         if ($order) {
-            // Update the order status to "Pending" or as desired
-            $order->status = 'pending'; // Update the status as per your requirements
-            $order->save();
 
-            // Return a JSON response indicating success
+            $order->status = 'pending';
+            $order->save();
             return response()->json(['status' => 'success']);
         } else {
-            // Return a JSON response indicating failure
             return response()->json(['status' => 'failure']);
         }
     }
@@ -371,8 +401,7 @@ class FreelancerDashboardController extends Controller
         $order->description = $request->input('description');
         if ($request->hasFile('order_attempt_file')) {
             $file = $request->file('order_attempt_file');
-            // Handle the file upload and save the file path to the order
-            // For example:
+
             $filePath = $file->store('order_attempt_files');
             $order->order_attempt_file = $filePath;
         }
@@ -432,13 +461,13 @@ class FreelancerDashboardController extends Controller
     public function submitReview(Request $request)
     {
 //        dd($request);
-//        $validatedData = $request->validate([
-//            'order_id' => 'required',
-//            'sender_id' => 'required',
-//            'receiver_id' => 'required',
-//            'rating' => 'required|numeric',
-//            'review' => 'required',
-//        ]);
+        $validatedData = $request->validate([
+            'order_id' => 'required',
+            'sender_id' => 'required',
+            'receiver_id' => 'required',
+            'rating' => 'required|numeric',
+            'review' => 'required',
+        ]);
 
         $review = new Review();
         $review->order_id = $request->input('order_id');

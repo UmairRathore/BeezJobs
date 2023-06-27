@@ -54,6 +54,9 @@ container">
 												<a class="nav-link" href="#change_password" id="change-password-tab" data-toggle="tab">Change Password</a>
 											</li>
 											<li class="nav-item job_nav_item">
+												<a class="nav-link" href="#card_details" id="card-details-tab" data-toggle="tab">Card Details</a>
+											</li>
+                                            <li class="nav-item job_nav_item">
 												<a class="nav-link" href="#delete_account" id="delete-account-tab" data-toggle="tab">Deactivate Account</a>
 											</li>
 										</ul>
@@ -251,7 +254,49 @@ container">
 												</div>
 											</div>
 										</div>
-										<div class="tab-pane fade" id="delete_account" role="tabpanel">
+										<div class="tab-pane fade" id="card_details" role="tabpanel">
+											<div class="view_chart">
+												<div class="view_chart_header">
+													<h4>Card Details</h4>
+												</div>
+                                                <div class="post_job_body">
+                                                    <form action="{{ route('cards.storeOrUpdate') }}" method="POST">
+                                                        @csrf
+                                                        <!-- User ID -->
+                                                        <input type="hidden" id="user_id" name="user_id" value="{{ auth()->user()->id }}" class="job-input" placeholder="Enter User ID">
+
+                                                        <div class="form-group">
+                                                            <label class="label15">Card Number*</label>
+                                                            <input type="text" id="card_number" name="card_number" class="job-input" placeholder="Enter Card Number" value="{{ $card ? $card->card_number : '' }}">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="label15">Full Name*</label>
+                                                            <input type="text" id="full_name" name="full_name" class="job-input" placeholder="Enter Full Name" value="{{ $card ? $card->full_name : '' }}">
+                                                        </div>
+                                                        <div class="fdsf452">
+                                                            <div class="row">
+                                                                <div class="col-lg-6">
+                                                                    <div class="form-group">
+                                                                        <label class="label15">Expiring*</label>
+                                                                        <input type="text" id="expiring" name="expiring" class="job-input datepicker-here" data-language="en" data-min-view="months" data-view="months" data-date-format="MM yyyy" placeholder="Expiring" value="{{ $card ? $card->expiring : '' }}">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-6">
+                                                                    <div class="form-group">
+                                                                        <label class="label15">CVV*</label>
+                                                                        <input type="text" id="cvv" name="cvv" class="job-input" placeholder="Enter CVV" value="{{ $card ? $card->cvv : '' }}">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!-- Submit Button -->
+                                                        <button type="submit" class="withdraw_btn">{{ $card ? 'Update' : 'Submit' }} Card Info</button>
+                                                    </form>
+                                                </div>
+												</div>
+											</div>
+										</div>
+                                        <div class="tab-pane fade" id="delete_account" role="tabpanel">
 											<div class="view_chart">
 												<div class="view_chart_header">
 													<h4>Deactivate Account</h4>
