@@ -1,5 +1,5 @@
 @extends('layouts.frontend.master')
-@section('title', 'Post a Job')
+@section('title', 'Post a Service')
 
 
 
@@ -12,7 +12,7 @@
                 <div class="col-lg-12">
                     <ol class="title-bar-text">
                         <li class="breadcrumb-item"><a href="/">Home</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Post a Job</li>
+                        <li class="breadcrumb-item active" aria-current="page">Post a Service</li>
                     </ol>
                 </div>
             </div>
@@ -25,55 +25,48 @@
             <div class="row">
                 <div class="col-md-8">
                     @if (session('success'))
-                        <div class="alert alert-danger">
+                        <div class="alert alert-success">
                             {{ session('success') }}
                         </div>
                     @endif
-                @if (session('error'))
-                    <div class="alert alert-danger">
-                        {{ session('error') }}
-                    </div>
-                @endif
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
                     <div class="main-heading bids_heading">
-                        <h2>Post a Job</h2>
+                        <h2>Post a Service</h2>
                         <div class="line-shape1">
                             <img src="images/line.svg" alt="">
                         </div>
                     </div>
                     <div class="post501">
 
-                        <form action="{{route('post_a_job')}}" method="post">
+                        <form action="{{ route('post_a_service') }}" method="post">
                             @csrf
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="form-group">
-                                        <label class="label15">Job Name*</label>
-                                        <input type="text" name="title" class="job-input" placeholder="Job Name Here">
+                                        <label class="label15">Service Name*</label>
+                                        <input type="text" name="title" class="job-input" placeholder="Service Name Here">
                                     </div>
                                     <div class="form-group">
-                                        <label class="label15">What is needed*</label>
-                                        <textarea name="description" class="textarea_input" placeholder="Tell us what you need......"></textarea>
+                                        <label class="label15">Service Details*</label>
+                                        <textarea name="description" class="textarea_input" placeholder="Service Details..."></textarea>
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
-                                    <div class="requires">
-                                        Time and Date
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
                                     <div class="form-group">
-                                        <label class="label15">Date*</label>
+                                        <label class="label15">Hourly Rate</label>
                                         <div class="smm_input">
-{{--                                            @if(auth()->check())--}}
-{{--                                            <input type="date" name="date" class="job-input" data-language="en" value="{{auth()->user()->birthday}}">--}}
-{{--                                            @else--}}
-                                            <input type="date" name="date" class="job-input" data-language="en" >
-{{--                                            @endif--}}
-                                            <div class="mix_max"><i class="fas fa-calendar-alt"></i></div>
+                                            <input type="text" name="hourly_rate" class="job-input" placeholder="Hourly Rate">
+                                            <div class="fa-money"><i class="fas fa-money"></i></div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-lg-6">
                                     <div class="form-group">
                                         <label class="label15">Meeting Option*</label>
                                         <div class="smm_input">
@@ -99,20 +92,52 @@
 
                                 <div class="col-lg-12">
                                     <div class="requires">
-                                        Budget
+                                        Packages
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                <label class="label15">Basic Package</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="label15">Basic Price*</label>
+                                        <input type="text" name="basic_price" class="job-input" placeholder="Basic Package Price">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="label15">Basic Description*</label>
+                                        <textarea name="basic_description" class="textarea_input" placeholder="Basic Package Details..."></textarea>
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
-                                <div class="form-group">
-{{--                                    <label class="label15">Budget*</label>--}}
-                                    <div class="smm_input">
-                                        <input type="text" name="budget" class="job-input" placeholder="Budget">
-                                        <div class="fa-money"><i class="fas fa-money"></i></div>
+                                    <div class="form-group">
+                                        <label class="label15">Standard Package</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="label15">Standard Price*</label>
+                                        <input type="text" name="standard_price" class="job-input" placeholder="Standard Package Price">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="label15">Standard Description*</label>
+                                        <textarea name="standard_description" class="textarea_input" placeholder="Standard Package Details..."></textarea>
                                     </div>
                                 </div>
-                                </div>
                                 <div class="col-lg-12">
-                                    <button class="post_jp_btn" type="submit">Post a Job</button>
+                                    <div class="form-group">
+                                        <label class="label15">Premium Package</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="label15">Premium Price*</label>
+                                        <input type="text" name="premium_price" class="job-input" placeholder="Premium Package Price">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="label15">Premium Description*</label>
+                                        <textarea name="premium_description" class="textarea_input" placeholder="Premium Package Details..."></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-12">
+                                    <button class="post_jp_btn" type="submit">Post a Service</button>
                                 </div>
                             </div>
                         </form>
@@ -121,24 +146,24 @@
                     </div>
                 </div>
                 <div class="col-md-4">
-                <div class="main-heading bids_heading pjfaq80">
-                    <h2>Steps</h2>
+                    <div class="main-heading bids_heading pjfaq80">
+                        <h2>Steps</h2>
+                    </div>
+                    <div class="jp_faq">
+                        <div class="jp_faq_item">
+                            <h4>01. Complete the given form</h4>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum mi at erat egestas, nec porta diam pharetra.</p>
+                        </div>
+                        <div class="jp_faq_item">
+                            <h4>02. Check all inputs</h4>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum mi at erat egestas, nec porta diam pharetra.</p>
+                        </div>
+                        <div class="jp_faq_item">
+                            <h4>03. Post the job and get matched</h4>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum mi at erat egestas, nec porta diam pharetra.</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="jp_faq">
-                    <div class="jp_faq_item">
-                        <h4>01. Complete the given form</h4>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum mi at erat egestas, nec porta diam pharetra.</p>
-                    </div>
-                    <div class="jp_faq_item">
-                        <h4>02. Check all inputs</h4>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum mi at erat egestas, nec porta diam pharetra.</p>
-                    </div>
-                    <div class="jp_faq_item">
-                        <h4>03. Post the job and get matched</h4>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum mi at erat egestas, nec porta diam pharetra.</p>
-                    </div>
-                </div>
-            </div>
             </div>
         </div>
     </main>
@@ -168,15 +193,15 @@
             console.log(place); //
         });
 
-            function toggleLocationInput(selectElement) {
+        function toggleLocationInput(selectElement) {
             var locationField = document.getElementById("locationField");
             var selectedOption = selectElement.value;
 
             if (selectedOption === "in_person") {
-            locationField.style.display = "block";
-        } else {
-            locationField.style.display = "none";
-        }
+                locationField.style.display = "block";
+            } else {
+                locationField.style.display = "none";
+            }
         }
 
     </script>

@@ -18,8 +18,17 @@ class Job extends Model
         'online_or_in_person',
         'location',
         'description',
-        'budget'
+        'budget',
+        'hourly_rate',
+        'basic_price',
+        'basic_description',
+        'standard_price',
+        'standard_description',
+        'premium_price',
+        'premium_description',
+        'job_type'
     ];
+
     public static function createRandomJobs($count = 10)
     {
         $faker = \Faker\Factory::create();

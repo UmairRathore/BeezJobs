@@ -72,60 +72,101 @@ class LoginController extends Controller
 
         } elseif (Auth::guard('user')->attempt(['email' => $email, 'password' => $password], true) && auth('user')->user()->status == 1 && auth('user')->user()->role_id == 2) {
 
-//            $newEventData = session()->pull('job_data');
-            $newEventData = json_decode($request->cookie('job_data'), true);
-//            dd($newEventData);
-
-            if ($newEventData) {
-                $task = new Job;
-                $task->user_id = auth('user')->user()->id;
-                $task->title = $newEventData['title'];
-                $task->date = $newEventData['date'];
-                $task->time_of_day = $newEventData['time_of_day'];
-                $task->online_or_in_person = $newEventData['online_or_in_person'];
-                $task->location = $newEventData['location'];
-                $task->description = $newEventData['description'];
-                $task->budget = $newEventData['budget'];
-//                dd($task);
-                $task->save();
-                $check = $task->save();
-                if ($check) {
-                    return redirect()->route('job_single_view',['id' => $task->id])->withCookie(Cookie::forget('job_data'))->with('success', 'Job created successfully!');
-                } else {
-                    return redirect()->route('job_single_view',['id' => $task->id])->with('error', 'Job did not created successfully!');
+            if (json_decode($request->cookie('job_data'), true)) {
+                $newJobData = json_decode($request->cookie('job_data'), true);
+                if ($newJobData) {
+                    $task = new Job;
+                    $task->user_id = auth('user')->user()->id;
+                    $task->title = $newJobData['title'];
+                    $task->date = $newJobData['date'];
+                    $task->time_of_day = $newJobData['time_of_day'];
+                    $task->online_or_in_person = $newJobData['online_or_in_person'];
+                    $task->location = $newJobData['location'];
+                    $task->description = $newJobData['description'];
+                    $task->budget = $newJobData['budget'];
+                    $check = $task->save();
+                    if ($check) {
+                        return redirect()->route('job_single_view', ['id' => $task->id])->withCookie(Cookie::forget('job_data'))->with('success', 'Job created successfully!');
+                    } else {
+                        return redirect()->route('job_single_view', ['id' => $task->id])->with('error', 'Job did not create successfully!');
+                    }
                 }
-            }
-                else{
-                    return redirect('/');
-                }
-
-
-        } elseif (Auth::guard('user')->attempt(['email' => $email, 'password' => $password], true) && auth('user')->user()->status == 0 && auth('user')->user()->role_id == 2) {
-
-            $newEventData = json_decode($request->cookie('job_data'), true);
-//            dd($newEventData);
-
-            if ($newEventData) {
-                $task = new Job;
-                $task->user_id = auth('user')->user()->id;
-                $task->title = $newEventData['title'];
-                $task->date = $newEventData['date'];
-                $task->time_of_day = $newEventData['time_of_day'];
-                $task->online_or_in_person = $newEventData['online_or_in_person'];
-                $task->location = $newEventData['location'];
-                $task->description = $newEventData['description'];
-                $task->budget = $newEventData['budget'];
-//                dd($task);
-                $task->save();
-                $check = $task->save();
-                if ($check) {
-                    return redirect()->route('job_single_view',['id' => $task->id])->withCookie(Cookie::forget('job_data'))->with('success', 'Job created successfully!');
-                } else {
-                    return redirect()->route('job_single_view',['id' => $task->id])->with('error', 'Job did not created successfully!');
+            } elseif (json_decode($request->cookie('service_data'), true)) {
+                $newServiceData = json_decode($request->cookie('service_data'), true);
+                if ($newServiceData) {
+                    $service = new Job;
+                    $service->job_type = 'service';
+                    $service->title = $newServiceData['title'];
+                    $service->description = $newServiceData['description'];
+                    $service->online_or_in_person = $newServiceData['online_or_in_person'];
+                    $service->location = $newServiceData['location'];
+                    $service->hourly_rate = $newServiceData['hourly_rate'];
+                    $service->basic_price = $newServiceData['basic_price'];
+                    $service->basic_description = $newServiceData['basic_description'];
+                    $service->standard_price = $newServiceData['standard_price'];
+                    $service->standard_description = $newServiceData['standard_description'];
+                    $service->premium_price = $newServiceData['premium_price'];
+                    $service->premium_description = $newServiceData['premium_description'];
+                    $check = $service->save();
+                    if ($check) {
+                        return redirect()->route('service_single_view', ['id' => $service->id])->withCookie(Cookie::forget('service_data'))->with('success', 'Service created successfully!');
+                    } else {
+                        return redirect()->route('service_single_view', ['id' => $service->id])->with('error', 'Service did not create successfully!');
+                    }
                 }
             } else {
                 return redirect('/freelancesignup');
             }
+
+
+
+        } elseif (Auth::guard('user')->attempt(['email' => $email, 'password' => $password], true) && auth('user')->user()->status == 0 && auth('user')->user()->role_id == 2) {
+
+            if (json_decode($request->cookie('job_data'), true)) {
+                $newJobData = json_decode($request->cookie('job_data'), true);
+                if ($newJobData) {
+                    $task = new Job;
+                    $task->user_id = auth('user')->user()->id;
+                    $task->title = $newJobData['title'];
+                    $task->date = $newJobData['date'];
+                    $task->time_of_day = $newJobData['time_of_day'];
+                    $task->online_or_in_person = $newJobData['online_or_in_person'];
+                    $task->location = $newJobData['location'];
+                    $task->description = $newJobData['description'];
+                    $task->budget = $newJobData['budget'];
+                    $check = $task->save();
+                    if ($check) {
+                        return redirect()->route('job_single_view', ['id' => $task->id])->withCookie(Cookie::forget('job_data'))->with('success', 'Job created successfully!');
+                    } else {
+                        return redirect()->route('job_single_view', ['id' => $task->id])->with('error', 'Job did not create successfully!');
+                    }
+                }
+            } elseif (json_decode($request->cookie('service_data'), true)) {
+                $newServiceData = json_decode($request->cookie('service_data'), true);
+                if ($newServiceData) {
+                    $service = new Job;
+                    $service->title = $newServiceData['title'];
+                    $service->description = $newServiceData['description'];
+                    $service->online_or_in_person = $newServiceData['online_or_in_person'];
+                    $service->location = $newServiceData['location'];
+                    $service->hourly_rate = $newServiceData['hourly_rate'];
+                    $service->basic_price = $newServiceData['basic_price'];
+                    $service->basic_description = $newServiceData['basic_description'];
+                    $service->standard_price = $newServiceData['standard_price'];
+                    $service->standard_description = $newServiceData['standard_description'];
+                    $service->premium_price = $newServiceData['premium_price'];
+                    $service->premium_description = $newServiceData['premium_description'];
+                    $check = $service->save();
+                    if ($check) {
+                        return redirect()->route('service_single_view', ['id' => $service->id])->withCookie(Cookie::forget('service_data'))->with('success', 'Service created successfully!');
+                    } else {
+                        return redirect()->route('service_single_view', ['id' => $service->id])->with('error', 'Service did not create successfully!');
+                    }
+                }
+            } else {
+                return redirect('/freelancesignup');
+            }
+
 
 
 

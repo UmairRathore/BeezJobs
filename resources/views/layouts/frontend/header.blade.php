@@ -213,7 +213,7 @@ if(auth()->check()) {
 
 {{--                        @if(auth()->check())--}}
                         <a href="{{route('post_a_job')}}" class="add-post">Post a Job</a>
-{{--                        <a href="{{route('post_a_job')}}" class="add-task">Post a Task</a>--}}
+                        <a href="{{route('post_a_service')}}" class="add-task">Post a Service</a>
 {{--                        @endif--}}
                     </div>
                     <div class="responsive-search order-1">

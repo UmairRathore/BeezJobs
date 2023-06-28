@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Job;
 use App\Models\Message;
 use App\Models\Notification;
 use App\Models\Offer;
@@ -55,6 +56,15 @@ class FreelancerDashboardController extends Controller
         }
 //        dd($this->data['card']);
         return view('frontend.freelancer.my_freelancer.my_freelancer_settings',$this->data);
+    }
+
+    public function my_freelancer_service()
+    {
+        $user_id = auth()->user()->id;
+//        dd($user_id);
+        $data['service'] = Job::where('user_id',$user_id)->whereNotNull('job_type')->first();
+//        dd($data['service']);
+        return view('frontend.freelancer.my_freelancer.my_freelancer_service', $data);
     }
 
     public function my_freelancer_bids()
@@ -256,6 +266,20 @@ class FreelancerDashboardController extends Controller
 
         return view('frontend.freelancer.other_freelancer.other_freelancer_profile',$this->data);
     }
+
+    public function other_freelancer_service($id)
+    {
+        $this->data['users']= User::where('users.id',$id)
+            ->select('users.*','p.profession as profession')
+            ->join('professions as p', 'users.profession_id', '=', 'p.id')
+            ->first();
+        $this->data['service']= job::where('user_id',$id)
+            ->whereNotNull('job_type')
+            ->first();
+
+        return view('frontend.freelancer.other_freelancer.other_freelancer_service',$this->data);
+    }
+
     public function other_freelancer_portfolio($id)
     {
 

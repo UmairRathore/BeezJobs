@@ -16,6 +16,7 @@ use App\Http\Controllers\Auth\RegistrationController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\FreelancerDashboardController;
 use App\Http\Controllers\Frontend\JobController;
+use App\Http\Controllers\Frontend\ServiceController;
 use App\Http\Controllers\Frontend\PortfolioController;
 
 use App\Http\Controllers\PaymentController;
@@ -119,6 +120,7 @@ Route::get('/my_freelancer_bids', [FreelancerDashboardController::class, 'my_fre
 Route::get('/my_freelancer_portfolio', [FreelancerDashboardController::class, 'my_freelancer_portfolio'])->name('my_freelancer_portfolio')->middleware('auth');;
 Route::get('/my_freelancer_bookmarks', [FreelancerDashboardController::class, 'my_freelancer_bookmarks'])->name('my_freelancer_bookmarks')->middleware('auth');;
 Route::get('/my_freelancer_payments', [FreelancerDashboardController::class, 'my_freelancer_payments'])->name('my_freelancer_payments')->middleware('auth');;
+Route::get('/my_freelancer_service', [FreelancerDashboardController::class, 'my_freelancer_service'])->name('my_freelancer_service');
 
 Route::get('/my_freelancer_profile', [FreelancerDashboardController::class, 'my_freelancer_profile'])->name('my_freelancer_profile')->middleware('auth');;
 Route::get('/my_freelancer_notifications', [FreelancerDashboardController::class, 'my_freelancer_notifications'])->name('my_freelancer_notifications')->middleware('auth');;
@@ -135,6 +137,7 @@ Route::get('/locaton', [FreelancerDashboardController::class, 'populateLocations
 Route::get('/other_freelancer_profile/{id}', [FreelancerDashboardController::class, 'other_freelancer_profile'])->name('other_freelancer_profile');
 Route::get('/other_freelancer_portfolio/{id}', [FreelancerDashboardController::class, 'other_freelancer_portfolio'])->name('other_freelancer_portfolio');
 Route::get('/other_freelancer_review/{id}', [FreelancerDashboardController::class, 'other_freelancer_review'])->name('other_freelancer_review');
+Route::get('/other_freelancer_service/{id}', [FreelancerDashboardController::class, 'other_freelancer_service'])->name('other_freelancer_service');
 
 //portfolio
 Route::post('/add_freelancer_portfolio', [PortfolioController::class, 'add_freelancer_portfolio'])->name('add_freelancer_portfolio')->middleware('auth');;
@@ -149,6 +152,12 @@ Route::post('/post_a_job', [JobController::class, 'createJob'])->name('post_a_jo
 Route::get('/browse_jobs/{lat?}/{lng?}', [JobController::class, 'browse_jobs'])->name('browse_jobs');
 //Route::get('/job_single_view/{id}', [JobController::class, 'job_single_view'])->name('job_single_view');
 Route::get('/job/{id}', [JobController::class, 'job_single_view'])->name('job_single_view');
+
+
+
+//service
+Route::get('/post_a_service', [ServiceController::class, 'showservice'])->name('post_a_service');
+Route::post('/post_a_service', [ServiceController::class, 'createservice'])->name('post_a_service');
 
 
 Route::get('/about_us', [AboutController::class, 'aboutUs'])->name('about.us');

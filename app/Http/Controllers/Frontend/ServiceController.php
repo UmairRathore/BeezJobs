@@ -4,11 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Bid;
-use App\Models\Message;
-use App\Models\City;
 use App\Models\Job;
-use Illuminate\Support\Collection;
-
 use App\Models\Profession;
 use App\Models\User;
 use Carbon\Carbon;
@@ -16,42 +12,46 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
-class JobController extends Controller
+class ServiceController extends Controller
 {
     //
-
-    public function showJob()
+    public function showservice()
     {
-        return view('frontend.job.post_a_job');
+        return view('frontend.service.post_a_service');
     }
-    public function createRandomJobs()
+
+    public function createRandomservice()
     {
-        Job::createRandomJobs(11);
+        Job::createRandomservice(11);
         return redirect()->back();
     }
 
-    public function createJob(Request $request)
+    public function createservice(Request $request)
     {
 
+//        dd($request);
         if (!Auth::check()) {
-            // Store the job data in the session
-            $jobData = $request->all();
+            $service_data = $request->all();
 //            dd($jobData);
-            return redirect()->route('signin')->cookie('job_data', json_encode($jobData));
+            return redirect()->route('signin')->cookie('service_data', json_encode($service_data));
         }
 
 
         $validator = Validator::make($request->all(), [
 
             'title' => 'required',
-            'date' => 'required',
-            'time_of_day' => 'required',
-            'online_or_in_person' => 'required',
-//            'location' => 'required',
             'description' => 'required',
-            'budget' => 'required',
-        ]);
+            'online_or_in_person' => 'required',
+//            'location' => 'nullable|required_if:online_or_in_person,in_person',
+            'hourly_rate' => 'nullable|numeric',
+            'basic_price' => 'nullable|numeric',
+            'basic_description' => 'nullable',
+            'standard_price' => 'nullable|numeric',
+            'standard_description' => 'nullable',
+            'premium_price' => 'nullable|numeric',
+            'premium_description' => 'nullable',
 
+        ]);
 
         if ($validator->fails()) {
             return redirect()
@@ -60,29 +60,35 @@ class JobController extends Controller
                 ->withInput();
         }
 
-        $task = new Job;
-        $task->user_id = Auth::id();
-        $task->title = $request->input('title');
-        $task->date = $request->input('date');
-        $task->time_of_day = $request->input('time_of_day');
-        $task->online_or_in_person = $request->input('online_or_in_person');
-        $task->location = $request->input('location');
-        $task->description = $request->input('description');
-        $task->budget = $request->input('budget');
-//        dd($task);
-        $check = $task->save();
-//        $check = $task;
+        $service = new Job;
+        $service->job_type = 'service';
+        $service->user_id = Auth::id();
+        $service->title = $request->input('title');
+        $service->description = $request->input('description');
+        $service->online_or_in_person = $request->input('online_or_in_person');
+        $service->location = $request->input('location');
+        $service->hourly_rate = $request->input('hourly_rate');
+        $service->basic_price = $request->input('basic_price');
+        $service->basic_description = $request->input('basic_description');
+        $service->standard_price = $request->input('standard_price');
+        $service->standard_description = $request->input('standard_description');
+        $service->premium_price = $request->input('premium_price');
+        $service->premium_description = $request->input('premium_description');
+//dd($service);
+        $check = $service->save();
+//        dd($check);
+
 
         if ($check) {
-            return redirect()->back()->with('success', 'Job created successfully!');
+            return redirect()->back()->with('success', 'Service created successfully!');
 
         } else {
-            return redirect()->back()->with('error', 'Job did not created successfully!');
+            return redirect()->back()->with('error', 'Service did not created successfully!');
 
         }
     }
 
-    public function browse_jobs(Request $request, $lat = null, $lng = null)
+    public function browse_services(Request $request, $lat = null, $lng = null)
     {
         $lat = $request->lat;
         $lng = $request->lng;
@@ -113,7 +119,7 @@ class JobController extends Controller
 //            dd($this->data['users']);
 //dd($this->data['users']->id=1533););
             $userIds = collect($this->data['users'])->pluck('id');
-            $jobs = Job::select('jobs.*','jobs.id as jid' )->whereIn('user_id', $userIds)->paginate(10);
+            $jobs = Job::select('jobs.*', 'jobs.id as jid')->whereIn('user_id', $userIds)->paginate(10);
 //            dd($jobs);
             if ($jobs->isEmpty()) {
                 $this->data['jobs'] = $this->data['jobs']->orderBy('jobs.created_at', 'desc')->paginate(10);
@@ -121,8 +127,7 @@ class JobController extends Controller
                 $this->data['jobs'] = $jobs;
             }
 
-        }
-        else {
+        } else {
 
 
             $search = $request->search;
@@ -161,11 +166,8 @@ class JobController extends Controller
 
             $this->data['jobs'] = $this->data['jobs']->orderBy('jobs.created_at', 'desc')->paginate(10);
         }
-        return view('frontend.job.browse_jobs',$this->data);
+        return view('frontend.job.browse_jobs', $this->data);
     }
-
-
-
 
 
     public function job_single_view($id)
@@ -179,75 +181,21 @@ class JobController extends Controller
 //        dd($this->data['job']);
 
 //        $this->data['bids']
-        $this->data['bids'] = Bid::select('bids.*', 'jobs.user_id as jobUserId','u.location', 'u.first_name', 'u.last_name','u.rating')
+        $this->data['bids'] = Bid::select('bids.*', 'jobs.user_id as jobUserId', 'u.location', 'u.first_name', 'u.last_name', 'u.rating')
             ->where('job_id', $id)
             ->join('users as u', 'u.id', '=', 'bids.user_id')
             ->join('jobs', 'jobs.id', '=', 'bids.job_id')->get();
 
 
-        $this->data['job']= Job::where('jobs.id', $id)
-            ->select('jobs.*','users.first_name','users.last_name')
+        $this->data['job'] = Job::where('jobs.id', $id)
+            ->select('jobs.*', 'users.first_name', 'users.last_name')
             ->join('users', 'users.id', '=', 'jobs.user_id')
 //            ->join('professions', 'users.profession_id', '=', 'professions.id')
             ->first();
 //        dd($this->data['job']);
 
-        return view('frontend.job.job_single_view', $this->data);
+        return view('frontend.service.service_single_view', $this->data);
 
 
-    }
-
-
-    public function storeBid(Request $request)
-    {
-//dd($request->user_id);
-
-
-        $validator = Validator::make($request->all(),
-            [
-                'user_id' => 'required',
-                'job_id' => 'required',
-                'bid_description' => 'required',
-                'bid_budget' => 'required',
-            ]);
-        if ($validator->fails()) {
-            return back()->with('required_fields_empty', 'FIll all the required fields!')
-                ->withErrors($validator)
-                ->withInput();
-        }
-
-            $check = Bid::where('user_id','=',$request->user_id )->where( 'job_id','=',$request->job_id)->first();
-        if($check) {
-            return back()->with('required_fields_empty', "Bid placed already. Can't place more than one bid");
-        }else
-            {
-        $show = new Bid();
-        $show->user_id = auth()->user()->id;
-        $show->job_id = $request->input('job_id');
-        $show->bid_budget = $request->input('bid_budget');
-        $show->bid_description = $request->input('bid_description');
-        $show->save();
-        return back()->with('info_created', 'You Bid has been added Successfully!');
-            }
-    }
-
-
-
-    private function calculateDistance($lat1, $lng1, $lat2, $lng2)
-    {
-        // Implementation of the Haversine formula to calculate distance between two points
-
-        $earthRadius = 6371; // Radius of the earth in kilometers
-
-        $latDiff = deg2rad($lat2 - $lat1);
-        $lngDiff = deg2rad($lng2 - $lng1);
-
-        $a = sin($latDiff / 2) * sin($latDiff / 2) + cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * sin($lngDiff / 2) * sin($lngDiff / 2);
-        $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
-
-        $distance = $earthRadius * $c; // Distance in kilometers
-
-        return $distance;
     }
 }
-

@@ -24,6 +24,14 @@ class CreateJobsTable extends Migration
             $table->text('description');
             $table->float('budget');
             $table->string('status');
+            $table->decimal('hourly_rate', 8, 2)->nullable();
+            $table->decimal('basic_price', 8, 2)->nullable();
+            $table->text('basic_description')->nullable();
+            $table->decimal('standard_price', 8, 2)->nullable();
+            $table->text('standard_description')->nullable();
+            $table->decimal('premium_price', 8, 2)->nullable();
+            $table->text('premium_description')->nullable();
+            $table->string('job_type')->nullable(); // Added column 'job_type' as nullable
             $table->unsignedBigInteger('offer_id');
             $table->timestamps();
 
