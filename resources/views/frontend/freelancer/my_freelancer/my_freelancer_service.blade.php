@@ -38,7 +38,15 @@
                     <div class="account_tabs">
                         @include('frontend.freelancer.my_freelancer.layout.my_freelancer_navbar')
                     </div>
-                    <a href="{{route('my_freelancer_setting')}}" class="edit_link_profile"><i class="far fa-edit"></i>Edit Profile</a>
+                    <div class="edit-profile-links">
+                        <div style="float: left;">
+                            <a href="{{ route('my_freelancer_setting') }}" class="edit_link_profile"><i class="far fa-edit"></i> Edit Profile</a>
+                        </div>
+                        <div style="float: right;">
+                            <a href="{{ route('post_a_service.show', ['edit' => 1]) }}" class="edit_link_profile">
+                                <i class="far fa-edit"></i> Edit Services
+                            </a>
+                    </div>
                     <div class="view_chart">
                         <div class="view_chart_header">
                             <h4>Services</h4>

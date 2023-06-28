@@ -159,6 +159,7 @@ if(auth()->check()) {
                                         <a class="link-item" href="{{route('my_freelancer_dashboard')}}">Dashboard</a>
                                         <a class="link-item" href="{{route('my_freelancer_messages')}}"> Messages</a>
                                         <a class="link-item" href="{{route('my_freelancer_jobs')}}"> Jobs</a>
+                                        <a class="link-item" href="{{route('my_freelancer_service')}}"> Services</a>
                                         <a class="link-item" href="{{route('my_freelancer_bids')}}"> Bids</a>
                                         <a class="link-item" href="{{route('my_freelancer_portfolio')}}"> Portfolio</a>
                                         <a class="link-item" href="{{route('my_freelancer_bookmarks')}}"> Bookmarks</a>
@@ -213,7 +214,7 @@ if(auth()->check()) {
 
 {{--                        @if(auth()->check())--}}
                         <a href="{{route('post_a_job')}}" class="add-post">Post a Job</a>
-                        <a href="{{route('post_a_service')}}" class="add-task">Post a Service</a>
+                        <a href="{{route('post_a_service.show')}}" class="add-task">Post a Service</a>
 {{--                        @endif--}}
                     </div>
                     <div class="responsive-search order-1">

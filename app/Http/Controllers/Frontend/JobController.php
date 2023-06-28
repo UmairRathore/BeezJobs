@@ -37,7 +37,7 @@ class JobController extends Controller
             // Store the job data in the session
             $jobData = $request->all();
 //            dd($jobData);
-            return redirect()->route('signin')->cookie('job_data', json_encode($jobData));
+            return redirect()->route('signin')->cookie('service_data', null)->cookie('job_data', json_encode($jobData));
         }
 
 

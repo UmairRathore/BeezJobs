@@ -94,24 +94,66 @@ class LoginController extends Controller
             } elseif (json_decode($request->cookie('service_data'), true)) {
                 $newServiceData = json_decode($request->cookie('service_data'), true);
                 if ($newServiceData) {
-                    $service = new Job;
-                    $service->job_type = 'service';
-                    $service->title = $newServiceData['title'];
-                    $service->description = $newServiceData['description'];
-                    $service->online_or_in_person = $newServiceData['online_or_in_person'];
-                    $service->location = $newServiceData['location'];
-                    $service->hourly_rate = $newServiceData['hourly_rate'];
-                    $service->basic_price = $newServiceData['basic_price'];
-                    $service->basic_description = $newServiceData['basic_description'];
-                    $service->standard_price = $newServiceData['standard_price'];
-                    $service->standard_description = $newServiceData['standard_description'];
-                    $service->premium_price = $newServiceData['premium_price'];
-                    $service->premium_description = $newServiceData['premium_description'];
-                    $check = $service->save();
-                    if ($check) {
-                        return redirect()->route('service_single_view', ['id' => $service->id])->withCookie(Cookie::forget('service_data'))->with('success', 'Service created successfully!');
+                    $userId = auth('user')->user()->id;
+
+                    // Check if the user already has a service
+                    $existingService = Job::where('user_id', $userId)->where('job_type', 'service')->first();
+
+                    if ($existingService) {
+                        // Update the existing service
+                        $existingService->title = $newServiceData['title'];
+                        $existingService->description = $newServiceData['description'];
+                        $existingService->online_or_in_person = $newServiceData['online_or_in_person'];
+                        $existingService->location = $newServiceData['location'];
+                        $existingService->hourly_rate = $newServiceData['hourly_rate'];
+                        $existingService->basic_price = $newServiceData['basic_price'];
+                        $existingService->basic_description = $newServiceData['basic_description'];
+                        $existingService->standard_price = $newServiceData['standard_price'];
+                        $existingService->standard_description = $newServiceData['standard_description'];
+                        $existingService->premium_price = $newServiceData['premium_price'];
+                        $existingService->premium_description = $newServiceData['premium_description'];
+
+                        $check = $existingService->save();
+
+                        if ($check) {
+                            return redirect()
+                                ->route('post_a_service.show', ['id' => $existingService->id])
+                                ->withCookie(Cookie::forget('service_data'))
+                                ->with('success', 'Service updated successfully!');
+                        } else {
+                            return redirect()
+                                ->route('post_a_service.show', ['id' => $existingService->id])
+                                ->with('error', 'Service did not update successfully!');
+                        }
                     } else {
-                        return redirect()->route('service_single_view', ['id' => $service->id])->with('error', 'Service did not create successfully!');
+                        // Create a new service
+                        $service = new Job;
+                        $service->job_type = 'service';
+                        $service->user_id = $userId;
+                        $service->title = $newServiceData['title'];
+                        $service->description = $newServiceData['description'];
+                        $service->online_or_in_person = $newServiceData['online_or_in_person'];
+                        $service->location = $newServiceData['location'];
+                        $service->hourly_rate = $newServiceData['hourly_rate'];
+                        $service->basic_price = $newServiceData['basic_price'];
+                        $service->basic_description = $newServiceData['basic_description'];
+                        $service->standard_price = $newServiceData['standard_price'];
+                        $service->standard_description = $newServiceData['standard_description'];
+                        $service->premium_price = $newServiceData['premium_price'];
+                        $service->premium_description = $newServiceData['premium_description'];
+
+                        $check = $service->save();
+
+                        if ($check) {
+                            return redirect()
+                                ->route('my_freelancer_service', ['id' => $service->id])
+                                ->withCookie(Cookie::forget('service_data'))
+                                ->with('success', 'Service created successfully!');
+                        } else {
+                            return redirect()
+                                ->route('my_freelancer_service', ['id' => $service->id])
+                                ->with('error', 'Service did not create successfully!');
+                        }
                     }
                 }
             } else {
@@ -144,25 +186,69 @@ class LoginController extends Controller
             } elseif (json_decode($request->cookie('service_data'), true)) {
                 $newServiceData = json_decode($request->cookie('service_data'), true);
                 if ($newServiceData) {
-                    $service = new Job;
-                    $service->title = $newServiceData['title'];
-                    $service->description = $newServiceData['description'];
-                    $service->online_or_in_person = $newServiceData['online_or_in_person'];
-                    $service->location = $newServiceData['location'];
-                    $service->hourly_rate = $newServiceData['hourly_rate'];
-                    $service->basic_price = $newServiceData['basic_price'];
-                    $service->basic_description = $newServiceData['basic_description'];
-                    $service->standard_price = $newServiceData['standard_price'];
-                    $service->standard_description = $newServiceData['standard_description'];
-                    $service->premium_price = $newServiceData['premium_price'];
-                    $service->premium_description = $newServiceData['premium_description'];
-                    $check = $service->save();
-                    if ($check) {
-                        return redirect()->route('service_single_view', ['id' => $service->id])->withCookie(Cookie::forget('service_data'))->with('success', 'Service created successfully!');
+                    $userId = auth('user')->user()->id;
+
+                    // Check if the user already has a service
+                    $existingService = Job::where('user_id', $userId)->where('job_type', 'service')->first();
+
+                    if ($existingService) {
+                        // Update the existing service
+                        $existingService->title = $newServiceData['title'];
+                        $existingService->description = $newServiceData['description'];
+                        $existingService->online_or_in_person = $newServiceData['online_or_in_person'];
+                        $existingService->location = $newServiceData['location'];
+                        $existingService->hourly_rate = $newServiceData['hourly_rate'];
+                        $existingService->basic_price = $newServiceData['basic_price'];
+                        $existingService->basic_description = $newServiceData['basic_description'];
+                        $existingService->standard_price = $newServiceData['standard_price'];
+                        $existingService->standard_description = $newServiceData['standard_description'];
+                        $existingService->premium_price = $newServiceData['premium_price'];
+                        $existingService->premium_description = $newServiceData['premium_description'];
+
+                        $check = $existingService->save();
+
+                        if ($check) {
+                            return redirect()
+                                ->route('post_a_service.show')
+                                ->withCookie(Cookie::forget('service_data'))
+                                ->with('success', 'Service updated successfully!');
+                        } else {
+                            return redirect()
+                                ->route('post_a_service.show')
+                                ->with('error', 'Service did not update successfully!');
+                        }
                     } else {
-                        return redirect()->route('service_single_view', ['id' => $service->id])->with('error', 'Service did not create successfully!');
+                        // Create a new service
+                        $service = new Job;
+                        $service->job_type = 'service';
+                        $service->user_id = $userId;
+                        $service->title = $newServiceData['title'];
+                        $service->description = $newServiceData['description'];
+                        $service->online_or_in_person = $newServiceData['online_or_in_person'];
+                        $service->location = $newServiceData['location'];
+                        $service->hourly_rate = $newServiceData['hourly_rate'];
+                        $service->basic_price = $newServiceData['basic_price'];
+                        $service->basic_description = $newServiceData['basic_description'];
+                        $service->standard_price = $newServiceData['standard_price'];
+                        $service->standard_description = $newServiceData['standard_description'];
+                        $service->premium_price = $newServiceData['premium_price'];
+                        $service->premium_description = $newServiceData['premium_description'];
+
+                        $check = $service->save();
+
+                        if ($check) {
+                            return redirect()
+                                ->route('my_freelancer_service', ['id' => $service->id])
+                                ->withCookie(Cookie::forget('service_data'))
+                                ->with('success', 'Service created successfully!');
+                        } else {
+                            return redirect()
+                                ->route('my_freelancer_service', ['id' => $service->id])
+                                ->with('error', 'Service did not create successfully!');
+                        }
                     }
                 }
+
             } else {
                 return redirect('/freelancesignup');
             }

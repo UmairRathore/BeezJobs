@@ -156,8 +156,8 @@ Route::get('/job/{id}', [JobController::class, 'job_single_view'])->name('job_si
 
 
 //service
-Route::get('/post_a_service', [ServiceController::class, 'showservice'])->name('post_a_service');
-Route::post('/post_a_service', [ServiceController::class, 'createservice'])->name('post_a_service');
+Route::get('/post_a_service', [ServiceController::class, 'showservice'])->name('post_a_service.show');
+Route::post('/post_a_service', [ServiceController::class, 'createservice'])->name('post_a_service.create');
 
 
 Route::get('/about_us', [AboutController::class, 'aboutUs'])->name('about.us');

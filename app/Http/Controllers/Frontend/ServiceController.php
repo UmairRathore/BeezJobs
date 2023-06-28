@@ -17,7 +17,14 @@ class ServiceController extends Controller
     //
     public function showservice()
     {
+        if (auth()->check()) {
+            $this->data['existingService'] = Job::where('user_id', auth()->user()->id)->whereNotNull('job_type')->first();
+            $this->data['heading'] = 'Update Your Services';
+        return view('frontend.service.post_a_service', $this->data);
+        }else{
+
         return view('frontend.service.post_a_service');
+        }
     }
 
     public function createRandomservice()
@@ -33,7 +40,7 @@ class ServiceController extends Controller
         if (!Auth::check()) {
             $service_data = $request->all();
 //            dd($jobData);
-            return redirect()->route('signin')->cookie('service_data', json_encode($service_data));
+            return redirect()->route('signin')->cookie('job_data', null)->cookie('service_data', json_encode($service_data));
         }
 
 
@@ -59,32 +66,58 @@ class ServiceController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         }
+        $userId = Auth::id();
+        $existingService = Job::where('user_id', $userId)->where('job_type', 'service')->first();
 
-        $service = new Job;
-        $service->job_type = 'service';
-        $service->user_id = Auth::id();
-        $service->title = $request->input('title');
-        $service->description = $request->input('description');
-        $service->online_or_in_person = $request->input('online_or_in_person');
-        $service->location = $request->input('location');
-        $service->hourly_rate = $request->input('hourly_rate');
-        $service->basic_price = $request->input('basic_price');
-        $service->basic_description = $request->input('basic_description');
-        $service->standard_price = $request->input('standard_price');
-        $service->standard_description = $request->input('standard_description');
-        $service->premium_price = $request->input('premium_price');
-        $service->premium_description = $request->input('premium_description');
+        if ($existingService) {
+            // Update the existing service
+            $existingService->title = $request->input('title');
+            $existingService->description = $request->input('description');
+            $existingService->online_or_in_person = $request->input('online_or_in_person');
+            $existingService->location = $request->input('location');
+            $existingService->hourly_rate = $request->input('hourly_rate');
+            $existingService->basic_price = $request->input('basic_price');
+            $existingService->basic_description = $request->input('basic_description');
+            $existingService->standard_price = $request->input('standard_price');
+            $existingService->standard_description = $request->input('standard_description');
+            $existingService->premium_price = $request->input('premium_price');
+            $existingService->premium_description = $request->input('premium_description');
+
+            $check = $existingService->save();
+            if ($check) {
+                return redirect()->back()->with('success', 'Service updated successfully!');
+
+            } else {
+                return redirect()->back()->with('error', 'Service did not updated successfully!');
+
+            }
+        } else {
+            $service = new Job;
+            $service->job_type = 'service';
+            $service->user_id = Auth::id();
+            $service->title = $request->input('title');
+            $service->description = $request->input('description');
+            $service->online_or_in_person = $request->input('online_or_in_person');
+            $service->location = $request->input('location');
+            $service->hourly_rate = $request->input('hourly_rate');
+            $service->basic_price = $request->input('basic_price');
+            $service->basic_description = $request->input('basic_description');
+            $service->standard_price = $request->input('standard_price');
+            $service->standard_description = $request->input('standard_description');
+            $service->premium_price = $request->input('premium_price');
+            $service->premium_description = $request->input('premium_description');
 //dd($service);
-        $check = $service->save();
+            $check = $service->save();
 //        dd($check);
 
 
-        if ($check) {
-            return redirect()->back()->with('success', 'Service created successfully!');
+            if ($check) {
+                return redirect()->back()->with('success', 'Service created successfully!');
 
-        } else {
-            return redirect()->back()->with('error', 'Service did not created successfully!');
+            } else {
+                return redirect()->back()->with('error', 'Service did not created successfully!');
 
+            }
         }
     }
 

@@ -39,31 +39,39 @@
                             </div>
                         @endif
                     <div class="main-heading bids_heading">
-                        <h2>Post a Service</h2>
+                        <h2>
+                            @if(request()->query('edit'))
+                                Update Your Services
+                            @elseif(isset($heading))
+                                {{$heading}}
+                            @else
+                                Post a Service
+                            @endif
+                        </h2>
                         <div class="line-shape1">
                             <img src="images/line.svg" alt="">
                         </div>
                     </div>
                     <div class="post501">
 
-                        <form action="{{ route('post_a_service') }}" method="post">
+                        <form action="{{ route('post_a_service.create') }}" method="post">
                             @csrf
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <label class="label15">Service Name*</label>
-                                        <input type="text" name="title" class="job-input" placeholder="Service Name Here">
+                                        <input type="text" name="title" class="job-input" placeholder="Service Name Here" value="{{ isset($existingService) ? $existingService->title : old('title') }}">
                                     </div>
                                     <div class="form-group">
                                         <label class="label15">Service Details*</label>
-                                        <textarea name="description" class="textarea_input" placeholder="Service Details..."></textarea>
+                                        <textarea name="description" class="textarea_input" placeholder="Service Details...">{{ isset($existingService) ? $existingService->description : old('description') }}</textarea>
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <label class="label15">Hourly Rate</label>
                                         <div class="smm_input">
-                                            <input type="text" name="hourly_rate" class="job-input" placeholder="Hourly Rate">
+                                            <input type="text" name="hourly_rate" class="job-input" placeholder="Hourly Rate" value="{{ isset($existingService) ? $existingService->hourly_rate : old('hourly_rate') }}">
                                             <div class="fa-money"><i class="fas fa-money"></i></div>
                                         </div>
                                     </div>
@@ -71,8 +79,8 @@
                                         <label class="label15">Meeting Option*</label>
                                         <div class="smm_input">
                                             <select name="online_or_in_person" class="job-input" onchange="toggleLocationInput(this)">
-                                                <option value="online">Online</option>
-                                                <option value="in_person">In Person</option>
+                                                <option value="online" {{ isset($existingService) && $existingService->online_or_in_person === 'online' ? 'selected' : '' }}>Online</option>
+                                                <option value="in_person" {{ isset($existingService) && $existingService->online_or_in_person === 'in_person' ? 'selected' : '' }}>In Person</option>
                                             </select>
                                         </div>
                                     </div>
@@ -84,7 +92,7 @@
                                     <div class="form-group">
                                         <label class="label15">Location*</label>
                                         <div class="smm_input">
-                                            <input type="text" id="location" name="location" class="job-input" placeholder="Type Address">
+                                            <input type="text" id="location" name="location" class="job-input" placeholder="Type Address" value="{{ isset($existingService) ? $existingService->location : old('location') }}">
                                             <div class="loc_icon"><i class="fas fa-map-marker-alt"></i></div>
                                         </div>
                                     </div>
@@ -98,15 +106,15 @@
 
                                 <div class="col-lg-12">
                                     <div class="form-group">
-                                <label class="label15">Basic Package</label>
+                                        <label class="label15">Basic Package</label>
                                     </div>
                                     <div class="form-group">
                                         <label class="label15">Basic Price*</label>
-                                        <input type="text" name="basic_price" class="job-input" placeholder="Basic Package Price">
+                                        <input type="text" name="basic_price" class="job-input" placeholder="Basic Package Price" value="{{ isset($existingService) ? $existingService->basic_price : old('basic_price') }}">
                                     </div>
                                     <div class="form-group">
                                         <label class="label15">Basic Description*</label>
-                                        <textarea name="basic_description" class="textarea_input" placeholder="Basic Package Details..."></textarea>
+                                        <textarea name="basic_description" class="textarea_input" placeholder="Basic Package Details...">{{ isset($existingService) ? $existingService->basic_description : old('basic_description') }}</textarea>
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
@@ -115,11 +123,11 @@
                                     </div>
                                     <div class="form-group">
                                         <label class="label15">Standard Price*</label>
-                                        <input type="text" name="standard_price" class="job-input" placeholder="Standard Package Price">
+                                        <input type="text" name="standard_price" class="job-input" placeholder="Standard Package Price" value="{{ isset($existingService) ? $existingService->standard_price : old('standard_price') }}">
                                     </div>
                                     <div class="form-group">
                                         <label class="label15">Standard Description*</label>
-                                        <textarea name="standard_description" class="textarea_input" placeholder="Standard Package Details..."></textarea>
+                                        <textarea name="standard_description" class="textarea_input" placeholder="Standard Package Details...">{{ isset($existingService) ? $existingService->standard_description : old('standard_description') }}</textarea>
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
@@ -128,11 +136,11 @@
                                     </div>
                                     <div class="form-group">
                                         <label class="label15">Premium Price*</label>
-                                        <input type="text" name="premium_price" class="job-input" placeholder="Premium Package Price">
+                                        <input type="text" name="premium_price" class="job-input" placeholder="Premium Package Price" value="{{ isset($existingService) ? $existingService->premium_price : old('premium_price') }}">
                                     </div>
                                     <div class="form-group">
                                         <label class="label15">Premium Description*</label>
-                                        <textarea name="premium_description" class="textarea_input" placeholder="Premium Package Details..."></textarea>
+                                        <textarea name="premium_description" class="textarea_input" placeholder="Premium Package Details...">{{ isset($existingService) ? $existingService->premium_description : old('premium_description') }}</textarea>
                                     </div>
                                 </div>
 
@@ -141,6 +149,7 @@
                                 </div>
                             </div>
                         </form>
+
 
 
                     </div>
