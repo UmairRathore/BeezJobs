@@ -154,6 +154,7 @@ Route::get('/browse_jobs/{lat?}/{lng?}', [JobController::class, 'browse_jobs'])-
 Route::get('/job/{id}', [JobController::class, 'job_single_view'])->name('job_single_view');
 
 
+Route::get('/browse_categories', [JobController::class, 'browse_categories'])->name('browse_categories');
 
 //service
 Route::get('/post_a_service', [ServiceController::class, 'showservice'])->name('post_a_service.show');

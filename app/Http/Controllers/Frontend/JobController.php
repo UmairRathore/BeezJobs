@@ -82,6 +82,11 @@ class JobController extends Controller
         }
     }
 
+    public function browse_categories()
+    {
+        $this->data['professions'] = Profession::all();
+        return view('frontend.categories.browse_categories',$this->data);
+    }
     public function browse_jobs(Request $request, $lat = null, $lng = null)
     {
         $lat = $request->lat;
