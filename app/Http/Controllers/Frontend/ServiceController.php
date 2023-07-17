@@ -53,10 +53,10 @@ class ServiceController extends Controller
             'hourly_rate' => 'nullable|numeric',
             'basic_price' => 'nullable|numeric',
             'basic_description' => 'nullable',
-            'standard_price' => 'nullable|numeric',
-            'standard_description' => 'nullable',
-            'premium_price' => 'nullable|numeric',
-            'premium_description' => 'nullable',
+//            'standard_price' => 'nullable|numeric',
+//            'standard_description' => 'nullable',
+//            'premium_price' => 'nullable|numeric',
+//            'premium_description' => 'nullable',
 
         ]);
 

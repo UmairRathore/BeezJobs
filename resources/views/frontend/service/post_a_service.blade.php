@@ -29,15 +29,15 @@
                             {{ session('success') }}
                         </div>
                     @endif
-                        @if ($errors->any())
-                            <div class="alert alert-danger">
-                                <ul>
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        @endif
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
                     <div class="main-heading bids_heading">
                         <h2>
                             @if(request()->query('edit'))
@@ -57,99 +57,111 @@
                         <form action="{{ route('post_a_service.create') }}" method="post">
                             @csrf
                             <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="form-group">
-                                        <label class="label15">Service Name*</label>
-                                        <input type="text" name="title" class="job-input" placeholder="Service Name Here" value="{{ isset($existingService) ? $existingService->title : old('title') }}">
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="label15">Service Details*</label>
-                                        <textarea name="description" class="textarea_input" placeholder="Service Details...">{{ isset($existingService) ? $existingService->description : old('description') }}</textarea>
-                                    </div>
-                                </div>
-                                <div class="col-lg-12">
-                                    <div class="form-group">
-                                        <label class="label15">Hourly Rate</label>
-                                        <div class="smm_input">
-                                            <input type="text" name="hourly_rate" class="job-input" placeholder="Hourly Rate" value="{{ isset($existingService) ? $existingService->hourly_rate : old('hourly_rate') }}">
-                                            <div class="fa-money"><i class="fas fa-money"></i></div>
+                                <div id="not_packages">
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <label class="label15">Service Name*</label>
+                                            <input type="text" name="title" class="job-input" placeholder="Service Name Here" value="{{ isset($existingService) ? $existingService->title : old('title') }}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="label15">Service Details*</label>
+                                            <textarea name="description" class="textarea_input" placeholder="Service Details...">{{ isset($existingService) ? $existingService->description : old('description') }}</textarea>
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label class="label15">Meeting Option*</label>
-                                        <div class="smm_input">
-                                            <select name="online_or_in_person" class="job-input" onchange="toggleLocationInput(this)">
-                                                <option value="online" {{ isset($existingService) && $existingService->online_or_in_person === 'online' ? 'selected' : '' }}>Online</option>
-                                                <option value="in_person" {{ isset($existingService) && $existingService->online_or_in_person === 'in_person' ? 'selected' : '' }}>In Person</option>
-                                            </select>
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <label class="label15">Hourly Rate</label>
+                                            <div class="smm_input">
+                                                <input type="text" name="hourly_rate" class="job-input" placeholder="Hourly Rate" value="{{ isset($existingService) ? $existingService->hourly_rate : old('hourly_rate') }}">
+                                                <div class="fa-money"><i class="fas fa-money"></i></div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="label15">Meeting Option*</label>
+                                            <div class="smm_input">
+                                                <select name="online_or_in_person" class="job-input" onchange="toggleLocationInput(this)">
+                                                    <option value="online" {{ isset($existingService) && $existingService->online_or_in_person === 'online' ? 'selected' : '' }}>Online</option>
+                                                    <option value="in_person" {{ isset($existingService) && $existingService->online_or_in_person === 'in_person' ? 'selected' : '' }}>In Person</option>
+                                                </select>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-lg-12" id="locationField" style="display: none;">
-                                    <div class="requires">
-                                        Location
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="label15">Location*</label>
-                                        <div class="smm_input">
-                                            <input type="text" id="location" name="location" class="job-input" placeholder="Type Address" value="{{ isset($existingService) ? $existingService->location : old('location') }}">
-                                            <div class="loc_icon"><i class="fas fa-map-marker-alt"></i></div>
+                                    <div class="col-lg-12" id="locationField" style="display: none;">
+                                        <div class="requires">
+                                            Location
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="label15">Location*</label>
+                                            <div class="smm_input">
+                                                <input type="text" id="location" name="location" class="job-input" placeholder="Type Address" value="{{ isset($existingService) ? $existingService->location : old('location') }}">
+                                                <div class="loc_icon"><i class="fas fa-map-marker-alt"></i></div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
 
-                                <div class="col-lg-12">
-                                    <div class="requires">
-                                        Packages
+                                    <div class="col-lg-12">
+                                        <button class="post_jp_btn" type="button" id="next_button">Next</button>
                                     </div>
                                 </div>
+                                <div id="packages" class="d-none">
+                                    <div class="col-lg-12">
+                                        <div class="requires">
+                                            Packages
+                                        </div>
+                                    </div>
 
-                                <div class="col-lg-12">
-                                    <div class="form-group">
-                                        <label class="label15">Basic Package</label>
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <label class="label15">Basic Package</label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="label15">Basic Price*</label>
+                                            <input type="text" name="basic_price" class="job-input" placeholder="Basic Package Price" value="{{ isset($existingService) ? $existingService->basic_price : old('basic_price') }}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="label15">Basic Description*</label>
+                                            <textarea name="basic_description" class="textarea_input" placeholder="Basic Package Details...">{{ isset($existingService) ? $existingService->basic_description : old('basic_description') }}</textarea>
+                                        </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label class="label15">Basic Price*</label>
-                                        <input type="text" name="basic_price" class="job-input" placeholder="Basic Package Price" value="{{ isset($existingService) ? $existingService->basic_price : old('basic_price') }}">
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <label class="label15">Standard Package</label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="label15">Standard Price</label>
+                                            <input type="text" name="standard_price" class="job-input" placeholder="Standard Package Price" value="{{ isset($existingService) ? $existingService->standard_price : old('standard_price') }}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="label15">Standard Description</label>
+                                            <textarea name="standard_description" class="textarea_input" placeholder="Standard Package Details...">{{ isset($existingService) ? $existingService->standard_description : old('standard_description') }}</textarea>
+                                        </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label class="label15">Basic Description*</label>
-                                        <textarea name="basic_description" class="textarea_input" placeholder="Basic Package Details...">{{ isset($existingService) ? $existingService->basic_description : old('basic_description') }}</textarea>
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <label class="label15">Premium Package</label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="label15">Premium Price</label>
+                                            <input type="text" name="premium_price" class="job-input" placeholder="Premium Package Price" value="{{ isset($existingService) ? $existingService->premium_price : old('premium_price') }}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="label15">Premium Description</label>
+                                            <textarea name="premium_description" class="textarea_input" placeholder="Premium Package Details...">{{ isset($existingService) ? $existingService->premium_description : old('premium_description') }}</textarea>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-lg-12">
-                                    <div class="form-group">
-                                        <label class="label15">Standard Package</label>
+                                    <div class="col-lg-12" style="display: flex; justify-content: space-between;">
+                                        <div class="button-container">
+                                            <button class="post_jp_btn" type="button" id="back_button">Back</button>
+                                        </div>
+                                        <div class="button-container">
+                                            <button class="post_jp_btn" type="submit">Post a Service</button>
+                                        </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label class="label15">Standard Price*</label>
-                                        <input type="text" name="standard_price" class="job-input" placeholder="Standard Package Price" value="{{ isset($existingService) ? $existingService->standard_price : old('standard_price') }}">
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="label15">Standard Description*</label>
-                                        <textarea name="standard_description" class="textarea_input" placeholder="Standard Package Details...">{{ isset($existingService) ? $existingService->standard_description : old('standard_description') }}</textarea>
-                                    </div>
-                                </div>
-                                <div class="col-lg-12">
-                                    <div class="form-group">
-                                        <label class="label15">Premium Package</label>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="label15">Premium Price*</label>
-                                        <input type="text" name="premium_price" class="job-input" placeholder="Premium Package Price" value="{{ isset($existingService) ? $existingService->premium_price : old('premium_price') }}">
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="label15">Premium Description*</label>
-                                        <textarea name="premium_description" class="textarea_input" placeholder="Premium Package Details...">{{ isset($existingService) ? $existingService->premium_description : old('premium_description') }}</textarea>
-                                    </div>
-                                </div>
 
-                                <div class="col-lg-12">
-                                    <button class="post_jp_btn" type="submit">Post a Service</button>
+
                                 </div>
                             </div>
                         </form>
-
 
 
                     </div>
@@ -200,6 +212,24 @@
         autocomplete.addListener('place_changed', () => {
             const place = autocomplete.getPlace();
             console.log(place); //
+        });
+
+        $(document).ready(function () {
+            // When the "Next" button is clicked, show the "packages" div and hide the "not_packages" div
+            $("#next_button").on("click", function () {
+                if ($(this).closest("#not_packages").length) {
+                    $("#not_packages").addClass("d-none");
+                    $("#packages").removeClass("d-none");
+                } else if ($(this).closest("#packages").length) {
+                    // Handle "Next" button inside the "packages" div if needed
+                }
+            });
+
+            // When the "Back" button is clicked, show the "not_packages" div and hide the "packages" div
+            $("#back_button").on("click", function () {
+                $("#packages").addClass("d-none");
+                $("#not_packages").removeClass("d-none");
+            });
         });
 
         function toggleLocationInput(selectElement) {
