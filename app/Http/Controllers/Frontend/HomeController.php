@@ -36,11 +36,16 @@ class HomeController extends Controller
             ->join('professions as p', 'u.profession_id', '=', 'p.id')
         ->orderByRaw('RAND()')->take(6)->latest()->get();
 
-        $this->data['users']= User::select('users.*','p.profession as profession')
-            ->where('status',1)
+        $this->data['users']= User::select('users.*','p.profession as profession','jobs.basic_price')
+            ->where('users.status',1)
             ->where('role_id',2)
             ->join('professions as p', 'users.profession_id', '=', 'p.id')
+            ->join('jobs','users.id','=','jobs.user_id')
+            ->whereNotNull('job_type')
             ->orderByRaw('RAND()')->take(6)->get();
+//dd($this->data['users']);
+//        $user_id = auth()->user()->id;
+//        $data['service'] = Job::where('user_id',$user_id)->whereNotNull('job_type')->first();
 
         return view('frontend.index', $this->data);
     }
