@@ -321,8 +321,9 @@
                                                 <li><a href="{{route('other_freelancer_profile',[$user->id])}}" class="link-j1" title="View Profile">View Profile</a></li>
                                                 @if(auth()->check())
                                                 <li><a href="{{route('freelancer_texting',[$user->id])}}" class="link-j1" title="Hire Me">Hire Me</a></li>
-                                                @endif
+                                                @else
                                                 <li><a href="{{route('signup')}}" class="link-j1" title="Hire Me">Hire Me</a></li>
+                                                @endif
                                                 <li class="bkd-pm">
                                                     <button class="bookmark1" title="bookmark"><i class="fas fa-heart"></i></button>
                                                 </li>

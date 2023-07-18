@@ -11,7 +11,7 @@
                 <span>{{$users->profession}}</span>
             </div>
             <ul class="user_btns">
-                <li><button class="hire_btn" type="button">Hire Me</button></li>
+{{--                <li><button class="hire_btn" type="button">Hire Me</button></li>--}}
                 <li>
 {{--                    <button class="hire_btn" type="button">Message</button>--}}
                     @if(auth()->check())
