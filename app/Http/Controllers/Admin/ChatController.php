@@ -7,6 +7,7 @@ use App\Models\Job;
 use App\Models\Message;
 use App\Models\Offer;
 use App\Models\Order;
+use App\Models\TransactionHistory;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -44,7 +45,7 @@ class ChatController extends Controller
 
         $messages1 = $this->_model::
         where('sender_id', Auth()->user()->id)
-            ->orWhere('receiver_id',Auth()->user()->id)
+            ->orWhere('receiver_id', Auth()->user()->id)
             ->orderby('id', 'desc')
             ->get()
             ->unique('sender_id')
@@ -53,7 +54,7 @@ class ChatController extends Controller
 
         $messages2 = $this->_model::
         where('sender_id', Auth()->user()->id)
-            ->orWhere('receiver_id',Auth()->user()->id)
+            ->orWhere('receiver_id', Auth()->user()->id)
             ->orderby('id', 'desc')
             ->get()
             ->unique('receiver_id')
@@ -61,22 +62,21 @@ class ChatController extends Controller
             ->toArray();
         $result1 = array_merge($messages1, $messages2);
         $result = array_unique($result1);
-        $this->data['latestMessage']=  $this->_model::where('sender_id', Auth()->user()->id)
-            ->orWhere('receiver_id',Auth()->user()->id)
+        $this->data['latestMessage'] = $this->_model::where('sender_id', Auth()->user()->id)
+            ->orWhere('receiver_id', Auth()->user()->id)
             ->orderby('id', 'desc')
             ->pluck('message')
             ->first();
 
-        $user = User::whereIn('id',$result)
-            ->where('id','!=',Auth()->user()->id)
+        $user = User::whereIn('id', $result)
+            ->where('id', '!=', Auth()->user()->id)
             ->get();
         $this->data['leftwallmessages'] = $user;
 
 //            $this->data['leftwallmessages'] = $user;
 
 
-
-            return view('frontend.freelancer.messages.my_freelancer_messages', $this->data);
+        return view('frontend.freelancer.messages.my_freelancer_messages', $this->data);
 
     }
 
@@ -97,62 +97,61 @@ class ChatController extends Controller
     public function texting($reciever_id)
     {
 
-            $this->data['reciever_id'] = $reciever_id;
+        $this->data['reciever_id'] = $reciever_id;
 
-            $messages1 = $this->_model::
-            where('sender_id', Auth()->user()->id)
-                ->orWhere('receiver_id',Auth()->user()->id)
-                ->orderby('id', 'desc')
-                ->get()
-                ->unique('sender_id')
-                ->pluck('sender_id')
-                ->toArray();
+        $messages1 = $this->_model::
+        where('sender_id', Auth()->user()->id)
+            ->orWhere('receiver_id', Auth()->user()->id)
+            ->orderby('id', 'desc')
+            ->get()
+            ->unique('sender_id')
+            ->pluck('sender_id')
+            ->toArray();
 
-                $messages2 = $this->_model::
-            where('sender_id', Auth()->user()->id)
-                ->orWhere('receiver_id',Auth()->user()->id)
-                ->orderby('id', 'desc')
-                ->get()
-                ->unique('receiver_id')
-                ->pluck('receiver_id')
-                ->toArray();
-                $result1 = array_merge($messages1, $messages2);
-                $result = array_unique($result1);
-        $this->data['latestMessage']=  $this->_model::where('sender_id', Auth()->user()->id)
-                ->orWhere('receiver_id',Auth()->user()->id)
-                ->orderby('id', 'desc')
-                ->pluck('message')
-                ->first();
+        $messages2 = $this->_model::
+        where('sender_id', Auth()->user()->id)
+            ->orWhere('receiver_id', Auth()->user()->id)
+            ->orderby('id', 'desc')
+            ->get()
+            ->unique('receiver_id')
+            ->pluck('receiver_id')
+            ->toArray();
+        $result1 = array_merge($messages1, $messages2);
+        $result = array_unique($result1);
+        $this->data['latestMessage'] = $this->_model::where('sender_id', Auth()->user()->id)
+            ->orWhere('receiver_id', Auth()->user()->id)
+            ->orderby('id', 'desc')
+            ->pluck('message')
+            ->first();
 
-            $user = User::whereIn('id',$result)
-                ->where('id','!=',Auth()->user()->id)
-                ->get();
-            $this->data['leftwallmessages'] = $user;
+        $user = User::whereIn('id', $result)
+            ->where('id', '!=', Auth()->user()->id)
+            ->get();
+        $this->data['leftwallmessages'] = $user;
 
-            $user_id = Auth::user()->id;
+        $user_id = Auth::user()->id;
 //            $this->data['messages'] = Message::whereIn('receiver_id', [$reciever_id, $user_id])
 //                ->whereIn('sender_id', [$reciever_id, $user_id])->get();
 
 
+        $this->data['messages'] = Message::select('messages.id as Messages_ID', 'messages.sender_id',
+            'messages.receiver_id', 'messages.message', 'messages.offer_id', 'messages.status as MessageStatus',
+            'messages.created_at as MessageCreatedAt', 'messages.updated_at as MessageUpdatedAt',
 
-            $this->data['messages'] = Message::select('messages.id as Messages_ID','messages.sender_id',
-                'messages.receiver_id','messages.message','messages.offer_id','messages.status as MessageStatus',
-                'messages.created_at as MessageCreatedAt','messages.updated_at as MessageUpdatedAt',
-
-                'offer.id as Offer_ID','offer.job_id as Offer_Job_ID','offer.negotiated_price','offer.negotiated_duration','offer.negotiated_description',
-                'offer.rejected','offer.accepted','offer.status as OfferStatus',
+            'offer.id as Offer_ID', 'offer.job_id as Offer_Job_ID', 'offer.negotiated_price', 'offer.negotiated_duration', 'offer.negotiated_description',
+            'offer.rejected', 'offer.accepted', 'offer.status as OfferStatus',
 
             'job.*')
-                ->whereIn('receiver_id', [$reciever_id, $user_id])
-                ->whereIn('sender_id', [$reciever_id, $user_id])
-                ->leftjoin('offers as offer','offer.id','=','messages.offer_id')
-                ->leftjoin('jobs as job','job.id','=','offer.job_id')
-                ->orderBy('Messages_ID','asc')
-                ->get();
+            ->whereIn('receiver_id', [$reciever_id, $user_id])
+            ->whereIn('sender_id', [$reciever_id, $user_id])
+            ->leftjoin('offers as offer', 'offer.id', '=', 'messages.offer_id')
+            ->leftjoin('jobs as job', 'job.id', '=', 'offer.job_id')
+            ->orderBy('Messages_ID', 'asc')
+            ->get();
 //            dd($this->data['messages']);
 
 
-            return view('frontend.freelancer.messages.freelancer_texting', $this->data);
+        return view('frontend.freelancer.messages.freelancer_texting', $this->data);
 
     }
 
@@ -180,11 +179,11 @@ class ChatController extends Controller
         $this->data['messages']->receiver_id = $request->receiver_id;
         $this->data['messages']->save();
 
-        $message_id = $this->data['messages']->id ;
+        $message_id = $this->data['messages']->id;
 
 
         $this->data['offerInMessage'] = Offer::find($offer_id);
-        $this->data['offerInMessage']->message_id=$message_id;
+        $this->data['offerInMessage']->message_id = $message_id;
         $this->data['offerInMessage']->save();
 
         return 1;
@@ -221,7 +220,7 @@ class ChatController extends Controller
         $message_id = $this->data['messages']->id;
 
         $this->data['offerInMessage'] = Offer::find($offer_id);
-        $this->data['offerInMessage']->message_id=$message_id;
+        $this->data['offerInMessage']->message_id = $message_id;
         $this->data['offerInMessage']->save();
 
         $job_id = $this->data['jobs']->id;
@@ -262,10 +261,12 @@ class ChatController extends Controller
     public function acceptOffer(Request $request)
     {
         $offerId = $request->input('offer_id');
-        $offerJobID =Offer::find($offerId)->first();
+        $offerJobID = Offer::find($offerId)->first();
 
 //        dd($offerJobID->negotiated_price);
         $offer = Offer::find($offerId);
+
+
 
         if (!$offer) {
             // Handle the case when the offer is not found
@@ -286,31 +287,44 @@ class ChatController extends Controller
 
         $paymentIntentId = $paymentIntent->id;
 
-//        dd($paymentIntentId);
-        // Store the paymentIntentId in your order or database for future reference
+        try {
+//            $paymentIntent->capture();
 
-        // Update the offer status to accepted
-        $offer->accepted = true;
-        $offer->save();
+            // Store the paymentIntentId in your order or database for future reference
 
-        // Create a new order and associate the offer ID and payment intent ID
-        $order = new Order();
-        $order->status = 'active';
-        $order->offer_id = $offerId;
-        $order->payment_intent_id = $paymentIntentId;
-        $order->save();
+            // Update the offer status to accepted
+            $offer->accepted = true;
+            $offer->save();
 
-        return response()->json(['success' => true]);
+            $transaction = new TransactionHistory();
+            $transaction->user_id = auth()->user()->id;
+            $transaction->offer_id = $offerId;
+            $transaction->amount = $paymentIntent->amount / 100;
+            $transaction->type = 'sent'; // Set the transaction type as 'received' for received amount
+            $transaction->captured_at = now();
+            $transaction->save();
+
+            // Create a new order and associate the offer ID and payment intent ID
+            $order = new Order();
+            $order->status = 'active';
+            $order->offer_id = $offerId;
+            $order->payment_intent_id = $paymentIntentId;
+            $order->save();
+
+            return response()->json(['success' => true]);
+        } catch (Exception $e) {
+            return response()->json(['error' => 'Payment capture failed. Please try again.']);
+        }
     }
 
-    public function searchUsers(Request $request) {
+    public function searchUsers(Request $request)
+    {
         $searchTerm = $request->input('searchTerm');
-        $users = User::where('first_name', 'LIKE', '%'.$searchTerm.'%')
-            ->orWhere('last_name', 'LIKE', '%'.$searchTerm .'%')
+        $users = User::where('first_name', 'LIKE', '%' . $searchTerm . '%')
+            ->orWhere('last_name', 'LIKE', '%' . $searchTerm . '%')
             ->get();
         return response()->json($users);
-        }
-
+    }
 
 
 }
