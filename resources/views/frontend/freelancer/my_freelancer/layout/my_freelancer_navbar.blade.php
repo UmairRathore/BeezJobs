@@ -30,7 +30,7 @@
         <a class="nav-link" href="{{route('my_freelancer_reviews')}}">Reviews</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="{{route('my_freelancer_payments')}}">Payment</a>
+        <a class="nav-link" href="{{route('my_freelancer_payments')}}">Transactions</a>
     </li>
     <li class="nav-item">
         <a class="nav-link" href="{{route('my_freelancer_setting')}}"><i class="fas fa-cog"></i></a>
