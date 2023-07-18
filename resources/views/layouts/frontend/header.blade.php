@@ -154,6 +154,7 @@ if(auth()->check()) {
                                     </a>
                                     @else
                                     <a href="{{route('signin')}}"><button class="btn">Sign In</button></a>
+                                        <a href="{{route('signup')}}"><button class="btn">Sign Up</button></a>
                                     @endif
                                     <div class="dropdown-menu account-dropdown dropdown-menu-right">
                                         <a class="link-item" href="{{route('my_freelancer_dashboard')}}">Dashboard</a>
@@ -232,6 +233,26 @@ if(auth()->check()) {
         </div>
     </div>
 </div>
+<div class="Search-section">
+    <div class="container">
+        <form method="get" action="{{route('browse_jobs')}}">
+            <div class="row">
+                <div class="col-lg-10 col-md-5 col-12">
+                    <div class="form-group mb-0">
+                        <input name="search" id="search_input" class="search-1" type="text" placeholder="Keywords (Job Title,...)">
+                        <div class="dropdown">
+                            <ul id="search_suggestions_dropdown" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-3 col-12 mt-15">
+                    <button class="srch-btn" type="submit">Search Now</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
 @section('active_tab')
     <script>
         $(document).ready(function () {
@@ -240,6 +261,12 @@ if(auth()->check()) {
                 url = url.slice(0, -1); // Remove the trailing slash
             }
             $('.nav-item a[href="' + url + '"]').addClass('active');
+        });
+        $(document).ready(function() {
+            var currentUrl = window.location.pathname;
+            if (currentUrl === '/signup' || currentUrl === '/signin') {
+                $('.Search-section').hide();
+            }
         });
     </script>
 @endsection
