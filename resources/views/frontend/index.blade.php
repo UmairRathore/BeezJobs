@@ -41,26 +41,7 @@
             color: black;
         }
     </style>
-    <div class="Search-section">
-        <div class="container">
-            <form method="get" action="{{route('browse_jobs')}}">
-                <div class="row">
-                    <div class="col-lg-10 col-md-5 col-12">
-                        <div class="form-group mb-0">
-                            <input name="search" id="search_input" class="search-1" type="text" placeholder="Keywords (Job Title,...)">
-                            <div class="dropdown">
-                                <ul id="search_suggestions_dropdown" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-2 col-md-3 col-12 mt-15">
-                        <button class="srch-btn" type="submit">Search Now</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
+
 
     <div class="banner-slider">
         <div class="owl-carousel bnnr-owl owl-theme">
@@ -133,20 +114,32 @@
                 <div class="col-md-12 col-12">
                     <div class="job-categories mt-30">
                         <div class="row no-gutters">
+                            @php
+                                $limit = 4; // Set the limit for the number of categories to show
+                                $count = 0;
+                            @endphp
                             @foreach($professions as $profession)
-                                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
-                                    <div class="p-category">
-                                        <a href="{{route('browse_freelancers')}}?category={{ $profession->id }}" title="">
-                                            <img src="{{$profession->p_image}}" alt="">
-                                            <span>{{$profession->profession}}</span>
-                                            <?php
-                                            $professioncount = \App\Models\User::where('profession_id', $profession->id)->count();
-                                            ?>
-                                            <p>{{$professioncount}}</p>
-                                        </a>
+                                @if($count < $limit)
+                                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
+                                        <div class="p-category">
+                                            <a href="{{route('browse_freelancers')}}?category={{ $profession->id }}" title="">
+                                                <img src="{{$profession->p_image}}" alt="">
+                                                <span>{{$profession->profession}}</span>
+                                                <?php
+                                                $professioncount = \App\Models\User::where('profession_id', $profession->id)->count();
+                                                ?>
+                                                <p>{{$professioncount}}</p>
+                                            </a>
+                                        </div>
                                     </div>
-                                </div>
+                                @endif
+                                @php
+                                    $count++;
+                                @endphp
                             @endforeach
+                        </div>
+                        <div class="text-center">
+                            <button class="view-links" onclick="window.location.href = '{{route('browse_categories')}}';">BROWSE ALL Categories</button>
                         </div>
                     </div>
                 </div>
@@ -326,7 +319,10 @@
                                         <div class="job-buttons">
                                             <ul class="link-btn">
                                                 <li><a href="{{route('other_freelancer_profile',[$user->id])}}" class="link-j1" title="View Profile">View Profile</a></li>
-                                                <li><a href="#" class="link-j1" title="Hire Me">Hire Me</a></li>
+                                                @if(auth()->check())
+                                                <li><a href="{{route('freelancer_texting',[$user->id])}}" class="link-j1" title="Hire Me">Hire Me</a></li>
+                                                @endif
+                                                <li><a href="{{route('signup')}}" class="link-j1" title="Hire Me">Hire Me</a></li>
                                                 <li class="bkd-pm">
                                                     <button class="bookmark1" title="bookmark"><i class="fas fa-heart"></i></button>
                                                 </li>
