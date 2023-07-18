@@ -39,188 +39,94 @@ itle-bar">
 						</div>
                         <div class="account_tabs">
                             @include('frontend.freelancer.my_freelancer.layout.my_freelancer_navbar')                        </div>
-						<div class="jobs_manage">
-							<div class="row">
-								<div class="col-lg-3">
-									<div class="jobs_tabs">
-										<ul class="nav job_nav nav-tabs" id="myTab" role="tablist">
-											<li class="nav-item">
-												<a class="nav-link active" href="#payment" id="payment-tab" data-toggle="tab">Payments</a>
-											</li>
-											<li class="nav-item job_nav_item">
-												<a class="nav-link" href="#transaction" id="transaction-tab" data-toggle="tab">Transactions</a>
-											</li>
-										</ul>
-									</div>
-								</div>
-								<div class="col-lg-9">
-									<div class="tab-content" id="myTabContent">
-										<div class="tab-pane fade show active" id="payment" role="tabpanel">
-											<div class="add-ons-dt accordion" id="accordionExample">
-												<div class="bookmark_card">
-													<button class="bookmark_collapse" data-toggle="collapse" data-target="#collapse1" aria-expanded="true" aria-controls="collapse1">Earnings</button>
-													<div id="collapse1" class="collapse show">
-														<div class="card-body">
-															<div class="payment_dt">
-																<div class="earning_dt">
-																	<div class="earning_left">
-																		<h6>Your Earnings</h6>
-																		<div class="earn_amount">$1500</div>
-																	</div>
-																	<div class="earning_right">
-																		<p>Wallet<a href="#">(Change)</a></p>
-																		<img src="images/payoneer.png" alt="">
-																	</div>
-																</div>
-																<button class="withdraw_btn">WITHDRAW PAYMENT</button>
-															</div>
-														</div>
-													</div>
-												</div>
-												<div class="bookmark_card">
-													<button class="bookmark_collapse" data-toggle="collapse" data-target="#collapse2" aria-expanded="true" aria-controls="collapse2">Send Payment</button>
-													<div id="collapse2" class="collapse show">
-														<div class="card-body">
-															<div class="send_payment_dt">
-																<div class="post_job_body">
-																	<div class="form-group">
-																		<label class="label15">Amount*</label>
-																		<input type="text" class="job-input" placeholder="Enter Amount">
-																	</div>
-																	<div class="form-group">
-																		<label class="label15">Send To*</label>
-																		<input type="email" class="job-input" placeholder="Enter Email Address">
-																	</div>
-																</div>
-																<div class="protection">
-																	<i class="fas fa-shield-alt"></i>With Jobby payment protection, only pay for work delivered.
-																</div>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-										<div class="tab-pane fade" id="transaction">
-											<div class="view_chart">
-												<div class="view_chart_header">
-													<h4>Transactions</h4>
-												</div>
-												<div class="transaction_body">
-													<div class="table-responsive-md">
-														<table class="table table-striped">
-														<thead>
-															<tr>
-															  <th scope="col">Users</th>
-															  <th scope="col">Projects</th>
-															  <th scope="col">Payment</th>
-															  <th scope="col">Action</th>
-															</tr>
-															</thead>
-															<tbody>
-																<tr>
-																	<th scope="row">
-																		<div class="user_dt_trans">
-																			<div class="aadd14">Johnson Doe</div>
-																			<p>ID No.<a href="#">123456</a></p>
-																		</div>
-																	</th>
-																	<td>
-																		<div class="user_dt_trans">
-																			<div class="aadd14">Travel Wordpress Theme</div>
-																			<p>Date :<span>20 oct 2019</span></p>
-																		</div>
-																	</td>
-																	<td>
-																		<div class="user_dt_trans">
-																			<div class="aadd14">Paypal</div>
-																			<p>$800</p>
-																		</div>
-																	</td>
-																	<td>
-																		<div class="trans_badge">Pending</div>
-																	</td>
-																</tr>
-																<tr>
-																	<th scope="row">
-																		<div class="user_dt_trans">
-																			<div class="aadd14">Rock William</div>
-																			<p>ID No.<a href="#">123450</a></p>
-																		</div>
-																	</th>
-																	<td>
-																		<div class="user_dt_trans">
-																			<div class="aadd14">Real Estate Psd Template</div>
-																			<p>Date :<span>18 oct 2019</span></p>
-																		</div>
-																	</td>
-																	<td>
-																		<div class="user_dt_trans">
-																			<div class="aadd14">Credit Card</div>
-																			<p>$1200</p>
-																		</div>
-																	</td>
-																	<td>
-																		<div class="trans_badge">Received</div>
-																	</td>
-																</tr>
-																<tr>
-																	<th scope="row">
-																		<div class="user_dt_trans">
-																			<div class="aadd14">Jassica Wiliam</div>
-																			<p>ID No.<a href="#">123445</a></p>
-																		</div>
-																	</th>
-																	<td>
-																		<div class="user_dt_trans">
-																			<div class="aadd14">Chatting Android App</div>
-																			<p>Date :<span>16 oct 2019</span></p>
-																		</div>
-																	</td>
-																	<td>
-																		<div class="user_dt_trans">
-																			<div class="aadd14">Credit Card</div>
-																			<p>$2500</p>
-																		</div>
-																	</td>
-																	<td>
-																		<div class="trans_badge">Send</div>
-																	</td>
-																</tr>
-																<tr>
-																	<th scope="row">
-																		<div class="user_dt_trans">
-																			<div class="aadd14">Albert Smith</div>
-																			<p>ID No.<a href="#">123405</a></p>
-																		</div>
-																	</th>
-																	<td>
-																		<div class="user_dt_trans">
-																			<div class="aadd14">Hotel Booking Html Template</div>
-																			<p>Date :<span>15 oct 2019</span></p>
-																		</div>
-																	</td>
-																	<td>
-																		<div class="user_dt_trans">
-																			<div class="aadd14">Paypal</div>
-																			<p>$2500</p>
-																		</div>
-																	</td>
-																	<td>
-																		<div class="trans_badge">Send</div>
-																	</td>
-																</tr>
-															</tbody>
-														</table>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
+
+                            <div class="jobs_manage">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="tab-content" id="myTabContent">
+                                            <div class="view_chart">
+                                                    <div class="view_chart_header" style="display: flex; justify-content: space-between; align-items: center;">
+                                                        <div class="transactions_heading" style="margin-right: auto;">
+                                                            <h4>Transactions</h4>
+                                                        </div>
+                                                        <div class="wallet_amount" style="margin-left: auto;">
+                                                            <h5>Your Wallet Balance: ${{ $user->wallet_amount }}</h5>
+                                                        </div>
+                                                </div>
+                                                <div class="transaction_body">
+                                                    <div class="table-responsive-md">
+                                                        <table class="table table-striped">
+                                                            <thead>
+                                                            <tr>
+                                                                <th scope="col">Users</th>
+                                                                <th scope="col">Jobs</th>
+                                                                <th scope="col">Payment</th>
+                                                                <th scope="col">Status</th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+{{--                                                            @php--}}
+{{--                                                                $sentAmount = 0;--}}
+{{--                                                                $receivedAmount = 0;--}}
+{{--                                                            @endphp--}}
+                                                            @foreach ($transactions as $transaction)
+                                                                @php
+                                                                    // Retrieve the offer and job details
+                                                                   $transaction = \App\Models\TransactionHistory::find($transaction->id);
+
+                                                                   $transactionUser = \App\Models\User::find($transaction->user_id)->select('first_name','last_name')->first();
+                                                                    $jobTitle = \App\Models\Job::join('offers', 'jobs.id', '=', 'offers.job_id')
+                                                                     ->where('offers.id', $transaction->offer_id)
+                                                                     ->select('jobs.title')
+                                                                     ->first()
+                                                                     ->title;
+
+                                                                @endphp
+                                                                <tr>
+                                                                    <th scope="row">
+                                                                        <div class="user_dt_trans">
+                                                                            <div class="aadd14">{{$transactionUser->first_name.' '.$transactionUser->last_name }}</div>
+                                                                        </div>
+                                                                    </th>
+                                                                    <td>
+                                                                        <div class="user_dt_trans">
+                                                                            <div class="aadd14">{{ $jobTitle }}</div>
+                                                                            <p>Date: <span>{{ $transaction->created_at->format('d M Y') }}</span></p>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="user_dt_trans">
+                                                                            <div class="aadd14">Card</div>
+                                                                            <p>${{ $transaction->amount }}</p>
+                                                                        </div>
+                                                                    </td>
+                                                                @if ($transaction->type === 'sent')
+                                                                        <td>
+                                                                            <div class="trans_badge">Sent</div>
+                                                                        </td>
+                                                                @elseif ($transaction->type === 'received')
+
+                                                                        <td>
+                                                                            <div class="trans_badge">Received</div>
+                                                                        </td>
+                                                                @endif
+                                                                </tr>
+                                                            @endforeach
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+
+                    </div>
 				</div>
 			</div>
 		</main>
