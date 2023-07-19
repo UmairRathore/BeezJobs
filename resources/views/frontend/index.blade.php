@@ -287,6 +287,10 @@
                                                 <div class="job-urs-dts">
                                                     <a href="{{route('other_freelancer_profile',[$user->id])}}"><h4>{{$user->first_name.' '.$user->last_name}}</h4></a>
                                                     <span>{{$user->profession}}</span>
+                                                    <div class="job-desc">
+                                                        <p>{{ $user->tagline }}</p>
+                                                    </div>
+
                                                 </div>
                                             </div>
                                             <div class="job-price hire-price">${{$user->pay_rate}}</div>
