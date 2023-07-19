@@ -23,6 +23,7 @@
 		<!-- Body Start -->
 		<main class="browse-section">
 			<div class="container">
+                <div id="map" style="height: 400px;"></div>
 				<div class="row">
 					<div class="col-lg-4 col-md-5">
                         <form method="get" action="{{route('browse_jobs')}}">
@@ -84,6 +85,23 @@
                                         <div class="rg-limit">
                                             <h4>5</h4>
                                             <h4>5000</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="fltr-group">
+                                    <div class="fltr-items-heading">
+                                        <div class="fltr-item-left">
+                                            <h6>Bid <span>($)</span></h6>
+                                        </div>
+                                        <div class="fltr-item-right">
+                                            <a href="#">Clear</a>
+                                        </div>
+                                    </div>
+                                    <div class="filter-dd">
+
+                                        <div class="ui checkbox">
+                                            <input type="checkbox" name="has_bid" value="1" @if(request()->has('has_bid')) checked @endif>
+                                            <label>Has Bid</label>
                                         </div>
                                     </div>
                                 </div>
@@ -224,5 +242,56 @@
 				</div>
 			</div>
 		</main>
-		<!-- Body End -->
+
+{{--{{dd($jobs)}};--}}
+@endsection
+
+@section('google_Map_Location_SignUp')
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAF0m_0JWZgOmoExRNRO3lwem1yfqJJ6B4&callback=initMap" async defer></script>
+    <script>
+        var map;
+
+        function initMap() {
+            alert('initMap function is called');
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: { lat: 51.5074, lng: -0.1278 },
+                zoom: 10
+            });
+
+            var bounds = new google.maps.LatLngBounds();
+
+            @foreach($jobs as $job)
+            var position = { lat: {{ $job->latitude }}, lng: {{ $job->longitude }} };
+            createMarker(position, '{{ addslashes($job->title) }}', '{{ addslashes($job->location) }}');
+            bounds.extend(position); // Extend bounds to include the marker
+            @endforeach
+
+            // Fit the map to show all markers
+            if (bounds.isEmpty()) {
+                // No markers found, show default view
+                map.setCenter({ lat: 51.5074, lng: -0.1278 });
+                map.setZoom(10);
+            } else {
+                map.fitBounds(bounds);
+            }
+        }
+
+        function createMarker(position, title, content) {
+            var marker = new google.maps.Marker({
+                position: position,
+                map: map,
+                title: title
+            });
+
+            var infowindow = new google.maps.InfoWindow({
+                content: '<div>' + title + ' - ' + content + '</div>'
+            });
+
+            marker.addListener('click', function() {
+                infowindow.open(map, marker);
+            });
+        }
+    </script>
+
 @endsection

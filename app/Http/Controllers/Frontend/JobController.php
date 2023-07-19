@@ -87,15 +87,18 @@ class JobController extends Controller
         $this->data['professions'] = Profession::all();
         return view('frontend.categories.browse_categories',$this->data);
     }
+
     public function browse_jobs(Request $request, $lat = null, $lng = null)
     {
-        $lat = $request->lat;
-        $lng = $request->lng;
+
         $this->data['categories'] = Profession::get();
-        $this->data['jobs'] = Job::select('jobs.*', 'jobs.id as jid', 'professions.profession')
+        $this->data['jobs'] = Job::select('jobs.*', 'jobs.id as jid', 'professions.profession','users.longitude','users.latitude')
             ->join('users', 'users.id', '=', 'jobs.user_id')
             ->join('professions', 'professions.id', '=', 'users.profession_id');
-        if ($lat && $lng) {
+        if ($request->lat && $request->lng) {
+//            dd('hello at lng requested');
+            $lat = $request->lat;
+            $lng = $request->lng;
             $users = User::select('users.*', 'professions.profession as profession_name')
                 ->where('status', 1)
                 ->where('role_id', 2)
@@ -112,14 +115,13 @@ class JobController extends Controller
                     $nearbyUsers[] = $user;
                 }
             }
-//            dd($distance);
 
             $this->data['users'] = $nearbyUsers;
-//            dd($this->data['users']);
-//dd($this->data['users']->id=1533););
+
             $userIds = collect($this->data['users'])->pluck('id');
-            $jobs = Job::select('jobs.*','jobs.id as jid' )->whereIn('user_id', $userIds)->paginate(10);
-//            dd($jobs);
+            $jobs = Job::select('jobs.*','jobs.id as jid','users.longitude','users.latitude' )->join('users','jobs.user_id','=','users.id')
+                ->whereIn('user_id', $userIds)->paginate(10);
+
             if ($jobs->isEmpty()) {
                 $this->data['jobs'] = $this->data['jobs']->orderBy('jobs.created_at', 'desc')->paginate(10);
             } else {
@@ -127,15 +129,18 @@ class JobController extends Controller
             }
 
         }
-        else {
-
-
+        elseif($request->search || $request->category || $request->pay_rate_range || $request->location || $request->has('has_bid')) {
             $search = $request->search;
             $category = $request->category;
             $pay_rate_range = $request->pay_rate_range;
             $location = $request->location;
-            $start_date = $request->input('start_date');
-            $end_date = $request->input('end_date');
+
+            $hasBidFilter = $request->has('has_bid');
+            if ($hasBidFilter) {
+                $this->data['jobs']->leftJoin('bids', 'jobs.id', '=', 'bids.job_id')
+                    ->groupBy('jobs.id')
+                    ->havingRaw('COUNT(bids.id) > 0');
+            }
 
 
             if (!empty($search)) {
@@ -145,45 +150,75 @@ class JobController extends Controller
                 $this->data['jobs']->where('professions.id', $category);
             }
 
-            if (!empty($start_date) && !empty($end_date)) {
-                // Convert the start and end dates to Carbon instances for proper comparison
-                $startDate = Carbon::parse($start_date)->startOfDay();
-                $endDate = Carbon::parse($end_date)->endOfDay();
-
-                $this->data['jobs']->whereBetween('date', [$startDate, $endDate]);
-            }
             if (!empty($pay_rate_range)) {
                 if ($pay_rate_range == 0) {
                     $pay_rate_range = null;
                 }
                 $this->data['jobs']->where('jobs.budget', '<=', $pay_rate_range);
-
             }
 
             if (!empty($location)) {
                 $this->data['jobs']->where('jobs.location', 'like', "%{$location}%");
             }
 
+
+//
+//            foreach ($this->data['jobs'] as $jobs) {
+//                $distance = $this->calculateDistance($lat, $lng, $jobs->latitude, $jobs->longitude);
+//                if ($distance <= 10000) { // Modify the distance threshold as needed
+//                    $this->data['jobs'] = $jobs;
+//                }
+//            }
+
             $this->data['jobs'] = $this->data['jobs']->orderBy('jobs.created_at', 'desc')->paginate(10);
+
         }
+        else{
+//            dd('hello at lng not requested');
+            $user = User::where('id', \auth()->user()->id)->select('longitude', 'latitude')->first();
+            $lat = $user->latitude;
+            $lng = $user->longitude;
+        $users = User::select('users.*', 'professions.profession as profession_name')
+            ->where('status', 1)
+            ->where('role_id', 2)
+            ->join('professions', 'users.profession_id', '=', 'professions.id')
+            ->whereNotNull('latitude')
+            ->whereNotNull('longitude')
+            ->get();
+
+        $nearbyUsers = [];
+
+        foreach ($users as $user) {
+            $distance = $this->calculateDistance($lat, $lng, $user->latitude, $user->longitude);
+            if ($distance <= 10000) { // Modify the distance threshold as needed
+                $nearbyUsers[] = $user;
+            }
+        }
+
+        $this->data['users'] = $nearbyUsers;
+
+        $userIds = collect($this->data['users'])->pluck('id');
+        $jobs = Job::select('jobs.*','jobs.id as jid','users.longitude','users.latitude' )->join('users','jobs.user_id','=','users.id')
+            ->whereIn('user_id', $userIds)->paginate(10);
+
+        if ($jobs->isEmpty()) {
+            $this->data['jobs'] = $this->data['jobs']->orderBy('jobs.created_at', 'desc')->paginate(10);
+        } else {
+            $this->data['jobs'] = $jobs;
+        }
+            $this->data['user_lat'] = $lat;
+            $this->data['user_lng'] = $lng;
+    }
         return view('frontend.job.browse_jobs',$this->data);
     }
 
-
-
-
-
     public function job_single_view($id)
     {
-//        dd($id);
+
         if (Auth::user()) {
             $user_id = Auth::user()->id;
         }
-//        $this->data['job']
 
-//        dd($this->data['job']);
-
-//        $this->data['bids']
         $this->data['bids'] = Bid::select('bids.*', 'jobs.user_id as jobUserId','u.location', 'u.first_name', 'u.last_name','u.rating')
             ->where('job_id', $id)
             ->join('users as u', 'u.id', '=', 'bids.user_id')
@@ -195,7 +230,7 @@ class JobController extends Controller
             ->join('users', 'users.id', '=', 'jobs.user_id')
 //            ->join('professions', 'users.profession_id', '=', 'professions.id')
             ->first();
-//        dd($this->data['job']);
+
 
         return view('frontend.job.job_single_view', $this->data);
 
