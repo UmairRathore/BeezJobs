@@ -77,17 +77,17 @@
                                         </div>
                                     </div>
                                     <div class="filter-dd">
-                                        <div class="rg-slider">
-                                            <input class="rn-slider slider-input" type="range" min="0" max="1000" step="1" value="0"  name="pay_rate_range"/>
-
-                                            {{--                                    <input class="rn-slider slider-input" type="range" value="5,500"/>--}}
-                                        </div>
-                                        <div class="rg-limit">
-                                            <h4>5</h4>
-                                            <h4>5000</h4>
+                                        <div class="rg-limit" style="display: flex; justify-content: space-between;">
+                                            <div>
+                                                <input type="number" min="0" max="1000" step="1" name="pay_rate_min" placeholder="Min" />
+                                            </div>
+                                            <div>
+                                                <input type="number" min="0" max="1000" step="1" name="pay_rate_max" placeholder="Max" />
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="fltr-group">
                                     <div class="fltr-items-heading">
                                         <div class="fltr-item-left">
@@ -116,6 +116,8 @@
                                         </div>
                                     </div>
                                     <input id="location" class="job-input" type="text" name="location" placeholder="Enter a location">
+                                    <input type="hidden" id="lat" name="lat">
+                                    <input type="hidden" id="lng" name="lng">
                                 </div>
 
                                 <div class="filter-button">
@@ -164,7 +166,7 @@
 													</div>
 													<div class="job-right-dt">
 														<div class="job-price">${{$job->budget}}</div>
-														<div class="job-fp">{{$job->time_of_day}}</div>
+{{--														<div class="job-fp">{{$job->time_of_day}}</div>--}}
 													</div>
 												</div>
 												<div class="job-des-dt">
@@ -242,18 +244,26 @@
 				</div>
 			</div>
 		</main>
-
-{{--{{dd($jobs)}};--}}
+{{--{{dd($jobs)}}--}}
+{{--<?php--}}
+{{--    $data[] = '';--}}
+{{--foreach($jobs as $job)--}}
+{{-- {--}}
+{{--$data = $job->latitude.'   '.$job->longitude;--}}
+{{--}--}}
+{{--dd($data);--}}
+{{--    ?>--}}
 @endsection
 
 @section('google_Map_Location_SignUp')
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAF0m_0JWZgOmoExRNRO3lwem1yfqJJ6B4&callback=initMap" async defer></script>
+{{--    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAF0m_0JWZgOmoExRNRO3lwem1yfqJJ6B4&callback=initMap" async defer></script>--}}
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAF0m_0JWZgOmoExRNRO3lwem1yfqJJ6B4&libraries=places"></script>
     <script>
         var map;
 
         function initMap() {
-            alert('initMap function is called');
+            // alert('initMap function is called');
             map = new google.maps.Map(document.getElementById('map'), {
                 center: { lat: 51.5074, lng: -0.1278 },
                 zoom: 10
@@ -277,6 +287,25 @@
             }
         }
 
+        var searchInput = 'location';
+
+        const autocomplete = new google.maps.places.Autocomplete(
+            document.getElementById(searchInput),
+            {
+                types: ['address'],
+                // componentRestrictions: { country: 'US' } // optional
+            }
+        );
+
+        autocomplete.addListener('place_changed', () => {
+            const place = autocomplete.getPlace();
+            console.log(place);
+
+            // Update the hidden input fields with latitude and longitude values
+            document.getElementById('lat').value = place.geometry.location.lat();
+            document.getElementById('lng').value = place.geometry.location.lng();
+            // alert(document.getElementById('lng').value);
+        });
         function createMarker(position, title, content) {
             var marker = new google.maps.Marker({
                 position: position,
@@ -292,6 +321,9 @@
                 infowindow.open(map, marker);
             });
         }
+        window.onload = function() {
+            initMap();
+        };
     </script>
 
 @endsection

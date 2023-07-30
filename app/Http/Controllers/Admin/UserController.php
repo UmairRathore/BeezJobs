@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Gender;
+use App\Models\Job;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -31,7 +32,53 @@ class UserController extends Controller
     //
     public function createRandomUsers()
     {
-        User::createRandomUsers(11);
+//        User::createRandomUsers(11);
+
+        $jobs = Job::all();
+        $users = User::all();
+
+// Shuffle the users to randomize the order
+        $shuffledUsers = $users->shuffle();
+
+// Update each job with a different user_id
+        foreach ($jobs as $index => $job) {
+            $user = $shuffledUsers[$index % count($shuffledUsers)];
+            $job->user_id = $user->id;
+            $job->save();
+        }
+       //        $minLatitude = 24.396308;
+//        $maxLatitude = 49.384358;
+//        $minLongitude = -125.000000;
+//        $maxLongitude = -66.934570;
+//
+//        $users = User::all();
+//        foreach ($users as $user) {
+//            $location = User::find($user->id);
+//
+//            // Generate unique latitude and longitude for each user within the USA boundaries
+//            $uniqueLatitude = null;
+//            $uniqueLongitude = null;
+//            do {
+//                $uniqueLatitude = mt_rand($minLatitude * 1000000, $maxLatitude * 1000000) / 1000000;
+//                $uniqueLongitude = mt_rand($minLongitude * 1000000, $maxLongitude * 1000000) / 1000000;
+//
+//                // Check if the generated coordinates already exist in the database
+//                $existingUser = User::where('latitude', '=', $uniqueLatitude)
+//                    ->where('longitude', '=', $uniqueLongitude)
+//                    ->first();
+//            } while ($existingUser);
+//
+//            $location->longitude = $uniqueLongitude;
+//            $location->latitude = $uniqueLatitude;
+//            $check = $location->save();
+//
+//            if ($check) {
+//                echo 'Latitude and longitude added for user ID: ' . $user->id . PHP_EOL;
+//            }
+//        }
+
+
+//        User::createRandomUsers(11);
         return redirect()->back();
     }
 

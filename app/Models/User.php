@@ -30,9 +30,14 @@ class User extends Authenticatable
         'profession_id',
         'pay_rate',
         'websites',
-        'rating'
+        'rating',
+        'online_status'
     ];
 
+    public function setOnlineStatus($status)
+    {
+        $this->update(['online_status' => $status]);
+    }
 
     public static function createRandomsUsers($filePath)
     {

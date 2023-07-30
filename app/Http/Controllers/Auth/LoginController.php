@@ -21,9 +21,22 @@ use Stevebauman\Location\Facades\Location;
 class LoginController extends Controller
 {
 
+    public function userStatus(Request $request)
+    {
+        // Check if the user is authenticated
+        if (Auth::guard('user')->check()) {
+            return response()->json(['isOnline' => true]);
+        } else {
+            return response()->json(['isOnline' => false]);
+        }
+    }
 
     public function signout()
     {
+        $logoutstatus = User::find(\auth()->user()->id)->first();
+        $logoutstatus->online_status = 0;
+        $logoutstatus->save();
+
         $check = Auth::guard('user')->logout();
         if ($check == null) {
             return view('auth.signin');
@@ -66,12 +79,18 @@ class LoginController extends Controller
         if (Auth::guard('user')->attempt(['email' => $email, 'password' => $password], true) && auth('user')->user()->status == 1 && auth('user')->user()->role_id == 1) {
             //            echo 'admin';
 
+            $loginstatus = User::where('id',\auth()->user()->id)->first();
+            $loginstatus->online_status = "1";
+            $loginstatus->save();
             return redirect('/dashboard');
 //            return 'admin dashboard is in development';
 
 
         } elseif (Auth::guard('user')->attempt(['email' => $email, 'password' => $password], true) && auth('user')->user()->status == 1 && auth('user')->user()->role_id == 2) {
 
+            $loginstatus = User::where('id',\auth()->user()->id)->first();
+            $loginstatus->online_status = "1";
+            $loginstatus->save();
             if (json_decode($request->cookie('job_data'), true)) {
                 $newJobData = json_decode($request->cookie('job_data'), true);
                 if ($newJobData) {
@@ -79,11 +98,21 @@ class LoginController extends Controller
                     $task->user_id = auth('user')->user()->id;
                     $task->title = $newJobData['title'];
                     $task->date = $newJobData['date'];
-                    $task->time_of_day = $newJobData['time_of_day'];
+//                    $task->time_of_day = $newJobData['time_of_day'];
                     $task->online_or_in_person = $newJobData['online_or_in_person'];
                     $task->location = $newJobData['location'];
                     $task->description = $newJobData['description'];
                     $task->budget = $newJobData['budget'];
+                    $task->profession_id = $request->input('profession_id');
+                    if ($request->hasfile('file_attachments')) {
+                        //upload new file
+                        $file = $request->file('file_attachments');
+                        $path = 'images/';
+//                $extension=$file->getClientOriginalExtension();
+                        $filename = $path . time() . '.' . $file->getClientOriginalExtension();
+                        $file->move($path, $filename);
+                        $task->file_attachments = $filename;
+                    }
                     $check = $task->save();
                     if ($check) {
                         return redirect()->route('job_single_view', ['id' => $task->id])->withCookie(Cookie::forget('job_data'))->with('success', 'Job created successfully!');
@@ -93,6 +122,7 @@ class LoginController extends Controller
                 }
             } elseif (json_decode($request->cookie('service_data'), true)) {
                 $newServiceData = json_decode($request->cookie('service_data'), true);
+//                dd($newServiceData->title);
                 if ($newServiceData) {
                     $userId = auth('user')->user()->id;
 
@@ -112,6 +142,8 @@ class LoginController extends Controller
                         $existingService->standard_description = $newServiceData['standard_description'];
                         $existingService->premium_price = $newServiceData['premium_price'];
                         $existingService->premium_description = $newServiceData['premium_description'];
+                        $existingService->profession_id = $request->input('profession_id');
+
 
                         $check = $existingService->save();
 
@@ -141,6 +173,8 @@ class LoginController extends Controller
                         $service->standard_description = $newServiceData['standard_description'];
                         $service->premium_price = $newServiceData['premium_price'];
                         $service->premium_description = $newServiceData['premium_description'];
+                        $service->profession_id = $request->input('profession_id');
+
 
                         $check = $service->save();
 
@@ -156,6 +190,7 @@ class LoginController extends Controller
                         }
                     }
                 }
+
             } else {
                 return redirect('/freelancesignup');
             }
@@ -164,6 +199,9 @@ class LoginController extends Controller
 
         } elseif (Auth::guard('user')->attempt(['email' => $email, 'password' => $password], true) && auth('user')->user()->status == 0 && auth('user')->user()->role_id == 2) {
 
+            $loginstatus = User::where('id',\auth()->user()->id)->first();
+            $loginstatus->online_status = "1";
+            $loginstatus->save();
             if (json_decode($request->cookie('job_data'), true)) {
                 $newJobData = json_decode($request->cookie('job_data'), true);
                 if ($newJobData) {
@@ -176,6 +214,16 @@ class LoginController extends Controller
                     $task->location = $newJobData['location'];
                     $task->description = $newJobData['description'];
                     $task->budget = $newJobData['budget'];
+                    $task->profession_id = $request->input('profession_id');
+                    if ($request->hasfile('file_attachments')) {
+                        //upload new file
+                        $file = $request->file('file_attachments');
+                        $path = 'images/';
+//                $extension=$file->getClientOriginalExtension();
+                        $filename = $path . time() . '.' . $file->getClientOriginalExtension();
+                        $file->move($path, $filename);
+                        $task->file_attachments = $filename;
+                    }
                     $check = $task->save();
                     if ($check) {
                         return redirect()->route('job_single_view', ['id' => $task->id])->withCookie(Cookie::forget('job_data'))->with('success', 'Job created successfully!');

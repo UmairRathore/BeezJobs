@@ -74,18 +74,33 @@
                                 </div>
                             </div>
                             <div class="filter-dd">
-                                <div class="rg-slider">
-                                    <input class="rn-slider slider-input" value="0" type="range" min="0" max="1000" step="1"  name="pay_rate_range"/>
-
-{{--                                    <input class="rn-slider slider-input" type="range" value="5,500"/>--}}
-                                </div>
-                                <div class="rg-limit">
-                                    <h4>5</h4>
-                                    <h4>5000</h4>
+                                <div class="rg-limit" style="display: flex; justify-content: space-between;">
+                                    <div>
+                                        <input type="number" min="0" max="1000" step="1" name="pay_rate_min" placeholder="Min" />
+                                    </div>
+                                    <div>
+                                        <input type="number" min="0" max="1000" step="1" name="pay_rate_max" placeholder="Max" />
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                        <div class="fltr-group">
+                            <div class="fltr-items-heading">
+                                <div class="fltr-item-left">
+                                    <h6>Online Freelancers <span>($)</span></h6>
+                                </div>
+                                <div class="fltr-item-right">
+                                    <a href="#">Clear</a>
+                                </div>
+                            </div>
+                            <div class="filter-dd">
 
+                                <div class="ui checkbox">
+                                    <input type="checkbox" name="online_status" value="1" @if(request()->has('online_status')) checked @endif>
+                                    <label>Check for online</label>
+                                </div>
+                            </div>
+                        </div>
                         <div class="fltr-group fltr-gend">
                             <div class="fltr-items-heading">
                                 <div class="fltr-item-left">
@@ -96,6 +111,8 @@
                                 </div>
                             </div>
                             <input id="location" class="job-input" type="text" name="location" placeholder="Enter a location">
+                            <input type="hidden" id="latitude" name="lat">
+                            <input type="hidden" id="longitude" name="lng">
                         </div>
                         <div class="fltr-group fltr-gend">
                             <div class="fltr-items-heading">
@@ -106,12 +123,19 @@
                                     <a href="#">Clear</a>
                                 </div>
                             </div>
-                            <input id="rating" class="job-input" type="text" name="rating" placeholder="Enter a Rating from 1-5">
-                            <div class="rg-limit">
-                                <h4>1</h4>
-                                <h4>5</h4>
+                            <div class="filter-dd">
+                                <div class="rg-slider">
+                                    <input class="rn-slider slider-input" value="1" type="range" min="1" max="5" step="1" name="rating" onchange="updateRatingValue(this.value)"/>
+                                </div>
+                            <p id="selected-rating">Selected Rating: 1</p>
+                                <div class="row" style="display: flex; justify-content: space-between;">
+                                    <p style="float: left; color: black;"> 1</p>
+                                    <p style="float: right;  color: black;"> 5</p>
+                                </div>
                             </div>
                         </div>
+
+
                         <div class="filter-button">
                             <button type="submit" class="flr-btn">Search Now</button>
                         </div>
@@ -153,12 +177,16 @@
                                     <div class="lg-item5 col-lg-6 col-xs-6 grid-group-item5">
                                         <div class="job-item mt-30">
                                             <div class="job-top-dt1 text-center">
+{{--                                                <div class="job-price hire-price">${{$user->basic_price}}/hr</div>--}}
                                                 <div class="job-center-dt">
                                                     <img src="{{asset($user->profile_image)}}" alt="">
                                                     <div class="job-urs-dts">
                                                         <a href="{{route('other_freelancer_profile',[$user->id])}}"><h4>{{$user->first_name.' '.$user->last_name}}</h4></a>
                                                         <span>{{$user->profession->profession}}</span>
-                                                        <div class="avialable">{{$user->time_of_day}}</div>
+                                                        <div class="job-desc">
+                                                            <p>{{ $user->tagline }}</p>
+                                                        </div>
+
                                                     </div>
                                                 </div>
                                                 <div class="job-price hire-price">${{$user->pay_rate}}/hr</div>
@@ -279,6 +307,13 @@
             const place = autocomplete.getPlace();
             console.log(place); //
         });
+
+
+            function updateRatingValue(value) {
+            // Display the selected rating value
+            document.getElementById('selected-rating').innerText = 'Selected Rating: ' + value;
+        }
+
 
 
 

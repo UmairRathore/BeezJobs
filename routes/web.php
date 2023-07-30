@@ -36,6 +36,9 @@ use Illuminate\Support\Facades\Route;
 
 //Route::post('/process-order/{orderId}', [PaymentController::class, 'processOrder'])->name('process-order');
 
+////User Status Online or offline
+//Route::get('/user_status', [LoginController::class, 'userStatus'])->name('user_status');
+
 
 //Authentication
 Route::get('/randomuser', [UserController::class, 'createRandomUsers'])->name('add.random');

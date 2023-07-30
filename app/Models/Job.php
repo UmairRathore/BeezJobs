@@ -18,6 +18,8 @@ class Job extends Model
         'online_or_in_person',
         'location',
         'description',
+        'profession_id',
+        'file_attachments',
         'budget',
         'hourly_rate',
         'basic_price',

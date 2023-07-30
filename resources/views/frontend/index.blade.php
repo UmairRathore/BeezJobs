@@ -180,7 +180,7 @@
                                             </div>
                                             <div class="job-right-dt">
                                                 <div class="job-price">${{$job->budget}}</div>
-                                                <div class="job-fp">{{$job->time_of_day}}</div>
+{{--                                                <div class="job-fp">{{$job->time_of_day}}</div>--}}
                                             </div>
                                         </div>
                                         <div class="job-des-dt">
