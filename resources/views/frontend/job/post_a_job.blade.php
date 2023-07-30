@@ -42,7 +42,7 @@
                     </div>
                     <div class="post501">
 
-                        <form action="{{route('post_a_job')}}" method="post">
+                        <form action="{{route('post_a_job')}}" method="post" enctype="multipart/form-data">
                             @csrf
                             <div class="row">
                                 <div class="col-lg-12">
@@ -55,6 +55,28 @@
                                         <textarea name="description" class="textarea_input" placeholder="Tell us what you need......"></textarea>
                                     </div>
                                 </div>
+
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label class="label15">Profession Category*</label>
+                                        <div class="smm_input">
+                                            <select name="profession_id" class="job-input">
+                                                <option value="">Select a category...</option>
+                                                @foreach($categories as $category)
+                                                    <option value="{{ $category->id }}">{{ $category->profession }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label class="label15">Attachments</label>
+                                        <input type="file" name="file_attachments" class="job-input">
+                                    </div>
+                                </div>
+
+
                                 <div class="col-lg-12">
                                     <div class="requires">
                                         Time and Date
@@ -64,11 +86,10 @@
                                     <div class="form-group">
                                         <label class="label15">Date*</label>
                                         <div class="smm_input">
-{{--                                            @if(auth()->check())--}}
-{{--                                            <input type="date" name="date" class="job-input" data-language="en" value="{{auth()->user()->birthday}}">--}}
-{{--                                            @else--}}
-                                            <input type="date" name="date" class="job-input" data-language="en" >
-{{--                                            @endif--}}
+                                            <!-- Use the input type "text" for datepicker -->
+                                            <input type="date" name="date" class="job-input" data-language="en"
+                                                   id="datepicker" placeholder="YYYY-MM-DD"
+                                            >
                                             <div class="mix_max"><i class="fas fa-calendar-alt"></i></div>
                                         </div>
                                     </div>
@@ -149,6 +170,8 @@
 
 
     <!-- Body End -->
+{{--    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>--}}
+{{--    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>--}}
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAF0m_0JWZgOmoExRNRO3lwem1yfqJJ6B4&libraries=places"></script>
@@ -179,40 +202,20 @@
         }
         }
 
-    </script>
-@endsection
 
-{{--<div class="time-picker">--}}
-{{--    <div class="time-box">--}}
-{{--        <div class="icon">--}}
-{{--            <i class="fas fa-sun"></i>--}}
-{{--        </div>--}}
-{{--        <div class="label">--}}
-{{--            Morning--}}
-{{--        </div>--}}
-{{--    </div>--}}
-{{--    <div class="time-box">--}}
-{{--        <div class="icon">--}}
-{{--            <i class="fas fa-cloud-sun"></i>--}}
-{{--        </div>--}}
-{{--        <div class="label">--}}
-{{--            Afternoon--}}
-{{--        </div>--}}
-{{--    </div>--}}
-{{--    <div class="time-box">--}}
-{{--        <div class="icon">--}}
-{{--            <i class="fas fa-cloud-moon"></i>--}}
-{{--        </div>--}}
-{{--        <div class="label">--}}
-{{--            Evening--}}
-{{--        </div>--}}
-{{--    </div>--}}
-{{--    <div class="time-box">--}}
-{{--        <div class="icon">--}}
-{{--            <i class="fas fa-moon"></i>--}}
-{{--        </div>--}}
-{{--        <div class="label">--}}
-{{--            Night--}}
-{{--        </div>--}}
-{{--    </div>--}}
-{{--</div>--}}
+            $(function() {
+            $("#datepicker").datepicker({
+                format: "dd-M-yyyy", // Format the date as "dd-M-yyyy" (e.g., 12-Feb-1979)
+                autoclose: true, // Close the datepicker when a date is selected
+                todayHighlight: true // Highlight today's date
+                // Add more options as needed
+            }).on('change', function() {
+                // Convert the selected date to the correct format before form submission
+                var selectedDate = $(this).datepicker('getDate');
+                var formattedDate = $.datepicker.formatDate('yy-mm-dd', selectedDate);
+                $(this).val(formattedDate);
+            });
+        });
+    </script>
+
+@endsection
