@@ -17,13 +17,14 @@ class ServiceController extends Controller
     //
     public function showservice()
     {
+        $this->data['categories'] = Profession::all();
         if (auth()->check()) {
             $this->data['existingService'] = Job::where('user_id', auth()->user()->id)->whereNotNull('job_type')->first();
             $this->data['heading'] = 'Update Your Services';
         return view('frontend.service.post_a_service', $this->data);
         }else{
 
-        return view('frontend.service.post_a_service');
+        return view('frontend.service.post_a_service',$this->data);
         }
     }
 
@@ -82,6 +83,8 @@ class ServiceController extends Controller
             $existingService->standard_description = $request->input('standard_description');
             $existingService->premium_price = $request->input('premium_price');
             $existingService->premium_description = $request->input('premium_description');
+            $existingService->profession_id = $request->input('profession_id');
+
 
             $check = $existingService->save();
             if ($check) {
