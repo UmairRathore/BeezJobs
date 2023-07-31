@@ -11,6 +11,7 @@ use App\Models\Order;
 use App\Models\OrderAttempt;
 use App\Models\Profession;
 use App\Models\Review;
+use App\Models\TransactionHistory;
 use App\Models\UserCards;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -83,7 +84,18 @@ class FreelancerDashboardController extends Controller
     }
     public function my_freelancer_payments()
     {
-        return view('frontend.freelancer.my_freelancer.my_freelancer_payments');
+
+        $user_id = auth()->user()->id;
+
+        $this->data['user'] = User::where('id',$user_id)->select('wallet_amount')->first();
+        // Fetch the transaction details for the user
+        $this->data['transactions'] = TransactionHistory::where('user_id', $user_id)->get();
+
+        // Calculate the wallet balance based on transaction types
+        $this->data['sentAmount'] = $this->data['transactions']->where('type', 'sent')->sum('amount');
+        $this->data['receivedAmount'] = $this->data['transactions']->where('type', 'received')->sum('amount');
+
+        return view('frontend.freelancer.my_freelancer.my_freelancer_payments',$this->data);
     }
     public function my_freelancer_profile()
     {
@@ -222,27 +234,51 @@ class FreelancerDashboardController extends Controller
         }
         else {
             $category = $request->input('category');
-            $pay_rate_range = $request->input('pay_rate_range');
+            $pay_rate_max = $request->pay_rate_max;
+            $pay_rate_min = $request->pay_rate_min;
             $location = $request->input('location');
             $search = $request->input('search');
             $rating = $request->input('rating');
+            $onlineStatus = $request->input('online_status');
             if (!empty($search)) {
                 $this->data['users']->where('professions.id', $search)
                     ->orwhere('users.location', 'like', '%' . $search . '%')->first();
             }
 
             if (!empty($category)) {
-                $this->data['users']->where('professions.id', $category);
+                if (is_array($category)) {
+                    $this->data['users']->whereIn('professions.id', $category);
+                } else {
+                    $this->data['users']->where('professions.id', $category);
+                }
             }
             if (!empty($rating)) {
                 $this->data['users']->where('users.rating', '<>', $rating);
             }
+            if (!empty($onlineStatus)) {
+                $this->data['users']->where('users.online_status', '=', $onlineStatus);
+            }
+            if (!empty($onlineStatus)) {
+                if ($onlineStatus == 1) {
+                    $this->data['users']->Where('online_status', 1);
+                } elseif ($onlineStatus == 0) {
+                    $this->data['users']->Where('online_status', 0);
+                }
+            }
 
-            if (!empty($pay_rate_range)) {
-                if ($pay_rate_range == 0) {
-                    $pay_rate_range = null;
+            if (!empty($pay_rate_min)) {
+                if ($pay_rate_min == 0) {
+                    $pay_rate_min = null;
                 } else {
-                    $this->data['users']->where('users.pay_rate', '<=', $pay_rate_range);
+                    $this->data['users']->where('users.pay_rate', '>=', $pay_rate_min);
+                }
+            }
+
+            if (!empty($pay_rate_max)) {
+                if ($pay_rate_max == 0) {
+                    $pay_rate_max = null;
+                } else {
+                    $this->data['users']->where('users.pay_rate', '<=', $pay_rate_max);
                 }
             }
 
@@ -470,7 +506,76 @@ class FreelancerDashboardController extends Controller
             $completed->status = 'completed';
             $completed->save();
 
-            return  back()->with('accepted','Order Task submission accepted Successfully');
+            // Retrieve the offer and payment details
+            $offer = Offer::find($request->id);
+            $paymentIntentId = $offer->payment_intent_id;
+            $offerId = $offer->id;
+
+            // Retrieve the seller_id from the messages table
+            $message = Message::where('offer_id', $offerId)->first();
+            $sellerId = $message->sender_id;
+
+            if ($paymentIntentId) {
+                // Retrieve the payment intent
+                Stripe::setApiKey('sk_test_51N2idRBKx4V0XOuhKr3M6HX0oIuewI4MgWBzAjEOTErra8eEK6beRyumfsGmbD2J4Waq3DB4wxD0OpZLriHBRXgi00HvChlG3J');
+                $paymentIntent = PaymentIntent::retrieve($paymentIntentId);
+
+                // Get the captured amount from the payment intent
+                $capturedAmount = $paymentIntent->amount / 100; // Convert amount from cents to dollars
+
+                // Calculate the amounts for admin and seller
+                $adminAmount = $capturedAmount * 0.05; // 20% for admin
+                $sellerAmount = $capturedAmount - $adminAmount; // Remaining for seller
+
+                // Transfer amount to admin's account
+                $adminTransfer = Transfer::create([
+                    'amount' => $adminAmount * 100, // Convert amount to cents
+                    'currency' => 'usd',
+                    'destination' => 'ADMIN_STRIPE_ACCOUNT_ID', // Replace with the actual admin's Stripe account ID
+                    'transfer_group' => $offerId,
+                ]);
+
+                // Handle any errors during transfer to admin
+                if ($adminTransfer->status !== 'succeeded') {
+                    return back()->with('error', 'Payment transfer to admin failed. Please try again.');
+                }
+
+                // Transfer amount to seller's account
+                $sellerTransfer = Transfer::create([
+                    'amount' => $sellerAmount * 100, // Convert amount to cents
+                    'currency' => 'usd',
+                    'destination' => 'SELLER_STRIPE_ACCOUNT_ID', // Replace with the actual seller's Stripe account ID
+                    'transfer_group' => $offerId,
+                ]);
+
+                // Handle any errors during transfer to seller
+                if ($sellerTransfer->status !== 'succeeded') {
+                    return back()->with('error', 'Payment transfer to seller failed. Please try again.');
+                }
+
+                // Record the transaction history for seller
+                $sellerTransaction = new TransactionHistory();
+                $sellerTransaction->user_id = $sellerId;
+                $sellerTransaction->amount = $sellerAmount;
+                $sellerTransaction->type = 'received';
+                $sellerTransaction->offer_id = $offerId;
+                $sellerTransaction->save();
+
+                // Record the transaction history for admin
+                $adminTransaction = new TransactionHistory();
+                $adminTransaction->user_id = 1; // Replace with the actual admin's user ID
+                $adminTransaction->amount = $adminAmount;
+                $adminTransaction->type = 'received';
+                $adminTransaction->offer_id = $offerId;
+                $adminTransaction->save();
+
+                // Update the seller's wallet amount
+                $seller = User::find($sellerId);
+                $seller->wallet_amount += $sellerAmount;
+                $seller->save();
+            }
+
+            return back()->with('accepted', 'Order Task submission accepted Successfully');
         }
         if($request->rejected)
         {
