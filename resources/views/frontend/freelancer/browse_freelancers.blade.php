@@ -55,8 +55,8 @@
                             <div class="inline fields">
                                 <div class="field">
                                     <label></label>
-                                    <select class="ui fluid dropdown" name="category">
-                                        <option value="">Select a category...</option>
+                                    <select class="ui fluid dropdown" name="category[]" multiple>
+                                        <option value="">Select category...</option>
                                         @foreach($categories as $category)
                                             <option value="{{ $category->id }}">{{ $category->profession }}</option>
                                         @endforeach

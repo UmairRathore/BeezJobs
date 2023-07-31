@@ -58,8 +58,8 @@
                                     <div class="inline fields">
                                         <div class="field">
                                             <label></label>
-                                            <select class="ui fluid dropdown" name="category">
-                                                <option value="">Select a category...</option>
+                                            <select class="ui fluid dropdown" name="category[]" multiple>
+                                                <option value="">Select category...</option>
                                                 @foreach($categories as $category)
                                                     <option value="{{ $category->id }}">{{ $category->profession }}</option>
                                                 @endforeach
@@ -67,6 +67,46 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="fltr-group">
+                                    <div class="fltr-items-heading">
+                                        <div class="fltr-item-left">
+                                            <h6>Online/In-person</h6>
+                                        </div>
+                                        <div class="fltr-item-right">
+                                            <a href="#">Clear</a>
+                                        </div>
+                                    </div>
+
+                                    <div class="inline fields">
+                                        <div class="field">
+                                            <div class="ui radio checkbox">
+                                                <input type="radio" name="online_in_person" value="online">
+                                                <label>Online</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="field">
+                                            <div class="ui radio checkbox">
+                                                <input type="radio" name="online_in_person" value="in_person" data-type="in_person">
+                                                <label>In-person</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="fltr-group fltr-gend">
+                                    <div class="fltr-items-heading">
+                                        <div class="fltr-item-left">
+                                            <h6>Location</h6>
+                                        </div>
+                                        <div class="fltr-item-right">
+                                            <a href="#">Clear</a>
+                                        </div>
+                                    </div>
+                                    <input id="location" class="job-input" type="text" name="location" placeholder="Enter a location">
+                                    <input type="hidden" id="lat" name="lat">
+                                    <input type="hidden" id="lng" name="lng">
+                                </div>
+
                                 <div class="fltr-group">
                                     <div class="fltr-items-heading">
                                         <div class="fltr-item-left">

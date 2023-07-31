@@ -153,11 +153,12 @@ class JobController extends Controller
                 $this->data['jobs'] = $jobs;
             }
 
-        } elseif ($request->search || $request->category || $request->pay_rate_min || $request->pay_rate_max || $request->has('has_bid')) {
+        } elseif ($request->online_in_person || $request->search || $request->category || $request->pay_rate_min || $request->pay_rate_max || $request->has('has_bid')) {
             $search = $request->search;
             $category = $request->category;
             $pay_rate_max = $request->pay_rate_max;
             $pay_rate_min = $request->pay_rate_min;
+            $online_in_person = $request->online_in_person;
 //            $location = $request->location;
 
             $hasBidFilter = $request->has('has_bid');
@@ -172,7 +173,18 @@ class JobController extends Controller
                 $this->data['jobs']->where('professions.profession', 'LIKE', "%{$search}%");
             }
             if (!empty($category)) {
-                $this->data['jobs']->where('professions.id', $category);
+                if (is_array($category)) {
+                    $this->data['jobs']->whereIn('professions.id', $category);
+                } else {
+                    $this->data['jobs']->where('professions.id', $category);
+                }
+            }
+            if (!empty($online_in_person)) {
+                if ($online_in_person === 'online') {
+                    $this->data['jobs']->where('jobs.online_or_in_person', 'online');
+                } elseif ($online_in_person === 'in_person') {
+                    $this->data['jobs']->where('jobs.online_or_in_person', 'in_person');
+                }
             }
 
             if (!empty($pay_rate_min)) {
