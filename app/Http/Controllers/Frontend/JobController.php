@@ -112,15 +112,19 @@ class JobController extends Controller
         return view('frontend.categories.browse_categories', $this->data);
     }
 
+
     public function browse_jobs(Request $request, $lat = null, $lng = null)
     {
 
-//        dd($request->lng);
+//        dd($request->location);
         $this->data['categories'] = Profession::get();
-        $this->data['jobs'] = Job::select('jobs.*', 'jobs.id as jid', 'professions.profession', 'users.longitude', 'users.latitude')
+        $this->data['jobs'] = Job::select('jobs.*', 'jobs.id as jid', 'professions.id as pid', 'professions.profession', 'users.longitude', 'users.latitude')
             ->join('users', 'users.id', '=', 'jobs.user_id')
             ->join('professions', 'professions.id', '=', 'users.profession_id');
-        if ($request->lat && $request->lng) {
+//        dd($this->data['jobs'] );
+        if ($request->lat && $request->lng && count($request->all()) === 2) {
+//            dd('lat and lng hello');
+//            dd($request->lat);
 //            dd('hello at lng requested');
             $lat = $request->lat;
             $lng = $request->lng;
@@ -144,7 +148,8 @@ class JobController extends Controller
             $this->data['users'] = $nearbyUsers;
 
             $userIds = collect($this->data['users'])->pluck('id');
-            $jobs = Job::select('jobs.*', 'jobs.id as jid', 'users.longitude', 'users.latitude')->join('users', 'jobs.user_id', '=', 'users.id')
+            $jobs = Job::select('jobs.*', 'jobs.id as jid', 'users.longitude', 'professions.profession', 'users.latitude')->join('users', 'jobs.user_id', '=', 'users.id')
+                ->join('professions', 'professions.id', '=', 'users.profession_id')
                 ->whereIn('user_id', $userIds)->paginate(10);
 
             if ($jobs->isEmpty()) {
@@ -153,13 +158,17 @@ class JobController extends Controller
                 $this->data['jobs'] = $jobs;
             }
 
-        } elseif ($request->online_in_person || $request->search || $request->category || $request->pay_rate_min || $request->pay_rate_max || $request->has('has_bid')) {
+        }
+        elseif ($request->online_in_person || $request->search || $request->category || $request->pay_rate_min || $request->pay_rate_max || $request->has('has_bid')) {
+
             $search = $request->search;
             $category = $request->category;
             $pay_rate_max = $request->pay_rate_max;
             $pay_rate_min = $request->pay_rate_min;
             $online_in_person = $request->online_in_person;
-//            $location = $request->location;
+            $location = $request->location;
+//           dd( $location);
+            $radius = $request->radius;
 
             $hasBidFilter = $request->has('has_bid');
             if ($hasBidFilter) {
@@ -167,8 +176,6 @@ class JobController extends Controller
                     ->groupBy('jobs.id')
                     ->havingRaw('COUNT(bids.id) > 0');
             }
-
-
             if (!empty($search)) {
                 $this->data['jobs']->where('professions.profession', 'LIKE', "%{$search}%");
             }
@@ -179,11 +186,101 @@ class JobController extends Controller
                     $this->data['jobs']->where('professions.id', $category);
                 }
             }
+
             if (!empty($online_in_person)) {
                 if ($online_in_person === 'online') {
                     $this->data['jobs']->where('jobs.online_or_in_person', 'online');
                 } elseif ($online_in_person === 'in_person') {
-                    $this->data['jobs']->where('jobs.online_or_in_person', 'in_person');
+//dd('hello');
+                    $this->data['jobs'] = Job::select('jobs.*', 'jobs.id as jid', 'professions.id as pid', 'professions.profession', 'users.longitude', 'users.latitude')
+                        ->join('users', 'users.id', '=', 'jobs.user_id')
+                        ->join('professions', 'professions.id', '=', 'users.profession_id');
+                    $jobsInPerons = Job::select('jobs.*', 'jobs.id as jid', 'professions.profession', 'users.longitude', 'users.latitude')
+                        ->join('users', 'jobs.user_id', '=', 'users.id')
+                        ->join('professions', 'professions.id', '=', 'users.profession_id')
+                        ->where('online_or_in_person', $online_in_person);
+
+                    $jobsCount = $jobsInPerons->count();
+//                    dd($location);
+                    if ($jobsCount > 0) {
+                        if (!empty($location)) {
+                            $jobsLocation = $jobsInPerons->where('jobs.location', 'LIKE', "%{$location}%");
+//                            dd($jobsLocation);
+                            if ($request->radius) {
+                                $users = User::select('users.*', 'professions.profession as profession_name')
+                                    ->where('status', 1)
+                                    ->where('role_id', 2)
+                                    ->join('professions', 'users.profession_id', '=', 'professions.id')
+                                    ->whereNotNull('latitude')
+                                    ->whereNotNull('longitude')
+                                    ->get();
+                                $userIds = $jobsLocation->pluck('user_id')->unique()->toArray();
+                                $usersSearch = User::whereIn('id', $userIds)->select('id', 'longitude', 'latitude')->get();
+                                $nearbyUsers = [];
+
+                                foreach ($usersSearch as $userlatandlng) {
+//
+                                    $lat = $userlatandlng->latitude;
+                                    $lng = $userlatandlng->longitude;
+                                    foreach ($users as $userradius) {
+                                        $distance = $this->calculateDistance($lat, $lng, $userradius->latitude, $userradius->longitude);
+                                        if ($distance <= $request->radius) { // Modify the distance threshold as needed
+                                            $userWithDistance = $userlatandlng;
+                                            $userWithDistance->distance = $distance;
+                                            $nearbyUsers[] = $userWithDistance;
+                                        }
+                                    }
+                                }
+
+                                $this->data['users'] = $nearbyUsers;
+//dd($this->data['users']);
+                                $userJobs = array_column($this->data['users'], 'id');
+
+                                $jobs = Job::select('jobs.*', 'jobs.id as jid', 'users.longitude', 'users.latitude')
+                                    ->join('users', 'jobs.user_id', '=', 'users.id')
+                                    ->whereIn('user_id', $userJobs)
+                                    ->where('online_or_in_person', $online_in_person);
+                                $array=[];
+                                $jobs->each(function ($job) {
+//                                    dd($job);
+                                    foreach ($this->data['users'] as $user) {
+//                                        dd($user['id']);
+                                        if ($user['id'] == $job->user_id) {
+                                            $job->distance = round($user['distance'], 1);;
+                                            $array[]= $job->distance;
+//                                            dd($job->distance );
+                                            break;
+                                        }
+                                    }
+//                                    dd($job->distance );
+                                });
+//                                dd($jobs);
+//                                dd($array);
+                                $this->data['jobs'] = $jobs;
+
+
+                                $jobsCount = Job::select('jobs.*', 'jobs.id as jid', 'users.longitude', 'users.latitude')->join('users', 'jobs.user_id', '=', 'users.id')
+                                    ->whereIn('user_id', $userJobs)
+                                    ->where('online_or_in_person', $online_in_person)->count();
+
+                                if ($jobsCount == 0) {
+                                    $this->data['jobs'] = $this->data['jobs']->where('jobs.online_or_in_person', 'in_person');
+                                } else {
+
+                                    $this->data['jobs'] = $jobs;
+
+                                    foreach ($this->data['jobs']  as $job) {
+//                                        dd($job->distance);
+                                    }
+                                }
+                                $this->data['user_lat'] = $lat;
+                                $this->data['user_lng'] = $lng;
+
+                            }
+                        }
+                    } else {
+                        $this->data['jobs'] = $this->data['jobs']->where('jobs.online_or_in_person', 'in_person');
+                    }
                 }
             }
 
@@ -203,64 +300,81 @@ class JobController extends Controller
                 }
             }
 
-//            if (!empty($location)) {
-//                $this->data['jobs']->where('jobs.location', 'like', "%{$location}%");
-//            }
-
-            $this->data['jobs'] = $this->data['jobs']->orderBy('jobs.created_at', 'desc')->paginate(10);
+            $this->data['jobs'] = $this->data['jobs']->orderBy('jobs.created_at', 'Desc')->paginate(10);
+//            dd($this->data['jobs']);
 
         } else {
             if (!auth()->check()) {
-                // User is not authenticated, show all jobs
 
                 $this->data['jobs'] = $this->data['jobs']->orderBy('jobs.created_at', 'desc')->paginate(10);
 
                 return view('frontend.job.browse_jobs', $this->data);
-            }else{
-//            dd('hello at lng not requested');
-            $user = User::where('id', \auth()->user()->id)->select('longitude', 'latitude')->first();
-            $lat = $user->latitude;
-            $lng = $user->longitude;
-            $users = User::select('users.*', 'professions.profession as profession_name')
-                ->where('status', 1)
-                ->where('role_id', 2)
-                ->join('professions', 'users.profession_id', '=', 'professions.id')
-                ->whereNotNull('latitude')
-                ->whereNotNull('longitude')
-                ->get();
-
-            $nearbyUsers = [];
-
-            foreach ($users as $user) {
-                $distance = $this->calculateDistance($lat, $lng, $user->latitude, $user->longitude);
-                if ($distance <= 10000) { // Modify the distance threshold as needed
-                    $nearbyUsers[] = $user;
-                }
-            }
-
-            $this->data['users'] = $nearbyUsers;
-
-            $userIds = collect($this->data['users'])->pluck('id');
-            $jobs = Job::select('jobs.*', 'jobs.id as jid', 'users.longitude', 'users.latitude')->join('users', 'jobs.user_id', '=', 'users.id')
-                ->whereIn('user_id', $userIds)->paginate(10);
-
-            if ($jobs->isEmpty()) {
-                $this->data['jobs'] = $this->data['jobs']->orderBy('jobs.created_at', 'desc')->paginate(10);
             } else {
-                $this->data['jobs'] = $jobs;
+
+                $user = User::where('id', \auth()->user()->id)->select('longitude', 'latitude')->first();
+                $lat = $user->latitude;
+                $lng = $user->longitude;
+                $users = User::select('users.*', 'professions.profession as profession_name')
+                    ->where('status', 1)
+                    ->where('role_id', 2)
+                    ->join('professions', 'users.profession_id', '=', 'professions.id')
+                    ->whereNotNull('latitude')
+                    ->whereNotNull('longitude')
+                    ->get();
+
+                $nearbyUsers = [];
+
+                foreach ($users as $user) {
+                    $distance = $this->calculateDistance($lat, $lng, $user->latitude, $user->longitude);
+                    if ($distance <= 10000) { // Modify the distance threshold as needed
+                        $nearbyUsers[] = $user;
+                    }
+                }
+
+                $this->data['users'] = $nearbyUsers;
+
+                $userIds = collect($this->data['users'])->pluck('id');
+                $jobs = Job::select('jobs.*', 'jobs.id as jid', 'users.longitude', 'professions.profession', 'users.latitude')
+                    ->join('users', 'jobs.user_id', '=', 'users.id')
+                    ->join('professions', 'professions.id', '=', 'users.profession_id')
+                    ->whereIn('user_id', $userIds)->paginate(10);
+
+                if ($jobs->isEmpty()) {
+                    $this->data['jobs'] = $this->data['jobs']->orderBy('jobs.created_at', 'desc')->paginate(10);
+                } else {
+                    $this->data['jobs'] = $jobs;
+                }
+                $this->data['user_lat'] = $lat;
+                $this->data['user_lng'] = $lng;
             }
-            $this->data['user_lat'] = $lat;
-            $this->data['user_lng'] = $lng;
         }
-            }
         return view('frontend.job.browse_jobs', $this->data);
     }
 
     public function job_single_view($id)
     {
 
+        $this->data['job'] = Job::where('jobs.id', $id)
+            ->select('jobs.*', 'users.first_name', 'users.last_name','users.latitude','users.longitude')
+            ->join('users', 'users.id', '=', 'jobs.user_id')
+//            ->join('professions', 'users.profession_id', '=', 'professions.id')
+            ->first();
+
+
         if (Auth::user()) {
             $user_id = Auth::user()->id;
+            $authUser = User::where('id',$user_id)->first();
+
+            $authlat =$authUser->latitude;
+            $authlan =$authUser->longitude;
+            $joblat = $this->data['job']->latitude;
+            $joblng = $this->data['job']->longitude;
+            $nearbyUsers = '';
+            $distance = $this->calculateDistance($authlat, $authlan, $joblng,$joblat);
+//        dd($distance);
+
+            $this->data['distance'] = round($distance*0.62);
+
         }
 
         $this->data['bids'] = Bid::select('bids.*', 'jobs.user_id as jobUserId', 'u.location', 'u.first_name', 'u.last_name', 'u.rating')
@@ -269,11 +383,8 @@ class JobController extends Controller
             ->join('jobs', 'jobs.id', '=', 'bids.job_id')->get();
 
 
-        $this->data['job'] = Job::where('jobs.id', $id)
-            ->select('jobs.*', 'users.first_name', 'users.last_name')
-            ->join('users', 'users.id', '=', 'jobs.user_id')
-//            ->join('professions', 'users.profession_id', '=', 'professions.id')
-            ->first();
+
+
 
 
         return view('frontend.job.job_single_view', $this->data);

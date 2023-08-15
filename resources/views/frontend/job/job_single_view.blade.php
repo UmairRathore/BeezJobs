@@ -82,7 +82,11 @@
                                     @endif
                                     <div class="job-ut-dts">
                                         <a href="{{route('other_freelancer_profile',[$job->user_id])}}"><h4>{{$job->fname.' '.$job->lname}}</h4></a>
-                                        <span><i class="fas fa-map-marker-alt"></i>{{$job->location}}</span>
+                                        <span><i class="fas fa-map-marker-alt"></i>{{$job->location}} {{'  '}}
+                                            @if(isset($distance))
+                                            <span style="font-weight: bold;"> ({{$distance}} miles)</span>
+                                                @endif
+                                        </span>
                                     </div>
                                 </div>
                                 <div class="job-right-dt">
