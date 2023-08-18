@@ -11,7 +11,7 @@ use App\Models\Notification;
                 <div class="top-header-full">
                     <div class="top-left-hd">
                         <ul>
-                            <li><div class="wlcm-text">Welcome to Jobby</div></li>
+                            <li><div class="wlcm-text">Welcome to BeezJobs</div></li>
                             <li>
                                 <div class="lang-icon dropdown">
                                     <i class="fas fa-globe ln-glb"></i>
@@ -182,7 +182,7 @@ if(auth()->check()) {
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12">
                 <nav class="navbar navbar-expand-lg navbar-light bg-dark1 justify-content-sm-start">
-                    <a class="order-1 order-lg-0 ml-lg-0 ml-3 mr-auto" href="{{route('index')}}"><img src="{{asset('images/logo.svg')}}" alt=""></a>
+                    <a class="order-1 order-lg-0 ml-lg-0 ml-3 mr-auto" href="{{route('index')}}"><img src="{{asset('images/logo.png')}}" alt=""></a>
                     <button class="navbar-toggler align-self-start" type="button">
                         <i class="fas fa-bars"></i>
                     </button>

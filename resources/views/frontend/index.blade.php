@@ -208,57 +208,7 @@
             </div>
         </div>
     </div>
-    <div class="we-offers">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12 col-12">
-                    <div class="main-heading">
-                        <h2>What We Offers</h2>
-                        <span>Offering the Best Deal</span>
-                        <div class="line-shape1">
-                            <img src="images/line.svg" alt="">
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 col-12">
-                    <div class="offer-step">
-                        <div class="offer-text-dt">
-                            <h4>Searching the Best Jobs</h4>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur dictum commodo mi.</p>
-                            <a href="#">Read More<i class="fas fa-angle-double-right"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 col-12">
-                    <div class="offer-step">
-                        <div class="offer-text-dt">
-                            <h4>Apply for a Good Job</h4>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur dictum commodo mi.</p>
-                            <a href="#">Read More<i class="fas fa-angle-double-right"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 col-12">
-                    <div class="offer-step">
-                        <div class="offer-text-dt">
-                            <h4>More Quality Hires</h4>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur dictum commodo mi.</p>
-                            <a href="#">Read More<i class="fas fa-angle-double-right"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 col-12">
-                    <div class="offer-step">
-                        <div class="offer-text-dt">
-                            <h4>Choose Working Hours</h4>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur dictum commodo mi.</p>
-                            <a href="#">Read More<i class="fas fa-angle-double-right"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+
     <div class="featured-candidates">
         <div class="container">
             <div class="row">
@@ -357,27 +307,28 @@
                         </div>
                     </div>
                     <div class="text152">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque eu purus et diam blandit vehicula sit amet sed metus. Fusce condimentum non neque at fringilla.</p>
+                        <p>                        Effortlessly advertise your job opportunities and reach a wider audience. Our user-friendly platform makes posting jobs quick and hassle-free.</p>
                     </div>
                     <div class="text-steps">
                         <div class="text-step1">
                             <div class="btext-heading">
                                 <i class="far fa-check-circle"></i>Hire for your company.
                             </div>
-                            <p>Aenean malesuada aliquet tincidunt. Nam a nisl mi. Fusce ornare fermentum enim, id interdum velit posuere quis.
+                            <p>                        Discover top-tier talent that aligns perfectly with your company's goals. Our comprehensive hiring solutions streamline the process, ensuring you find the best fit for your team.
+
                             <p>
                         </div>
                         <div class="text-step1">
                             <div class="btext-heading">
                                 <i class="far fa-check-circle"></i>Daily out reach to qualified matches.
                             </div>
-                            <p>Aenean malesuada aliquet tincidunt. Nam a nisl mi. Fusce ornare fermentum enim, id interdum velit posuere quis.
+                            <p>Experience the ease of daily outreach to qualified candidates who meet your specific criteria. Our proactive approach ensures you're connected with the right individuals for your job listings.
                             <p>
                         </div>
-                        <div class="btns15">
-                            <button class="btn-152" onclick="window.location.href = 'post_a_job.html';">Post a Job</button>
-                            <button class="btn-153" onclick="window.location.href = '#';">Learn More</button>
-                        </div>
+{{--                        <div class="btns15">--}}
+{{--                            <button class="btn-152" onclick="window.location.href = '{{route('post_a_job')}}';">Post a Job</button>--}}
+{{--                            <button class="btn-153" onclick="window.location.href = '#';">Learn More</button>--}}
+{{--                        </div>--}}
                     </div>
                 </div>
                 <div class="col-md-6 col-12">
@@ -389,27 +340,30 @@
                         </div>
                     </div>
                     <div class="text152">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque eu purus et diam blandit vehicula sit amet sed metus. Fusce condimentum non neque at fringilla.</p>
+                        <p>
+                            Showcase your skills to companies seeking remote talent. Increase your visibility and find exciting remote job opportunities with ease.                        </p>
                     </div>
                     <div class="text-steps">
                         <div class="text-step1">
                             <div class="btext-heading">
                                 <i class="far fa-check-circle"></i>Get your profile listed.
                             </div>
-                            <p>Aenean malesuada aliquet tincidunt. Nam a nisl mi. Fusce ornare fermentum enim, id interdum velit posuere quis.
+                            <p>
+                                Ensure your profile stands out to potential employers. Our platform allows you to create a compelling profile that highlights your expertise and experience.
                             <p>
                         </div>
                         <div class="text-step1">
                             <div class="btext-heading">
                                 <i class="far fa-check-circle"></i>Customize your profile.
                             </div>
-                            <p>Aenean malesuada aliquet tincidunt. Nam a nisl mi. Fusce ornare fermentum enim, id interdum velit posuere quis.
+                            <p>
+                                Tailor your profile to reflect your unique strengths and qualifications. Stand out from the crowd by presenting a customized profile that captures the attention of hiring managers.
                             <p>
                         </div>
-                        <div class="btns15">
-                            <button class="btn-152" onclick="window.location.href = 'browse_freelancers.html';">Get Listed</button>
-                            <button class="btn-153" onclick="window.location.href = '#';">Learn More</button>
-                        </div>
+{{--                        <div class="btns15">--}}
+{{--                            <button class="btn-152" onclick="window.location.href = '{{'post_a_service'}}';">Get Listed</button>--}}
+{{--                            <button class="btn-153" onclick="window.location.href = '#';">Learn More</button>--}}
+{{--                        </div>--}}
                     </div>
                 </div>
             </div>

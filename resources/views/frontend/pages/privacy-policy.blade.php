@@ -22,7 +22,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="main-heading">
-                        <h2>Jobby Privacy Policy</h2>
+                        <h2>BeezJobs Privacy Policy</h2>
                         <div class="line-shape1">
                             <img src="images/line.svg" alt="">
                         </div>

@@ -23,7 +23,7 @@
             <div class="col-md-6">
                 <div class="lg_form">
                     <div class="main-heading">
-                        <h2>Sign Up to Jobby</h2>
+                        <h2>Sign Up to BeezJobs</h2>
                         <div class="line-shape1">
                             <img src="images/line.svg" alt="">
                         </div>
@@ -92,7 +92,7 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <h3>Welcome to Jobby</h3>
+                                <h3>Welcome to BeezJobs</h3>
                                 <p>A platform designed to connect job seekers with potential employers and freelancers with clients.</p>
 
                                 <h3>Procedure:</h3>
@@ -108,7 +108,7 @@
                                     <li>We value your privacy and assure you that your location information will only be used to optimize your browsing experience on our platform. Your personal information will be handled according to our privacy policy.</li>
                                 </ul>
 
-                                <p>Join Jobby today and unlock exciting opportunities!</p>
+                                <p>Join BeezJobs today and unlock exciting opportunities!</p>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

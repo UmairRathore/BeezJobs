@@ -35,7 +35,7 @@
                             </div>
                             <ul class="cinfo10">
                                 <li><p><span><i class="fas fa-map-marker-alt"></i>Address :</span>#1234, Sks Nagar, Near MBD Mall, 141001 Ludhiana, Punjab, India</p></li>
-                                <li><p><span><i class="fas fa-envelope"></i>Email Address :</span>Support@jobby.com</p></li>
+                                <li><p><span><i class="fas fa-envelope"></i>Email Address :</span>Support@BeezJobs.com</p></li>
                             </ul>
                         </div>
                     </div>

@@ -25,7 +25,13 @@
         <div class="col-lg-4 col-md-4">
             <div class="about-jobby">
                 <a href="{{route('index')}}"><img src="images/logo1.svg" alt=""></a>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque eu purus et diam blandit vehicula sit amet sed metus. Fusce condimentum non neque at fringilla. Aenean malesuada aliquet tincidunt.</p>
+                <?php
+                $jobyabout = \App\Models\About::first();
+                $aboutDescription= strip_tags($jobyabout->description);
+                $shortDescription = substr($aboutDescription, 0, 230);
+                $trimmedDescription = rtrim($shortDescription, ' .,;:-');
+                ?>
+                <p>{{$trimmedDescription}}....</p>
             </div>
         </div>
         <div class="col-lg-3 col-md-3">
@@ -60,7 +66,7 @@
         <div class="row">
             <div class="col-lg-6 col-md-6">
                 <div class="copyright">
-                    <i class="far fa-copyright"></i>Copyright 2023 <span>Jobby</span> by <a href="https://nadeem-aslam.web.app" >NH Tech</a>. All Right Reserved.
+                    <i class="far fa-copyright"></i>Copyright 2023 <span>BeezJobs</span> by <a href="https://nadeem-aslam.web.app" >NH Tech</a>. All Right Reserved.
                 </div>
             </div>
             <div class="col-lg-6 col-md-6">
