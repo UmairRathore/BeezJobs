@@ -196,7 +196,9 @@
                                                                 ?>
                                                                 @if($distance > 0)
                                                                 <span style="font-weight: bold;"> ({{$distance}} miles)</span>
-                                                                    @endif
+                                                                    @else
+                                                                   <span style="font-weight: bold;"> (0 miles)</span>
+                                                               @endif
                                                                     @endif
                                                             </span>
                                                         </div>
