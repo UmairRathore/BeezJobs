@@ -90,10 +90,10 @@
 								<h3>Simple & Best Way To Showcase Your Work</h3>
 								<div class="form_inputs">
 									<div class="form-group">
-										<input type="text" class="job-input" name="title" placeholder="Title">
+										<input type="text" class="job-input" name="title" placeholder="Title" required>
 									</div>
 									<div class="form-group">
-										<input type="text" class="job-input" name="link" placeholder="website link">
+										<input type="text" class="job-input" name="link" placeholder="website link" required>
 									</div>
 									<div class="form-group">
 										<input type="file" name="file" id="file2">

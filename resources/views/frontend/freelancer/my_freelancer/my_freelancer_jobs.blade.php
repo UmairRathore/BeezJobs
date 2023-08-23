@@ -86,7 +86,10 @@
 												<a class="nav-link" href="#received_jobs" id="manage-job-tab" data-toggle="tab">Received Offers</a>
 											</li>
                                             <li class="nav-item">
-												<a class="nav-link" href="#orders" id="manage-job-tab" data-toggle="tab">Orders</a>
+												<a class="nav-link" href="#orders" id="manage-job-tab" data-toggle="tab">Orders As Buyer</a>
+											</li>
+                                            <li class="nav-item">
+												<a class="nav-link" href="#orders2" id="manage-job-tab" data-toggle="tab">Orders As Seller</a>
 											</li>
 
 {{--                                            <li class="nav-item">--}}
@@ -182,11 +185,61 @@
                                         <div class="tab-pane fade show" id="orders" role="tabpanel">
                                             <div class="view_chart">
                                                 <div class="view_chart_header">
-                                                    <h4>Orders</h4>
+                                                    <h4>Orders As Buyer</h4>
                                                 </div>
                                                 <div class="job_bid_body">
                                                     <ul class="all_applied_jobs jobs_bookmarks">
                                                         @foreach($Orders as $Order)
+                                                            <li>
+                                                                <div class="applied_item">
+                                                                    <div class="card-content">
+                                                                        <a href="#">{{ $Order->title }}</a>
+                                                                        <ul class="view_dt_job">
+                                                                            <li>
+                                                                                <div class="vw1254"><i class="fas fa-map-marker-alt"></i>{{ $Order->location }}</div>
+                                                                            </li>
+                                                                            <li>
+                                                                                <div class="vw1254"><i class="fas fa-briefcase"></i>{{ $Order->online_or_in_person }}</div>
+                                                                            </li>
+                                                                            <li>
+                                                                                <div class="vw1254"><i class="far fa-money-bill-alt"></i>{{ $Order->negotiated_price }}</div>
+                                                                            </li>
+                                                                            <li>
+                                                                                <div class="vw1254"><i class="far fa-clock"></i>{{ $Order->created_at }}</div>
+                                                                            </li>
+                                                                        </ul>
+                                                                        <p style="color: black; padding-top: 60px;">{{ $Order->negotiated_description }}</p>
+                                                                        <div class="arrow-link">
+                                                                            <a href="{{ route('my_freelancer_order_details', $Order->Order_id) }}">
+                                                                                <span class="details-heading">Details</span>
+                                                                                <i class="fas fa-arrow-right"></i>
+                                                                            </a>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="btn_link23">
+                                                                        @if($Order->Ostatus == 'active')
+                                                                            <button class="apled_btn50" style="pointer-events: none;" disabled>Active</button>
+                                                                        @elseif($Order->Ostatus == 'completed')
+                                                                            <button class="apled_btn50" style="pointer-events: none;" disabled>Completed</button>
+                                                                        @elseif($Order->Ostatus == 'late-completed')
+                                                                            <button class="apled_btn50" style="pointer-events: none;" disabled>Overdue Completion</button>
+                                                                        @endif
+                                                                    </div>
+                                                                </div>
+                                                            </li>
+                                                        @endforeach
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane fade show" id="orders2" role="tabpanel">
+                                            <div class="view_chart">
+                                                <div class="view_chart_header">
+                                                    <h4>Orders As Seller</h4>
+                                                </div>
+                                                <div class="job_bid_body">
+                                                    <ul class="all_applied_jobs jobs_bookmarks">
+                                                        @foreach($Orders2 as $Order)
                                                             <li>
                                                                 <div class="applied_item">
                                                                     <div class="card-content">

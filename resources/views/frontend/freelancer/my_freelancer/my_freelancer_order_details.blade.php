@@ -249,13 +249,13 @@ container">
 
                                                         <div class="row" style="margin-top: 100px">
                                                             <div class="col-xl-12" style="text-align: center;">
-                                                                <h2> Time Remaining</h2>
+                                                                <h4> Time Remaining</h4>
                                                                 <div class="job_bid_body">
                                                                     @if($order->order_status == 'active')
                                                                         <div id="countdown">
                                                                             <div class="rounded bg-gradient-4 text-black shadow p-5 text-center mb-5">
                                                                                 {{-- <p class="mb-0 font-weight-bold text-uppercase">Let's use some call to actions</p> --}}
-                                                                                <div id="clock-c" class="timerclock py-4">
+                                                                                <div id="clock-c" class="timerclock py-4" style="font-size:23px">
 
                                                                                 </div>
                                                                             </div>
@@ -263,13 +263,21 @@ container">
 
                                                                         {{--{{dd($order->offer_negotiated_duration)}}--}}
                                                                         <script>
-                                                                            var countdownTime = {!! json_encode(strtotime($order->offer_negotiated_duration) * 1000) !!};
+                                                                            // Check if the countdownTime is already stored in local storage
+                                                                            var storedCountdownTime = localStorage.getItem('countdownTime');
+                                                                            var countdownTime;
+
+                                                                            if (storedCountdownTime !== null) {
+                                                                                countdownTime = parseInt(storedCountdownTime);
+                                                                            } else {
+                                                                                countdownTime = {!! json_encode(strtotime($order->offer_negotiated_duration) * 1000) !!};
+                                                                                localStorage.setItem('countdownTime', countdownTime);
+                                                                            }
 
                                                                             // Update the countdown clock every second
                                                                             var countdownClock = setInterval(function () {
                                                                                 var remainingTime = countdownTime - Date.now();
 
-                                                                                // Check if the countdown has ended
                                                                                 if (remainingTime <= 0) {
                                                                                     document.getElementById('clock-c').innerHTML = "Time Finished";
                                                                                     console.log('Countdown ended!');
@@ -299,6 +307,9 @@ container">
                                                                                             console.log(error);
                                                                                         }
                                                                                     });
+
+                                                                                    // Remove countdownTime from local storage when countdown ends
+                                                                                    localStorage.removeItem('countdownTime');
                                                                                 } else {
                                                                                     var days = Math.floor(remainingTime / (1000 * 60 * 60 * 24));
                                                                                     var hours = Math.floor((remainingTime / (1000 * 60 * 60)) % 24);
@@ -314,11 +325,12 @@ container">
                                                                                 }
                                                                             }, 1000);
                                                                         </script>
+
                                                                     @elseif($order->order_status == 'completed')
                                                                         <div class="rounded bg-gradient-4 text-black shadow p-5 text-center mb-5">
                                                                             <h2>Completed Order</h2>
                                                                         </div>
-                                                                    @elseif($order->order_status == 'late-completed')
+                                                                    @elseif($order->order_status == 'late-completedlate-completed')
                                                                         <div class="rounded bg-gradient-4 text-black shadow p-5 text-center mb-5">
                                                                             <h2>Completed Order</h2>
                                                                         </div>
@@ -328,7 +340,62 @@ container">
                                                                         </div>
                                                                     @endif
                                                                 </div>
+                                                                @if($order->order_status == 'completed' || $order->order_status == 'late-completed')
+                                                                @if($Reviews==null && auth()->user()->id == $order->user_receiver_id)
+                                                                        <div>
+                                                                            <h3>Submit Review</h3>
+                                                                            <form action="{{ route('review_submit') }}" method="post" enctype="multipart/form-data">
+                                                                                @csrf
+                                                                                <input type="hidden" name="order_id" value="{{ $order->order_id }}">
+                                                                                <input type="hidden" name="sender_id" value="{{ $order->user_sender_id }}">
+                                                                                <input type="hidden" name="receiver_id" value="{{ auth()->user()->id }}">
+                                                                                <div class="row" >
 
+                                                                                    <div class="col-lg-12">
+                                                                                        <div class="form-group">
+                                                                                            <label class="label15">Review*</label>
+                                                                                            <textarea name="review" class="textarea_input" placeholder="Type your review"></textarea>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="col-lg-12">
+                                                                                    <div class="star">
+                                                                                    <span class="rating-value">1</span>
+                                                                                        <input type="radio" id="rating5" name="rating" value="1">
+                                                                                        <label for="rating5"><i class="fas fa-star"></i></label>
+
+                                                                                        <input type="radio" id="rating4" name="rating" value="2">
+                                                                                        <label for="rating4"><i class="fas fa-star"></i></label>
+
+                                                                                        <input type="radio" id="rating3" name="rating" value="3">
+                                                                                        <label for="rating3"><i class="fas fa-star"></i></label>
+
+                                                                                        <input type="radio" id="rating2" name="rating" value="4">
+                                                                                        <label for="rating2"><i class="fas fa-star"></i></label>
+
+                                                                                        <input type="radio" id="rating1" name="rating" value="5">
+                                                                                        <label for="rating1"><i class="fas fa-star"></i></label>
+
+                                                                                        <span class="rating-value">5</span>
+                                                                                    </div>
+                                                                                    </div>
+                                                                                    <div class="col-lg-12">
+                                                                                        <button class="post_jp_btn" type="submit">Submit Review</button>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </form>
+                                                                        </div>
+                                                                        @else
+                                                                        @if($Reviews==null && auth()->user()->id == $order->user_sender_id)
+                                                                        <button class="apled_btn50" style="pointer-events: none;" disabled>Seller has not given review yet</button>
+                                                                        @else
+                                                                        <div class="col-lg-12" style="text-align: center;">
+                                                                                <button class="post_jp_btn" style="pointer-events: none;" disabled>Review Submitted</button>
+                                                                            </div>
+                                                                        @endif
+
+                                                                        @endif
+                                                                @endif
+                                                                <br>
                                                                 @if($order->order_status == 'active')
                                                                     <button class="apled_btn50" style="pointer-events: none;" disabled>Active ORDER</button>
                                                                 @elseif($order->order_status == 'completed')
@@ -391,7 +458,7 @@ container">
                                                                     @if($Aorder->order_attempt_file)
                                                                         <div>
                                                                             <h4>Uploaded File:</h4>
-                                                                            <a href="{{ Storage::url($order->order_attempt_file) }}" target="_blank">Download File</a>
+                                                                            <a href="{{ Storage::url($Aorder->order_attempt_file) }}" target="_blank">Download File</a>
                                                                         </div>
                                                                     @endif
                                                                     @if(auth()->user()->id == $order->user_receiver_id)
@@ -424,50 +491,7 @@ container">
                                                                         <div class="col-lg-12" style="text-align: center;">
                                                                             <button class="post_jp_btn" style="pointer-events: none;" disabled>Submission Accepted</button>
                                                                         </div>
-                                                                    @if($Reviews==null)
-                                                                        <div>
-                                                                            <h3>Submit Review</h3>
-                                                                            <form action="{{ route('review_submit') }}" method="post" enctype="multipart/form-data">
-                                                                                @csrf
-                                                                                <input type="hidden" name="order_id" value="{{ $order->order_id }}">
-                                                                                <input type="hidden" name="sender_id" value="{{ $order->user_sender_id }}">
-                                                                                <input type="hidden" name="receiver_id" value="{{ auth()->user()->id }}">
-                                                                                <div class="row">
-                                                                                    <div class="star">
-                                                                                        <input type="radio" id="rating5" name="rating" value="5">
-                                                                                        <label for="rating5"><i class="fas fa-star"></i></label>
 
-                                                                                        <input type="radio" id="rating4" name="rating" value="4">
-                                                                                        <label for="rating4"><i class="fas fa-star"></i></label>
-
-                                                                                        <input type="radio" id="rating3" name="rating" value="3">
-                                                                                        <label for="rating3"><i class="fas fa-star"></i></label>
-
-                                                                                        <input type="radio" id="rating2" name="rating" value="2">
-                                                                                        <label for="rating2"><i class="fas fa-star"></i></label>
-
-                                                                                        <input type="radio" id="rating1" name="rating" value="1">
-                                                                                        <label for="rating1"><i class="fas fa-star"></i></label>
-
-                                                                                        <span class="rating-value">4.9</span>
-                                                                                    </div>
-                                                                                    <div class="col-lg-12">
-                                                                                        <div class="form-group">
-                                                                                            <label class="label15">Review*</label>
-                                                                                            <textarea name="review" class="textarea_input" placeholder="Type your review"></textarea>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="col-lg-12">
-                                                                                        <button class="post_jp_btn" type="submit">Submit Review</button>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </form>
-                                                                        </div>
-                                                                        @else
-                                                                            <div class="col-lg-12" style="text-align: center;">
-                                                                                <button class="post_jp_btn" style="pointer-events: none;" disabled>Review Submitted</button>
-                                                                            </div>
-                                                                        @endif
                                                                     @endif
                                                                     @if(auth()->user()->id == $order->user_sender_id)
                                                                         @if($Aorder->accepted == 0 and $Aorder->rejected == 0)

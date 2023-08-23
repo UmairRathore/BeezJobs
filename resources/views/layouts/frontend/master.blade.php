@@ -8,7 +8,7 @@
     <meta name="author" content="Gambolthemes">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Jobby - @yield('title')</title>
+    <title>Beezjobs - @yield('title')</title>
 
     <!-- Favicon Icon -->
     <link rel="icon" type="image/png" href="{{asset('images/fav.png')}}">

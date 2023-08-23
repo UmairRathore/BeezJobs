@@ -11,7 +11,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}" />
 
 
-    <title>@yield('title')</title>
+    <title>BeezJobs@yield('title')</title>
 
     <!-- Custom fonts for this template-->
     <link href="{{asset('backend/vendor_public/fontawesome-free/css/all.min.css')}}" rel="stylesheet" type="text/css">

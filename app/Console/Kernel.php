@@ -15,7 +15,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+        $schedule->command('cron:clear_uncleared_balances')->daily(); // Adjust the schedule as needed
+
     }
 
     /**

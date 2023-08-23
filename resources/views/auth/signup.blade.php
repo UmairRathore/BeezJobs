@@ -130,75 +130,194 @@
 {{--    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAF0m_0JWZgOmoExRNRO3lwem1yfqJJ6B4&libraries=places"></script>--}}
 
     <script>
-        function initMap() {
-            var map = new google.maps.Map(document.getElementById('map'), {
-                center: {lat: -34.397, lng: 150.644},
-                zoom: 8
-            });
+        // function initMap() {
+        //     var map = new google.maps.Map(document.getElementById('map'), {
+        //         center: {lat: -34.397, lng: 150.644},
+        //         zoom: 8
+        //     });
+        //
+        //     var marker = new google.maps.Marker({
+        //         position: {lat: -34.397, lng: 150.644},
+        //         map: map,
+        //         draggable: true
+        //     });
+        //
+        //     if (navigator.geolocation) {
+        //         navigator.geolocation.getCurrentPosition(function (position) {
+        //             var pos = {
+        //                 //actual code
+        //                 // lat: position.coords.latitude,
+        //                 // lng: position.coords.longitude
+        //
+        //                 //testing code
+        //                 lat: 40.7536854,
+        //                 lng:-73.9991637
+        //             };
 
-            var marker = new google.maps.Marker({
-                position: {lat: -34.397, lng: 150.644},
-                map: map,
-                draggable: true
-            });
+        //             marker.setPosition(pos);
+        //             map.setCenter(pos);
+        //
+        //             var geocoder = new google.maps.Geocoder();
+        //             geocoder.geocode({ 'location': pos }, function(results, status) {
+        //                 if (status === 'OK') {
+        //                     if (results[0]) {
+        //                         document.getElementById('location').value = results[0].formatted_address;
+        //                     } else {
+        //                         window.alert('No results found');
+        //                     }
+        //                 } else {
+        //                     window.alert('Geocoder failed due to: ' + status);
+        //                 }
+        //             });
+        //
+        //             document.getElementById('latitude').value = position.coords.latitude;
+        //             document.getElementById('longitude').value = position.coords.longitude;
+        //         }, function () {
+        //             handleLocationError(true, map.getCenter());
+        //         });
+        //     } else {
+        //         handleLocationError(false, map.getCenter());
+        //     }
+        //
+        //     google.maps.event.addListener(marker, 'dragend', function (event) {
+        //         var geocoder = new google.maps.Geocoder();
+        //         geocoder.geocode({ 'location': event.latLng }, function(results, status) {
+        //             if (status === 'OK') {
+        //                 if (results[0]) {
+        //                     document.getElementById('location').value = results[0].formatted_address;
+        //                 } else {
+        //                     window.alert('No results found');
+        //                 }
+        //             } else {
+        //                 window.alert('Geocoder failed due to: ' + status);
+        //             }
+        //         });
+        //
+        //         document.getElementById('latitude').value = event.latLng.lat();
+        //         document.getElementById('longitude').value = event.latLng.lng();
+        //     });
+        // }
+        //
+        // function handleLocationError(browserHasGeolocation, pos) {
+        //     var infoWindow = new google.maps.InfoWindow({map: map});
+        //     infoWindow.setPosition(pos);
+        //     infoWindow.setContent(browserHasGeolocation ?
+        //         'Error: The Geolocation service failed.' :
+        //         'Error: Your browser doesn\'t support geolocation.');
+        // }
 
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(function (position) {
-                    var pos = {
-                        lat: position.coords.latitude,
-                        lng: position.coords.longitude
-                    };
 
-                    marker.setPosition(pos);
-                    map.setCenter(pos);
 
-                    var geocoder = new google.maps.Geocoder();
-                    geocoder.geocode({ 'location': pos }, function(results, status) {
-                        if (status === 'OK') {
-                            if (results[0]) {
-                                document.getElementById('location').value = results[0].formatted_address;
-                            } else {
-                                window.alert('No results found');
-                            }
+
+                    function initMap() {
+                        var map = new google.maps.Map(document.getElementById('map'), {
+                            center: { lat: -34.397, lng: 150.644 },
+                            zoom: 8
+                        });
+
+                        var marker = new google.maps.Marker({
+                            position: { lat: -34.397, lng: 150.644 },
+                            map: map,
+                            draggable: true
+                        });
+
+                        if (navigator.geolocation) {
+                            navigator.geolocation.getCurrentPosition(function (position) {
+                                var pos = {
+                                    lat: position.coords.latitude,
+                                    lng: position.coords.longitude
+                                };
+
+                                marker.setPosition(pos);
+                                map.setCenter(pos);
+
+                                var geocoder = new google.maps.Geocoder();
+                                geocoder.geocode({ 'location': pos }, function (results, status) {
+                                    if (status === 'OK') {
+                                        if (results[0]) {
+                                            var addressComponents = results[0].address_components;
+                                            var zipcode = '';
+                                            var city = '';
+                                            var state = '';
+                                            var country = '';
+
+                                            for (var i = 0; i < addressComponents.length; i++) {
+                                                var types = addressComponents[i].types;
+                                                if (types.includes('postal_code')) {
+                                                    zipcode = addressComponents[i].long_name;
+                                                }
+                                                if (types.includes('locality')) {
+                                                    city = addressComponents[i].long_name;
+                                                }
+                                                if (types.includes('administrative_area_level_1')) {
+                                                    state = addressComponents[i].short_name;
+                                                }
+                                                if (types.includes('country')) {
+                                                    country = addressComponents[i].long_name;
+                                                }
+                                            }
+                                            var locationValue =  city + ', ' + state +' '+ zipcode + ', ' + country;
+                                            document.getElementById('location').value = locationValue;
+                                        } else {
+                                            window.alert('No results found');
+                                        }
+                                    } else {
+                                        window.alert('Geocoder failed due to: ' + status);
+                                    }
+                                });
+
+                                document.getElementById('latitude').value = position.coords.latitude;
+                                document.getElementById('longitude').value = position.coords.longitude;
+                            }, function () {
+                                handleLocationError(true, map.getCenter());
+                            });
                         } else {
-                            window.alert('Geocoder failed due to: ' + status);
+                            handleLocationError(false, map.getCenter());
                         }
-                    });
 
-                    document.getElementById('latitude').value = position.coords.latitude;
-                    document.getElementById('longitude').value = position.coords.longitude;
-                }, function () {
-                    handleLocationError(true, map.getCenter());
-                });
-            } else {
-                handleLocationError(false, map.getCenter());
-            }
+                        google.maps.event.addListener(marker, 'dragend', function (event) {
+                            var geocoder = new google.maps.Geocoder();
+                            geocoder.geocode({ 'location': event.latLng }, function (results, status) {
+                                if (status === 'OK') {
+                                    if (results[0]) {
+                                        var addressComponents = results[0].address_components;
+                                        var zipcode = '';
+                                        var city = '';
 
-            google.maps.event.addListener(marker, 'dragend', function (event) {
-                var geocoder = new google.maps.Geocoder();
-                geocoder.geocode({ 'location': event.latLng }, function(results, status) {
-                    if (status === 'OK') {
-                        if (results[0]) {
-                            document.getElementById('location').value = results[0].formatted_address;
-                        } else {
-                            window.alert('No results found');
-                        }
-                    } else {
-                        window.alert('Geocoder failed due to: ' + status);
+                                        // Extract zipcode and city name from address components
+                                        for (var i = 0; i < addressComponents.length; i++) {
+                                            var types = addressComponents[i].types;
+                                            if (types.includes('postal_code')) {
+                                                zipcode = addressComponents[i].long_name;
+                                            }
+                                            if (types.includes('locality')) {
+                                                city = addressComponents[i].long_name;
+                                            }
+                                        }
+
+                                        // Set the location field value to "zipcode + cityname"
+                                        var locationValue = zipcode + ' ' + city;
+                                        document.getElementById('location').value = locationValue;
+                                    } else {
+                                        window.alert('No results found');
+                                    }
+                                } else {
+                                    window.alert('Geocoder failed due to: ' + status);
+                                }
+                            });
+
+                            document.getElementById('latitude').value = event.latLng.lat();
+                            document.getElementById('longitude').value = event.latLng.lng();
+                        });
                     }
-                });
 
-                document.getElementById('latitude').value = event.latLng.lat();
-                document.getElementById('longitude').value = event.latLng.lng();
-            });
-        }
+                    function handleLocationError(browserHasGeolocation, pos) {
+                        var infoWindow = new google.maps.InfoWindow({ map: map });
+                        infoWindow.setPosition(pos);
+                        infoWindow.setContent(browserHasGeolocation ?
+                            'Error: The Geolocation service failed.' :
+                            'Error: Your browser doesn\'t support geolocation.');
+                    }
 
-        function handleLocationError(browserHasGeolocation, pos) {
-            var infoWindow = new google.maps.InfoWindow({map: map});
-            infoWindow.setPosition(pos);
-            infoWindow.setContent(browserHasGeolocation ?
-                'Error: The Geolocation service failed.' :
-                'Error: Your browser doesn\'t support geolocation.');
-        }
     </script>
 @endsection

@@ -17,6 +17,8 @@ class Job extends Model
         'time_of_day',
         'online_or_in_person',
         'location',
+        'latitude',
+        'longitude',
         'description',
         'profession_id',
         'file_attachments',

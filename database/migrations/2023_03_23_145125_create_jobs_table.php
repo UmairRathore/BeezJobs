@@ -21,6 +21,8 @@ class CreateJobsTable extends Migration
             $table->enum('time_of_day', ['morning', 'afternoon', 'evening', 'night']);
             $table->enum('online_or_in_person', ['online', 'in_person']);
             $table->string('location');
+            $table->decimal('latitude',10,8)->nullable();
+            $table->decimal('longitude',10,8)->nullable();
             $table->text('description');
             $table->float('budget');
             $table->string('status');

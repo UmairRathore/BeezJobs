@@ -39,9 +39,9 @@
                     <div class="view_chart">
                         <div class="view_chart_header">
                             <h4 class="mt-1">All Reviews</h4>
-                            <div class="review_right">
+                            <!-- <div class="review_right">
                                 <button class="add_review_btn" type="button" data-toggle="modal" data-target="#addreviewModal">Add Review</button>
-                            </div>
+                            </div> -->
                         </div>
                         <div class="job_bid_body">
                             <ul class="all_applied_jobs jobs_bookmarks">

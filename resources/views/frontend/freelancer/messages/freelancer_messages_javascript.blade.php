@@ -236,7 +236,6 @@
                 $('#success-message').removeClass('d-none').text('Your offer has been submitted successfully!');
                 $('#error-message').removeClass('d-none')
                 $("#chat").load(location.href + " #chat") //refresh chat div
-
                 // Clear the form
                 $('#offer-form')[0].reset();
 
@@ -257,14 +256,15 @@
             type: 'POST',
             data: {
                 "_token": "{{ csrf_token() }}",offer_id: offerId},
-            success: function() {
+            success: function(res) {
+                console.log(res);
                 // Display a success message
                 alert('Offer accepted!');
 
                 // Remove the accept/reject card from the chat modal
                 $('#messagestatus').load(location.href + ' #messagestatus');
-
-            },
+                window.location.reload();
+            }, 
             error: function() {
                 alert('An error occurred while accepting the offer.');
             }
@@ -275,7 +275,6 @@
 
     // Function to reject an offer
     function rejectOffer(offerId) {
-        alert(offerId);
 
         $.ajax({
             url: '/rejectOffer',
@@ -286,7 +285,7 @@
                 alert('Offer rejected!');
 
                 $('#messagestatus').load(location.href + ' #messagestatus');
-
+                window.location.reload();
 
 
             },

@@ -19,8 +19,10 @@ use App\Http\Controllers\Frontend\JobController;
 use App\Http\Controllers\Frontend\ServiceController;
 use App\Http\Controllers\Frontend\PortfolioController;
 
+use App\Http\Controllers\Frontend\TransferController;
 use App\Http\Controllers\PaymentController;
 use App\Models\Job;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -116,13 +118,21 @@ Route::post('/review_submit', [FreelancerDashboardController::class, 'submitRevi
 Route::post('/update_order_status', [FreelancerDashboardController::class, 'updateOrderStatus'])->name('update_order_status');
 
 
+Route::get('/checkPayment', [PaymentController::class, 'checkpayment'])->name('checkpayment');
+//Route::get('/initiateTransfer', [TransferController::class, 'initiateTransfer'])->name('initiateTransfer');
+
+
 Route::get('/reviews', [FreelancerDashboardController::class, 'Reviews'])->name('review');
 
 
 Route::get('/my_freelancer_bids', [FreelancerDashboardController::class, 'my_freelancer_bids'])->name('my_freelancer_bids')->middleware('auth');;
 Route::get('/my_freelancer_portfolio', [FreelancerDashboardController::class, 'my_freelancer_portfolio'])->name('my_freelancer_portfolio')->middleware('auth');;
 Route::get('/my_freelancer_bookmarks', [FreelancerDashboardController::class, 'my_freelancer_bookmarks'])->name('my_freelancer_bookmarks')->middleware('auth');;
-Route::get('/my_freelancer_payments', [FreelancerDashboardController::class, 'my_freelancer_payments'])->name('my_freelancer_payments')->middleware('auth');;
+Route::get('/my_freelancer_payments', [FreelancerDashboardController::class, 'my_freelancer_payments'])->name('my_freelancer_payments')->middleware('auth');
+Route::post('/initiate-transfer', [TransferController::class, 'initiateTransfer']);
+
+
+;
 Route::get('/my_freelancer_service', [FreelancerDashboardController::class, 'my_freelancer_service'])->name('my_freelancer_service');
 
 Route::get('/my_freelancer_profile', [FreelancerDashboardController::class, 'my_freelancer_profile'])->name('my_freelancer_profile')->middleware('auth');;
@@ -258,3 +268,6 @@ Route::get('/forget', [LoginController::class, 'showForgetPasswordForm'])->name(
 Route::post('/forget', [LoginController::class, 'submitForgetPasswordForm'])->name('forget.password.post');
 Route::get('/reset-password/{token}', [LoginController::class, 'showResetPasswordForm'])->name('reset.password.get');
 Route::post('/reset-password', [LoginController::class, 'submitResetPasswordForm'])->name('reset.password.post');
+Route::get('/cron', function() {
+    Artisan::call('schedule:run');
+});

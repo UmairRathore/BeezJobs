@@ -1,4 +1,4 @@
-<div class="subscribe-newsletter">
+<!-- <div class="subscribe-newsletter">
     <div class="container">
         <div class="row justify-content-between">
             <div class="col-lg-6 col-md-6">
@@ -19,7 +19,7 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
 <div class="container">
     <div class="row justify-content-between">
         <div class="col-lg-4 col-md-4">

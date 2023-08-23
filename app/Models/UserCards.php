@@ -12,9 +12,14 @@ class UserCards extends Model
     protected $fillable = [
         'user_id',
         'card_number',
+        'account_number',
+        'routing_number',
         'full_name',
         'expiring',
         'cvv',
+        'ssn_last_4',
+        'phone',
+        'email',
     ];
 
     public function user()

@@ -49,8 +49,59 @@ itle-bar">
                                                         <div class="transactions_heading" style="margin-right: auto;">
                                                             <h4>Transactions</h4>
                                                         </div>
+                                                        <?php
+                                                        $wallet = \App\Models\Wallet::where('user_id',auth()->user()->id)->first();
+                                                        ?>
                                                         <div class="wallet_amount" style="margin-left: auto;">
-                                                            <h5>Your Wallet Balance: ${{ $user->wallet_amount }}</h5>
+                                                            @if(isset($wallet))
+                                                            <h5>Your Available Balance: ${{ $wallet->available_balance }}
+                                                                <button class="trans_badge" id="transferButton" style="border: 1px solid orangered">Transfer to Bank Account</button>
+                                                            </h5>
+                                                                <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+                                                                <script>
+                                                                    $(document).ready(function() {
+                                                                    $('#transferButton').click(function() {
+                                                                        var availableBalance = parseFloat('{{ $wallet->available_balance }}');
+                                                                        var amountInCents = availableBalance * 100;
+
+                                                                        $.ajax({
+                                                                            url: '/initiate-transfer', // Your server-side endpoint
+                                                                            method: 'POST',
+                                                                            data: {
+                                                                                _token: '{{ csrf_token() }}',
+                                                                                amount: amountInCents,
+
+                                                                            },
+                                                                            success: function(response) {
+                                                                                // Handle success response
+                                                                                console.log(response.message);
+                                                                            },
+                                                                            error: function(xhr, status, error) {
+                                                                                // Handle error response
+                                                                                alert('There is no Available balance found. Please try again later.');
+                                                                                console.error(error);
+                                                                            }
+                                                                        });
+                                                                    });
+                                                                    });
+                                                                </script>
+                                                            <h5>Payment to be cleared Balance: ${{ $wallet->uncleared_balance }}</h5>
+                                                                @else
+                                                                <h5>Your Available Balance: ${{ 0 }}
+                                                                    <button class="trans_badge" id="transferButton" style="border: 1px solid orangered">Transfer to Bank Account</button>
+                                                                </h5>
+                                                                <h5>Payment to be cleared Balance: ${{ 0 }}</h5>
+                                                                <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+                                                                <script>
+                                                                    $(document).ready(function() {
+                                                                        $('#transferButton').click(function() {
+                                                                            alert('There is no Available balance found. Please try again later.');
+                                                                        });
+                                                                    });
+                                                                </script>
+                                                                    @endif
+
+{{--                                                            <h5>Your Wallet Balance: ${{ $user->wallet_amount }}</h5>--}}
                                                         </div>
                                                 </div>
                                                 <div class="transaction_body">
@@ -80,6 +131,8 @@ itle-bar">
                                                                      ->select('jobs.title')
                                                                      ->first()
                                                                      ->title;
+
+                                                                $wallet = \App\Models\Wallet::where('user_id',auth()->user()->id)->first();
 
                                                                 @endphp
                                                                 <tr>

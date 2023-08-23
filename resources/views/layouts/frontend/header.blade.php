@@ -157,13 +157,13 @@ if(auth()->check()) {
                                         <a href="{{route('signup')}}"><button class="btn">Sign Up</button></a>
                                     @endif
                                     <div class="dropdown-menu account-dropdown dropdown-menu-right">
-                                        <a class="link-item" href="{{route('my_freelancer_dashboard')}}">Dashboard</a>
+                                        <!-- <a class="link-item" href="{{route('my_freelancer_dashboard')}}">Dashboard</a> -->
                                         <a class="link-item" href="{{route('my_freelancer_messages')}}"> Messages</a>
                                         <a class="link-item" href="{{route('my_freelancer_jobs')}}"> Jobs</a>
                                         <a class="link-item" href="{{route('my_freelancer_service')}}"> Services</a>
-                                        <a class="link-item" href="{{route('my_freelancer_bids')}}"> Bids</a>
+                                        <!-- <a class="link-item" href="{{route('my_freelancer_bids')}}"> Bids</a> -->
                                         <a class="link-item" href="{{route('my_freelancer_portfolio')}}"> Portfolio</a>
-                                        <a class="link-item" href="{{route('my_freelancer_bookmarks')}}"> Bookmarks</a>
+                                        <!-- <a class="link-item" href="{{route('my_freelancer_bookmarks')}}"> Bookmarks</a> -->
                                         <a class="link-item" href="{{route('my_freelancer_payments')}}">Payments</a>
                                         <a class="link-item" href="{{route('my_freelancer_setting')}}">Setting</a>
                                         <a class="link-item" href="{{route('signout')}}">Logout</a>

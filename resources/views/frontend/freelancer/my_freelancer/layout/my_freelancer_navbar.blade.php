@@ -1,7 +1,7 @@
 <ul class="nav nav-tabs">
-    <li class="nav-item">
+    <!-- <li class="nav-item">
         <a class="nav-link" href="{{route('my_freelancer_dashboard')}}">Dashboard</a>
-    </li>
+    </li> -->
     <li class="nav-item">
         <a class="nav-link" href="{{route('my_freelancer_profile')}}">Profile</a>
     </li>
@@ -17,15 +17,15 @@
     <li class="nav-item">
         <a class="nav-link" href="{{route('my_freelancer_messages')}}">Messages</a>
     </li>
-    <li class="nav-item">
+    <!-- <li class="nav-item">
         <a class="nav-link" href="{{route('my_freelancer_bookmarks')}}">Bookmarks</a>
-    </li>
+    </li> -->
     <li class="nav-item">
         <a class="nav-link" href="{{route('my_freelancer_jobs')}}">Jobs</a>
     </li>
-    <li class="nav-item">
+    <!-- <li class="nav-item">
         <a class="nav-link" href="{{route('my_freelancer_bids')}}">Bids</a>
-    </li>
+    </li> -->
     <li class="nav-item">
         <a class="nav-link" href="{{route('my_freelancer_reviews')}}">Reviews</a>
     </li>

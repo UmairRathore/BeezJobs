@@ -47,8 +47,6 @@ class RegistrationController extends Controller
 
     public function postsignUp(Request $request)
     {
-        //        $position = Location::get();
-//        dd($position);
         $request->validate([
             'email' => 'required|email|unique:users',
             'password' => 'required|confirmed|min:6',
@@ -61,10 +59,7 @@ class RegistrationController extends Controller
         $this->data['user']->longitude = $request->input('longitude');
         $this->data['user']->status = 0;
         $this->data['user']->role_id = 2;
-//        dd($this->data['user']);
-//        $this->data['user']->save();
         $check = $this->data['user']->save();
-//        dd($check);
         if ($check) {
             return redirect()->route('signin')->with('success', 'Signup Successfully! You Can Login Now');
 
@@ -113,9 +108,7 @@ class RegistrationController extends Controller
         try {
             $user = Socialite::driver('google')->user();
 
-            // Check Users Email If Already There
             $is_user = User::where('email', $user->getEmail())->first();
-//            dd($is_user);
             if(!$is_user){
 
                 $saveUser = User::updateOrCreate([

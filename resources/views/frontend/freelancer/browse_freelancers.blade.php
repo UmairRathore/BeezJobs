@@ -221,7 +221,6 @@
                                                     <li><a href="{{route('other_freelancer_profile',[$user->id])}}" class="link-j1" title="View Profile">View Profile</a></li>
                                                     <li><a href="{{route('freelancer_texting',[$user->id])}}" class="link-j1" title="Hire Me">Hire Me </a></li>
                                                     <li class="bkd-pm">
-                                                        <button class="bookmark1" title="bookmark"><i class="fas fa-heart"></i></button>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -298,8 +297,8 @@
         const autocomplete = new google.maps.places.Autocomplete(
             document.getElementById(searchInput),
             {
-                types: ['address'],
-                // componentRestrictions: { country: 'US' } // optional
+                types: ['postal_code'],
+                componentRestrictions: { country: 'US' } // optional
             }
         );
 

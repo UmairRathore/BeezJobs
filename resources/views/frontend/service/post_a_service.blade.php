@@ -108,6 +108,8 @@
                                                 <label class="label15">Location*</label>
                                                 <div class="smm_input">
                                                     <input type="text" id="location" name="location" class="job-input" placeholder="Type Address" value="{{ isset($existingService) ? $existingService->location : old('location') }}">
+                                                    <input type="hidden" id="latitude" name="latitude">
+                                                    <input type="hidden" id="longitude" name="longitude">
                                                     <div class="loc_icon"><i class="fas fa-map-marker-alt"></i></div>
                                                 </div>
                                             </div>
@@ -219,14 +221,26 @@
         const autocomplete = new google.maps.places.Autocomplete(
             document.getElementById(searchInput),
             {
-                types: ['address'],
-                // componentRestrictions: { country: 'US' } // optional
+                types: ['postal_code'],
+                componentRestrictions: { country: 'US' } // optional
             }
         );
 
         autocomplete.addListener('place_changed', () => {
             const place = autocomplete.getPlace();
-            console.log(place); //
+            console.log(place);
+
+            // You can extract latitude and longitude from the 'place' object
+            if (place.geometry && place.geometry.location) {
+                var latitude = place.geometry.location.lat();
+                var longitude = place.geometry.location.lng();
+                console.log('Latitude:', latitude);
+                console.log('Longitude:', longitude);
+
+                // Set the values of the hidden input fields
+                document.getElementById('latitude').value = latitude;
+                document.getElementById('longitude').value = longitude;
+            }
         });
 
         $(document).ready(function () {

@@ -212,10 +212,9 @@
                                                 </div>
                                                 <div class="job-buttons">
                                                     <ul class="link-btn">
-                                                        <li><a href="#" class="link-j1" title="Apply Now">APPLY NOW</a></li>
-                                                        <li><a href="{{route('job_single_view',[$job->jid])}}" class="link-j1" title="View Job">View Job</a></li>
+                                                        <li><a href="{{route('job_single_view',[$job->id])}}" class="link-j1" title="Apply Now">APPLY NOW</a></li>
+                                                        <li><a href="{{route('job_single_view',[$job->id])}}" class="link-j1" title="View Job">View Job</a></li>
                                                         <li class="bkd-pm">
-                                                            <button class="bookmark1" title="bookmark"><i class="fas fa-heart"></i></button>
                                                         </li>
                                                     </ul>
                                                 </div>
@@ -337,20 +336,26 @@
         const autocomplete = new google.maps.places.Autocomplete(
             document.getElementById(searchInput),
             {
-                types: ['address'],
+                types: ['postal_code'],
                 componentRestrictions: { country: 'US' } // optional
             }
         );
-
 
         autocomplete.addListener('place_changed', () => {
             const place = autocomplete.getPlace();
             console.log(place);
 
-            // Update the hidden input fields with latitude and longitude values
-            document.getElementById('lat').value = place.geometry.location.lat();
-            document.getElementById('lng').value = place.geometry.location.lng();
-            // alert(document.getElementById('lng').value);
+            // You can extract latitude and longitude from the 'place' object
+            if (place.geometry && place.geometry.location) {
+                var latitude = place.geometry.location.lat();
+                var longitude = place.geometry.location.lng();
+                console.log('Latitude:', latitude);
+                console.log('Longitude:', longitude);
+
+                // Set the values of the hidden input fields
+                document.getElementById('latitude').value = latitude;
+                document.getElementById('longitude').value = longitude;
+            }
         });
 
         function createMarker(position, title, content) {

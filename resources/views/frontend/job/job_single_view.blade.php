@@ -164,7 +164,7 @@
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-4 mainpage">
-                        <div class="total_days mtp_30">{{$job->created_at->diffForHumans()}} left</div>
+                        <div class="total_days mtp_30">{{$job->created_at->diffForHumans()}}</div>
                         @if(Session('info_created'))
                             <div class="alert alert-success" role="alert">
                                 {{Session('info_created')}}
@@ -198,10 +198,7 @@
 
                         </form>
 
-                        <div class="bookmark_rt">
-                            <button class="bookmark1 mr-3" title="bookmark"><i class="fas fa-heart"></i></button>
-                            BOOKMARK
-                        </div>
+                       
                         @else
                             <div class="done140">
                                Login <a href="{{route('signin')}}">To bid for the job<i class="fas fa-angle-double-right"></i></a>

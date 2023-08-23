@@ -1,10 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-use App\Models\Job;
-use Auth;
-use App\Http\Controllers\Controller;
-use App\Models\Chat;
+use App\Models\Job;use Auth;
 ?>
 @extends('layouts.frontend.master')
 @section('title', 'Messages')
@@ -132,9 +129,9 @@ use App\Models\Chat;
                     </div>
                     <div class="account_tabs">
                         <ul class="nav nav-tabs">
-                            <li class="nav-item">
+                            <!-- <li class="nav-item">
                                 <a class="nav-link" href="{{route('my_freelancer_dashboard')}}">Dashboard</a>
-                            </li>
+                            </li> -->
                             <li class="nav-item">
                                 <a class="nav-link" href="{{route('my_freelancer_profile')}}">Profile</a>
                             </li>
@@ -147,15 +144,15 @@ use App\Models\Chat;
                             <li class="nav-item">
                                 <a class="nav-link active"  href="{{route('my_freelancer_messages')}}">Messages</a>
                             </li>
-                            <li class="nav-item">
+                            <!-- <li class="nav-item">
                                 <a class="nav-link" href="{{route('my_freelancer_bookmarks')}}">Bookmarks</a>
-                            </li>
+                            </li> -->
                             <li class="nav-item">
                                 <a class="nav-link" href="{{route('my_freelancer_jobs')}}">Jobs</a>
                             </li>
-                            <li class="nav-item">
+                            <!-- <li class="nav-item">
                                 <a class="nav-link" href="{{route('my_freelancer_bids')}}">Bids</a>
-                            </li>
+                            </li> -->
                             <li class="nav-item">
                                 <a class="nav-link" href="{{route('my_freelancer_reviews')}}">Reviews</a>
                             </li>
@@ -215,6 +212,62 @@ use App\Models\Chat;
                                                                     <span>{{\Carbon\Carbon::parse($message->MessageCreatedAt)->diffForHumans()}}</span>                                                        @endif
                                                             </div><!--message-dt end-->
                                                         </div><!--main-message-box end-->
+                                                        <div class="main-message-box st3 ">
+                                                            <div class="message-dt st3">
+                                                                <div id="messagestatus" class="message-inner-dt">
+                                                                    @if($message->message == Null and $message->rejected == Null and $message->accepted == Null)
+
+                                                                        <div class="applied_item" style=" width:60%; border: 1px solid #ccc;  padding: 10px; margin-bottom: 10px;  margin-left: 30%;">
+                                                                            <a href="#">{{$message->title}}</a>
+                                                                            <ul class="view_dt_job">
+                                                                                <li><div class="vw1254"><i class="fas fa-map-marker-alt"></i>{{$message->location}}</div></li>
+                                                                                <li><div class="vw1254"><i class="fas fa-briefcase"></i>{{$message->online_or_in_person}}</div></li>
+                                                                                <li><div class="vw1254"><i class="far fa-money-bill-alt"></i>{{$message->budget}} - Fixed</div></li>
+                                                                                <li><div class="vw1254"><i class="far fa-clock"></i>{{\Carbon\Carbon::parse($message->created_at)->diffForHumans()}}</div></li>
+                                                                            </ul>
+                                                                            <p style="background-color:#ffffff;margin-top: 100px;max-height: 74px; width:80%; overflow-y: auto;">
+                                                                                {{$message->description}}
+                                                                            </p>
+{{--                                                                            <button class="apled_btn50">Applied</button>--}}
+{{--                                                                            <button class="apled_btn50">Reject</button>--}}
+                                                                            <button class="btn btn-success" disabled>Your offer is sent</button>
+                                                                        </div>
+                                                                    @elseif($message->message == Null and $message->rejected != Null and $message->accepted == Null)
+                                                                        <div class="applied_item" style=" width:60%; border: 1px solid #ccc;  padding: 10px; margin-bottom: 10px;  margin-left: 30%;">
+                                                                            <a href="#">{{$message->title}}</a>
+                                                                            <ul class="view_dt_job">
+                                                                                <li><div class="vw1254"><i class="fas fa-map-marker-alt"></i>{{$message->location}}</div></li>
+                                                                                <li><div class="vw1254"><i class="fas fa-briefcase"></i>{{$message->online_or_in_person}}</div></li>
+                                                                                <li><div class="vw1254"><i class="far fa-money-bill-alt"></i>{{$message->budget}} - Fixed</div></li>
+                                                                                <li><div class="vw1254"><i class="far fa-clock"></i>{{\Carbon\Carbon::parse($message->created_at)->diffForHumans()}}</div></li>
+                                                                            </ul>
+                                                                            <p style="background-color:#ffffff; margin-top: 100px;max-height: 74px; width:80%; overflow-y: auto;">
+                                                                                {{$message->description}}
+                                                                            </p>
+                                                                                <button class="btn btn-danger" disabled>Rejected</button>
+                                                                        </div>
+
+                                                                    @elseif($message->message == Null and $message->rejected == Null and $message->accepted != Null)
+                                                                        <div class="applied_item" style=" width:60%; border: 1px solid #ccc;  padding: 10px; margin-bottom: 10px;  margin-left: 30%;">
+                                                                            <a href="#">{{$message->title}}</a>
+                                                                            <ul class="view_dt_job">
+                                                                                <li><div class="vw1254"><i class="fas fa-map-marker-alt"></i>{{$message->location}}</div></li>
+                                                                                <li><div class="vw1254"><i class="fas fa-briefcase"></i>{{$message->online_or_in_person}}</div></li>
+                                                                                <li><div class="vw1254"><i class="far fa-money-bill-alt"></i>{{$message->budget}} - Fixed</div></li>
+                                                                                <li><div class="vw1254"><i class="far fa-clock"></i>{{\Carbon\Carbon::parse($message->created_at)->diffForHumans()}}</div></li>
+                                                                            </ul>
+                                                                            <p style="background-color:#ffffff; margin-top: 100px;max-height: 74px; width:80%; overflow-y: auto;">
+                                                                                {{$message->description}}
+                                                                            </p>
+                                                                            <button class="btn btn-success" disabled>Accepted</button>
+                                                                        </div>
+                                                                    @else
+                                                                        <p>{{$message->message}}</p>
+                                                                    @endif
+                                                                </div>                                                           <!--message-inner-dt end-->
+                                                                <span>{{\Carbon\Carbon::parse($message->MessageCreatedAt)->diffForHumans()}}</span>
+                                                            </div>                                                                <!--message-dt end-->
+                                                        </div>
 
 {{--                                                        <!--Sender-->--}}
                                                     @else
@@ -353,7 +406,7 @@ use App\Models\Chat;
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-group">
-                                                                    <label for="negotiated_duration"> Duration:</label>
+                                                                    <label for="negotiated_duration"> Duration(days):</label>
                                                                     <input type="text" class="form-control" id="negotiated_duration" name="negotiated_duration">                                                                </div>
                                                                     <div class="form-group">
                                                                         <label for="negotiated_description"> Description:</label>
@@ -384,7 +437,7 @@ use App\Models\Chat;
                                                                         </div>
                                                                     </div>
                                                                     <div class="form-group">
-                                                                        <label for="time-of-day">Duration:</label>
+                                                                        <label for="time-of-day">Duration(days):</label>
                                                                         <input type="text" class="form-control" id="customJob_time_of_day" name="time_of_day">
                                                                     </div>
                                                                     <div class="form-group">

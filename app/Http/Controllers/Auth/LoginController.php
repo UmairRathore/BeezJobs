@@ -47,7 +47,7 @@ class LoginController extends Controller
     public function signin()
     {
 //        $newEventData = session()->pull('job_data');
-//        dd($newEventData);
+
 
         $data['active'] = '';
         if (Auth::guard('user')->check() && auth('user')->user()->role_id == 1) {
@@ -67,12 +67,10 @@ class LoginController extends Controller
     function postsignin(Request $request)
     {
 
-//        dd(session()->flash('job_data', $request->all()));
-//        dd([$request->email, $request->password]);
         $email = $request->email;
         $password = $request->password;
 
-//        dd($request);
+
 
 
 
@@ -101,6 +99,8 @@ class LoginController extends Controller
 //                    $task->time_of_day = $newJobData['time_of_day'];
                     $task->online_or_in_person = $newJobData['online_or_in_person'];
                     $task->location = $newJobData['location'];
+                    $task->latitude = $newJobData['latitude'];
+                    $task->longitude = $newJobData['longitude'];
                     $task->description = $newJobData['description'];
                     $task->budget = $newJobData['budget'];
                     $task->profession_id = $request->input('profession_id');
@@ -122,7 +122,7 @@ class LoginController extends Controller
                 }
             } elseif (json_decode($request->cookie('service_data'), true)) {
                 $newServiceData = json_decode($request->cookie('service_data'), true);
-//                dd($newServiceData->title);
+
                 if ($newServiceData) {
                     $userId = auth('user')->user()->id;
 
@@ -135,6 +135,8 @@ class LoginController extends Controller
                         $existingService->description = $newServiceData['description'];
                         $existingService->online_or_in_person = $newServiceData['online_or_in_person'];
                         $existingService->location = $newServiceData['location'];
+                        $existingService->latitude = $newServiceData['latitude'];
+                        $existingService->longitude = $newServiceData['longitude'];
                         $existingService->hourly_rate = $newServiceData['hourly_rate'];
                         $existingService->basic_price = $newServiceData['basic_price'];
                         $existingService->basic_description = $newServiceData['basic_description'];
@@ -166,6 +168,8 @@ class LoginController extends Controller
                         $service->description = $newServiceData['description'];
                         $service->online_or_in_person = $newServiceData['online_or_in_person'];
                         $service->location = $newServiceData['location'];
+                        $service->latitude = $newServiceData['latitude'];
+                        $service->longitude = $newServiceData['longitude'];
                         $service->hourly_rate = $newServiceData['hourly_rate'];
                         $service->basic_price = $newServiceData['basic_price'];
                         $service->basic_description = $newServiceData['basic_description'];
@@ -212,6 +216,8 @@ class LoginController extends Controller
                     $task->time_of_day = $newJobData['time_of_day'];
                     $task->online_or_in_person = $newJobData['online_or_in_person'];
                     $task->location = $newJobData['location'];
+                    $task->latitude = $newJobData['latitude'];
+                    $task->longitude = $newJobData['longitude'];
                     $task->description = $newJobData['description'];
                     $task->budget = $newJobData['budget'];
                     $task->profession_id = $request->input('profession_id');
@@ -245,6 +251,8 @@ class LoginController extends Controller
                         $existingService->description = $newServiceData['description'];
                         $existingService->online_or_in_person = $newServiceData['online_or_in_person'];
                         $existingService->location = $newServiceData['location'];
+                        $existingService->latitude = $newServiceData['latitude'];
+                        $existingService->longitude = $newServiceData['longitude'];
                         $existingService->hourly_rate = $newServiceData['hourly_rate'];
                         $existingService->basic_price = $newServiceData['basic_price'];
                         $existingService->basic_description = $newServiceData['basic_description'];
@@ -274,6 +282,8 @@ class LoginController extends Controller
                         $service->description = $newServiceData['description'];
                         $service->online_or_in_person = $newServiceData['online_or_in_person'];
                         $service->location = $newServiceData['location'];
+                        $service->latitude = $newServiceData['latitude'];
+                        $service->longitude = $newServiceData['longitude'];
                         $service->hourly_rate = $newServiceData['hourly_rate'];
                         $service->basic_price = $newServiceData['basic_price'];
                         $service->basic_description = $newServiceData['basic_description'];
@@ -343,7 +353,6 @@ class LoginController extends Controller
 
     public function showResetPasswordForm($token)
     {
-        //        return view($this->_viewPath.'forgetPasswordLink', ['token' => $token]);
         return view('auth.forgetpassLink', ['token' => $token]);
     }
 

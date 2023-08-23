@@ -36,11 +36,9 @@ class ServiceController extends Controller
 
     public function createservice(Request $request)
     {
-
-//        dd($request);
         if (!Auth::check()) {
             $service_data = $request->all();
-//            dd($jobData);
+
             return redirect()->route('signin')->cookie('job_data', null)->cookie('service_data', json_encode($service_data));
         }
 
@@ -76,6 +74,8 @@ class ServiceController extends Controller
             $existingService->description = $request->input('description');
             $existingService->online_or_in_person = $request->input('online_or_in_person');
             $existingService->location = $request->input('location');
+            $existingService->longitude = $request->input('longitude');
+            $existingService->latitude = $request->input('latitude');
             $existingService->hourly_rate = $request->input('hourly_rate');
             $existingService->basic_price = $request->input('basic_price');
             $existingService->basic_description = $request->input('basic_description');
@@ -102,6 +102,8 @@ class ServiceController extends Controller
             $service->description = $request->input('description');
             $service->online_or_in_person = $request->input('online_or_in_person');
             $service->location = $request->input('location');
+            $service->longitude = $request->input('longitude');
+            $service->latitude = $request->input('latitude');
             $service->hourly_rate = $request->input('hourly_rate');
             $service->basic_price = $request->input('basic_price');
             $service->basic_description = $request->input('basic_description');
@@ -109,9 +111,7 @@ class ServiceController extends Controller
             $service->standard_description = $request->input('standard_description');
             $service->premium_price = $request->input('premium_price');
             $service->premium_description = $request->input('premium_description');
-//dd($service);
             $check = $service->save();
-//        dd($check);
 
 
             if ($check) {
@@ -149,14 +149,13 @@ class ServiceController extends Controller
                     $nearbyUsers[] = $user;
                 }
             }
-//            dd($distance);
+
 
             $this->data['users'] = $nearbyUsers;
-//            dd($this->data['users']);
-//dd($this->data['users']->id=1533););
+
             $userIds = collect($this->data['users'])->pluck('id');
             $jobs = Job::select('jobs.*', 'jobs.id as jid')->whereIn('user_id', $userIds)->paginate(10);
-//            dd($jobs);
+
             if ($jobs->isEmpty()) {
                 $this->data['jobs'] = $this->data['jobs']->orderBy('jobs.created_at', 'desc')->paginate(10);
             } else {
@@ -208,13 +207,13 @@ class ServiceController extends Controller
 
     public function job_single_view($id)
     {
-//        dd($id);
+
         if (Auth::user()) {
             $user_id = Auth::user()->id;
         }
 //        $this->data['job']
 
-//        dd($this->data['job']);
+
 
 //        $this->data['bids']
         $this->data['bids'] = Bid::select('bids.*', 'jobs.user_id as jobUserId', 'u.location', 'u.first_name', 'u.last_name', 'u.rating')
@@ -228,7 +227,7 @@ class ServiceController extends Controller
             ->join('users', 'users.id', '=', 'jobs.user_id')
 //            ->join('professions', 'users.profession_id', '=', 'professions.id')
             ->first();
-//        dd($this->data['job']);
+
 
         return view('frontend.service.service_single_view', $this->data);
 
