@@ -366,7 +366,7 @@ class JobController extends Controller
 
                                     $JobsIds = $jobsInLocation->pluck('id');
 //                                    dd($JobsIds);
-                                    $jobsInRadius = $jobsInLocation->where('jobs.id', $JobsIds)->get();
+                                    $jobsInRadius = $jobsInLocation->whereIn('jobs.id', $JobsIds)->get();
                                     $allJobs = Job::all();
                                     $nearbyJobs = [];
                                     foreach ($allJobs as $Joblatandlng) {
@@ -496,7 +496,7 @@ class JobController extends Controller
             $joblng = $this->data['job']->longitude;
 //            dd($joblng);
             $nearbyUsers = '';
-            $distance = $this->calculateDistance($authlat, $authlan, $joblng, $joblat);
+            $distance = $this->calculateDistance( $joblng, $joblat,$authlan,$authlat,);
 //dd($distance);
 
             $this->data['distance'] = round($distance * 0.62);
